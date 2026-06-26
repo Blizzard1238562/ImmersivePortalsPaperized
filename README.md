@@ -108,3 +108,8 @@ For detailed configuration options, including world connections, portal effect p
 
 Have fun :)
 </details>
+
+## Build Instructions:
+
+## Contribute:
+If you wish to contribute to this Project please open a PR with a detailed explanation of your change.

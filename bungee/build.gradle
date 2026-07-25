@@ -1,0 +1,10 @@
+repositories {
+    maven { url "https://repo.md-5.net/content/repositories/snapshots/" }
+}
+
+dependencies {
+    implementation project(':shared')
+    implementation project(':api')
+    implementation project(':proxy')
+    compileOnly 'net.md-5:bungeecord-api:1.21-R0.4'
+}

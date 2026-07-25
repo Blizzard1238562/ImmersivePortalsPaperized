@@ -1,0 +1,32 @@
+plugins {
+    id 'com.gradleup.shadow' version '9.6.0'
+}
+
+dependencies {
+    implementation project(':shared')
+    implementation project(':api')
+    implementation project(':bukkit')
+    implementation project(':bungee')
+    implementation project(':velocity')
+    implementation project(':proxy')
+}
+
+jar.enabled = true
+build.enabled = true
+
+shadowJar {
+    archiveBaseName.set('ImmersivePortalsPaperized')
+    archiveClassifier.set('all')
+    archiveVersion.set(gradle.ext.versionName)
+
+    relocate 'com.google.inject', 'org.envel.immersiveportalspaperized.dependencies.com.google.inject'
+    relocate 'org.jetbrains.annotations', 'org.envel.immersiveportalspaperized.dependencies.jetbrains.annotations'
+    relocate 'org.aopalliance', 'org.envel.immersiveportalspaperized.dependencies.aopalliance'
+    relocate 'org.checkerframework', 'org.envel.immersiveportalspaperized.dependencies.checkerframework'
+    relocate 'com.google.errorprone', 'org.envel.immersiveportalspaperized.dependencies.com.google.errorprone'
+    relocate 'com.google.j2objc', 'org.envel.immersiveportalspaperized.dependencies.com.google.j2objc'
+
+    mergeServiceFiles()
+}
+
+tasks.build.dependsOn(shadowJar)

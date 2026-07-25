@@ -1,0 +1,71 @@
+plugins {
+    id 'java'
+}
+
+allprojects {
+    apply plugin: 'java'
+
+    group = "org.envel.immersiveportalspaperized"
+
+    afterEvaluate {
+        println("Evaluating project ${project.group}:${base.archivesName.get()}:${version}")
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+
+    repositories {
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+        maven {
+            name = "papermc"
+            url = uri("https://repo.papermc.io/repository/maven-public/")
+        }
+        maven { url "https://repo.dmulloy2.net/repository/public/" }
+    }
+
+    compileJava.options.encoding = 'UTF-8'
+
+    dependencies {
+        implementation 'com.google.inject:guice:7.0.0'
+        implementation 'com.google.inject.extensions:guice-assistedinject:7.0.0'
+        implementation 'org.jetbrains:annotations:26.0.1'
+        compileOnly 'com.github.spotbugs:spotbugs-annotations:4.8.6'
+
+        compileOnly 'org.projectlombok:lombok:1.18.46'
+        testImplementation 'org.projectlombok:lombok:1.18.46'
+        annotationProcessor 'org.projectlombok:lombok:1.18.46'
+        testAnnotationProcessor 'org.projectlombok:lombok:1.18.46'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.11.3'
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.11.3'
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.11.3'
+    }
+
+    tasks.withType(JavaCompile) {
+        options.compilerArgs.addAll(['-Xlint:deprecation'])
+    }
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(25)
+        }
+        sourceCompatibility = '21'
+        targetCompatibility = '21'
+    }
+}
+
+jar.enabled = false
+build.enabled = false
+
+subprojects {
+    if (System.getenv('BP_DEVELOPER_BUILD') == '1') {
+        version = gradle.ext.versionName + '-' + "git rev-parse --verify --short HEAD".execute().text.trim().toLowerCase()
+    } else {
+        version = gradle.ext.versionName
+    }
+
+    base {
+        archivesName = "${rootProject.name}-${project.name}"
+    }
+}

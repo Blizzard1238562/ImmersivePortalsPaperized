@@ -1,0 +1,10 @@
+{
+  "id": "better-portals",
+  "name": "ImmersivePortalsPaperized",
+  "version": "1.1.0",
+  "authors": [
+    "Envel"
+  ],
+  "dependencies": [],
+  "main": "org.envel.immersiveportalspaperized.velocity.ImmersivePortalsPaperized"
+}

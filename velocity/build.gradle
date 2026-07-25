@@ -1,0 +1,12 @@
+repositories {
+    maven { url "https://papermc.io/repo/repository/maven-public/" }
+}
+
+dependencies {
+    implementation project(':shared')
+    implementation project(':api')
+    implementation project(':proxy')
+    compileOnly("com.velocitypowered:velocity-api:3.5.0-SNAPSHOT")
+    annotationProcessor("com.velocitypowered:velocity-api:3.5.0-SNAPSHOT")
+    compileOnly("com.moandjiezana.toml:toml4j:0.7.2")
+}

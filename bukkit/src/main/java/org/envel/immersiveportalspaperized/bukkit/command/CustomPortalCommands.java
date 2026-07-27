@@ -3,7 +3,6 @@ package org.envel.immersiveportalspaperized.bukkit.command;
 import java.util.List;
 import java.util.UUID;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -431,7 +430,7 @@ public class CustomPortalCommands {
          throw new CommandException(this.messageConfig.getErrorMessage(player, "nameNetherPortal"));
       } else {
          portal.setPrice(price);
-         player.sendMessage(ChatColor.GREEN + "Set closest portal's price to " + price);
+         player.sendMessage(this.messageConfig.formatMiniMessage("<green>Set closest portal's price to " + price + "</green>"));
          return true;
       }
    }
@@ -450,7 +449,7 @@ public class CustomPortalCommands {
          throw new CommandException(this.messageConfig.getErrorMessage(player, "nameNetherPortal"));
       } else {
          portal.setEffectPreset(preset);
-         player.sendMessage(ChatColor.GREEN + "Set closest portal's effect preset to " + preset);
+         player.sendMessage(this.messageConfig.formatMiniMessage("<green>Set closest portal's effect preset to " + preset + "</green>"));
          return true;
       }
    }

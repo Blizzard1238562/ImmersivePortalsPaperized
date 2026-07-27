@@ -72,9 +72,8 @@ public class ImmersivePortalsPaperized {
                to.sendRequest(request, response -> {
                   try {
                      response.checkForErrors();
-                  } catch (RequestException var4x) {
-                     this.logger.warn("Failed to set previous server for player {}", event.getPlayer().getUniqueId());
-                     var4x.printStackTrace();
+                  } catch (RequestException e) {
+                     this.logger.warn("Failed to set previous server for player {}", event.getPlayer().getUniqueId(), e);
                   }
                });
             }

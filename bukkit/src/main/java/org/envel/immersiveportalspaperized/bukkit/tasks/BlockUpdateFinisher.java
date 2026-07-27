@@ -1,12 +1,15 @@
 package org.envel.immersiveportalspaperized.bukkit.tasks;
 
+import java.util.Comparator;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.PriorityBlockingQueue;
 import org.envel.immersiveportalspaperized.bukkit.player.view.block.PlayerBlockView;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
 public abstract class BlockUpdateFinisher {
-   private final BlockingQueue<BlockUpdateFinisher.BlockViewUpdateInfo> updateQueue = new LinkedBlockingQueue<>();
+   private final BlockingQueue<BlockUpdateFinisher.BlockViewUpdateInfo> updateQueue = new PriorityBlockingQueue<>(
+      11, Comparator.comparingInt(info -> info.type == BlockUpdateFinisher.BlockViewUpdateType.RESET ? 0 : 1)
+   );
    protected final Logger logger;
    private volatile boolean hasStopped = false;
 

@@ -47,16 +47,14 @@ public class PortalServer implements IPortalServer {
             try {
                this.runServer();
                return;
-            } catch (IOException var6) {
+            } catch (IOException e) {
                this.logger.fine("Caught IO Error on server thread");
                if (this.isRunning) {
-                  this.logger.warning("An IO error occurred while running the portal server");
-                  var6.printStackTrace();
+                  this.logger.warning("An IO error occurred while running the portal server: %s", e.getMessage());
                   return;
                }
-            } catch (Exception var7) {
-               this.logger.warning("An error occurred while running the portal server");
-               var7.printStackTrace();
+            } catch (Exception e) {
+               this.logger.warning("An error occurred while running the portal server: %s", e.getMessage());
                return;
             } finally {
                this.shutDown();
@@ -92,9 +90,8 @@ public class PortalServer implements IPortalServer {
             for (IClientHandler serverHandler : new ArrayList<>(this.connectedServers)) {
                serverHandler.shutDown();
             }
-         } catch (IOException var3) {
-            this.logger.warning("An IO error occurred while shutting down the portal server");
-            var3.printStackTrace();
+         } catch (IOException e) {
+            this.logger.warning("An IO error occurred while shutting down the portal server: %s", e.getMessage());
          }
       }
    }

@@ -9,9 +9,9 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import javax.crypto.AEADBadTagException;
-import lombok.Generated;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.envel.immersiveportalspaperized.proxy.IProxy;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
@@ -32,7 +32,9 @@ public class ClientHandler implements IClientHandler {
    private final IRequestHandler requestHandler;
    private final Socket socket;
    private IEncryptedObjectStream objectStream;
+   @Getter
    private String serverName = null;
+   @Getter
    private String gameVersion;
    private final IProxy proxy;
    private volatile boolean isRunning = true;
@@ -58,23 +60,23 @@ public class ClientHandler implements IClientHandler {
          try {
             this.run();
             return;
-         } catch (IOException var9) {
+         } catch (IOException e) {
             if (this.isRunning) {
-               if (var9.getCause() instanceof AEADBadTagException) {
+               if (e.getCause() instanceof AEADBadTagException) {
                   this.printEncryptionFailure();
                } else {
                   logger.warning("An IO error occurred while connected to %s", socket.getRemoteSocketAddress());
-                  var9.printStackTrace();
+                  logger.warning("%s: %s", e.getClass().getName(), e.getMessage());
                }
 
                return;
             }
-         } catch (AEADBadTagException var10) {
+         } catch (AEADBadTagException e) {
             this.printEncryptionFailure();
             return;
-         } catch (Exception var11) {
+         } catch (Exception e) {
             logger.warning("An error occurred while connected to %s", socket.getRemoteSocketAddress());
-            var11.printStackTrace();
+            logger.warning("%s: %s", e.getClass().getName(), e.getMessage());
             return;
          } finally {
             this.disconnect();
@@ -158,9 +160,8 @@ public class ClientHandler implements IClientHandler {
 
          try {
             this.send(response);
-         } catch (GeneralSecurityException | IOException var4) {
-            this.logger.warning("IO Error occurred while sending a response to a request");
-            var4.printStackTrace();
+         } catch (GeneralSecurityException | IOException e) {
+            this.logger.warning("IO Error occurred while sending a response to a request: %s", e.getMessage());
             this.disconnect();
          }
       });
@@ -195,9 +196,8 @@ public class ClientHandler implements IClientHandler {
 
          try {
             this.socket.close();
-         } catch (IOException var4) {
-            this.logger.warning("Error occurred while disconnecting from %s", this.socket.getRemoteSocketAddress());
-            var4.printStackTrace();
+         } catch (IOException e) {
+            this.logger.warning("Error occurred while disconnecting from %s: %s", this.socket.getRemoteSocketAddress(), e.getMessage());
          }
 
          Response disconnectResponse = new Response();
@@ -232,17 +232,5 @@ public class ClientHandler implements IClientHandler {
          this.logger.warning("Client server connection disconnected while sending the request");
          this.disconnect();
       }
-   }
-
-   @Generated
-   @Override
-   public String getServerName() {
-      return this.serverName;
-   }
-
-   @Generated
-   @Override
-   public String getGameVersion() {
-      return this.gameVersion;
    }
 }

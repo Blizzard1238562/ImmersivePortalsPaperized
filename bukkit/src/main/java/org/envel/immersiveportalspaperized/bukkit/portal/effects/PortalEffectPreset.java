@@ -1,6 +1,8 @@
 package org.envel.immersiveportalspaperized.bukkit.portal.effects;
 
+import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
+import org.bukkit.Registry;
 import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 import org.jetbrains.annotations.NotNull;
@@ -35,19 +37,30 @@ public class PortalEffectPreset {
       this.offsetX = section.getDouble("particle.offsetX", 0.5);
       this.offsetY = section.getDouble("particle.offsetY", 0.5);
       this.offsetZ = section.getDouble("particle.offsetZ", 0.5);
-      Sound s = null;
-      String soundStr = section.getString("sound.type");
-      if (soundStr != null && !soundStr.isEmpty()) {
-         try {
-            s = Sound.valueOf(soundStr.toUpperCase());
-         } catch (IllegalArgumentException var7) {
-         }
-      }
-
-      this.sound = s;
+      this.sound = parseSound(section.getString("sound.type"));
       this.soundVolume = (float)section.getDouble("sound.volume", 0.5);
       this.soundPitch = (float)section.getDouble("sound.pitch", 1.0);
       this.soundIntervalTicks = section.getInt("sound.interval", 80);
+   }
+
+   @Nullable
+   @SuppressWarnings("deprecation")
+   private static Sound parseSound(@Nullable String soundStr) {
+      if (soundStr == null || soundStr.isEmpty()) {
+         return null;
+      } else {
+         String lowerSoundStr = soundStr.toLowerCase();
+         NamespacedKey key = lowerSoundStr.indexOf(':') >= 0 ? NamespacedKey.fromString(lowerSoundStr) : NamespacedKey.minecraft(lowerSoundStr);
+         Sound s = key == null ? null : Registry.SOUNDS.get(key);
+         if (s == null) {
+            try {
+               s = Sound.valueOf(soundStr.toUpperCase());
+            } catch (IllegalArgumentException ignored) {
+            }
+         }
+
+         return s;
+      }
    }
 
    public String getName() {

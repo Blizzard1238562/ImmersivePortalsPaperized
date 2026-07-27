@@ -42,13 +42,14 @@ public class ProxyRequestHandler implements IRequestHandler {
 
             this.handleTeleportRequest((TeleportRequest)request, onFinish);
          }
-      } catch (RequestException var5) {
+      } catch (RequestException e) {
          Response response = new Response();
-         response.setError(var5);
+         response.setError(e);
          onFinish.accept(response);
-      } catch (Exception var6) {
-         Response responsex = new Response();
-         responsex.setError(new RequestException(var6, "Internal error occurred on the proxy while processing request"));
+      } catch (Exception e) {
+         Response response = new Response();
+         response.setError(new RequestException(e, "Internal error occurred on the proxy while processing request"));
+         onFinish.accept(response);
       }
    }
 
@@ -80,8 +81,10 @@ public class ProxyRequestHandler implements IRequestHandler {
 
             this.proxy.changePlayerServer(playerId, clientHandler.getServerName());
             onFinish.accept(new Response());
-         } catch (RequestException var6) {
-            onFinish.accept(response);
+         } catch (RequestException e) {
+            Response errorResponse = new Response();
+            errorResponse.setError(e);
+            onFinish.accept(errorResponse);
          }
       });
    }

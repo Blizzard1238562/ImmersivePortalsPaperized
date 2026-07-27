@@ -9,11 +9,11 @@ public interface IProxy {
 
    @Deprecated
    @Nullable
-   String findServer(InetSocketAddress var1);
+   String findServer(InetSocketAddress clientAddress);
 
-   boolean serverExists(String var1);
+   boolean serverExists(String serverName);
 
-   boolean playerExists(UUID var1);
+   boolean playerExists(UUID playerId);
 
-   void changePlayerServer(UUID var1, String var2);
+   void changePlayerServer(UUID playerId, String serverName);
 }

@@ -9,13 +9,14 @@ import jakarta.inject.Singleton;
 import java.net.InetSocketAddress;
 import java.util.Optional;
 import java.util.UUID;
-import lombok.Generated;
+import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 import org.envel.immersiveportalspaperized.proxy.IProxy;
 
 @Singleton
 public class VelocityProxy implements IProxy {
    private final ProxyServer proxyServer;
+   @Getter
    private final String pluginVersion;
 
    @Inject
@@ -61,11 +62,5 @@ public class VelocityProxy implements IProxy {
             player.get().createConnectionRequest(server.get()).fireAndForget();
          }
       }
-   }
-
-   @Generated
-   @Override
-   public String getPluginVersion() {
-      return this.pluginVersion;
    }
 }

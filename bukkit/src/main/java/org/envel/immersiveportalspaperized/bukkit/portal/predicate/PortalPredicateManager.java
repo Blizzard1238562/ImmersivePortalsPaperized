@@ -31,7 +31,7 @@ public class PortalPredicateManager implements IPortalPredicateManager {
       this.addActivationPredicate(crossServerDestinationChecker);
       this.addViewPredicate(new PermissionsChecker("immersiveportalspaperized.see"));
       this.addViewPredicate(new PlayerPreferenceChecker(playerDataManager, "seeThroughPortal"));
-      this.addTeleportPredicate(new PermissionsChecker("immersiveportalspaperized.use"));
+      this.addTeleportPredicate(new PermissionsChecker("immersiveportalspaperized.user"));
       this.addTeleportPredicate(economyChargeChecker);
       this.addTeleportPredicate(teleportCooldownChecker);
    }

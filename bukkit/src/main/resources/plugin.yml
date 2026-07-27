@@ -1,5 +1,5 @@
 name: ImmersivePortalsPaperized
-version: 1.1.0
+version: 1.1.1
 main: org.envel.immersiveportalspaperized.bukkit.ImmersivePortalsPaperized
 description: "Plugin which allows nether portals to be seen through, and allows custom portal creation"
 folia-supported: true
@@ -21,7 +21,7 @@ permissions:
     description: ' Allows you to use /bp createfromcoords'
     default: op
   immersiveportalspaperized.getname:
-    description: ' Allows you to use /bp getname'
+    description: ' Allows you to use /bp getportalname'
     default: op
   immersiveportalspaperized.link:
     description: ' Allows you to create portals with /bp link'
@@ -29,35 +29,32 @@ permissions:
   immersiveportalspaperized.linkexternal:
     description: ' Allows you to run /bp linkexternal to create cross-server portals.'
     default: op
-  immersiveportalspaperized.removeclosest:
-    description: ' Allows you to use /bp removeclosest'
+  immersiveportalspaperized.remove:
+    description: ' Allows you to use /bp remove and /bp removebyname'
+    default: op
+  immersiveportalspaperized.remove.others:
+    description: ' Allows you to remove portals you do not own'
     default: op
   immersiveportalspaperized.reload:
     description: ' Allows you to use /bp reload'
     default: op
-  immersiveportalspaperized.create:
-    description: ' Allows you to use /bp create'
+  immersiveportalspaperized.reconnect:
+    description: ' Allows you to use /bp reconnect'
     default: op
-  immersiveportalspaperized.updatecoords:
-    description: ' Allows you to use /bp updatecoords'
+  immersiveportalspaperized.select:
+    description: ' Allows you to use /bp setOrigin, /bp setDestination and /bp menu'
     default: op
-  immersiveportalspaperized.tp:
-    description: ' Allows you to use /bp tp'
+  immersiveportalspaperized.setname:
+    description: ' Allows you to use /bp setPortalName, /bp setprice and /bp setpreset'
     default: op
-  immersiveportalspaperized.setprice:
-    description: ' Allows you to use /bp setprice'
+  immersiveportalspaperized.setname.others:
+    description: ' Allows you to rename portals you do not own'
     default: op
-  immersiveportalspaperized.setpreset:
-    description: ' Allows you to use /bp setpreset'
+  immersiveportalspaperized.getallowNonPlayerTeleportation:
+    description: ' Allows you to use /bp getallowNonPlayerTeleportation'
     default: op
-  immersiveportalspaperized.bypassprice:
-    description: ' Allows you to bypass paying for custom portals.'
-    default: op
-  immersiveportalspaperized.admin:
-    description: ' Allows you to bypass portal size restrictions, and see debug information.'
-    default: op
-  immersiveportalspaperized.createcustom:
-    description: ' Allows you to use /bp createcustom'
+  immersiveportalspaperized.setAllowNonPlayerTeleportation:
+    description: ' Allows you to use /bp setAllowNonPlayerTeleportation'
     default: op
   immersiveportalspaperized.wand:
     description: ' Allows you to use /bp wand'

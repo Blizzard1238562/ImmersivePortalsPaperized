@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.logging.Level;
-import lombok.Generated;
+import lombok.Getter;
 import com.google.inject.Inject;
 import org.envel.immersiveportalspaperized.proxy.IProxyConfig;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
@@ -23,7 +23,9 @@ import org.envel.immersiveportalspaperized.shared.logging.Logger;
 public class Config implements IProxyConfig {
    private final Path dataDirectory;
    private final Logger logger;
+   @Getter
    private InetSocketAddress bindAddress;
+   @Getter
    private UUID key;
 
    @Inject
@@ -94,17 +96,5 @@ public class Config implements IProxyConfig {
             }
          }
       }
-   }
-
-   @Generated
-   @Override
-   public InetSocketAddress getBindAddress() {
-      return this.bindAddress;
-   }
-
-   @Generated
-   @Override
-   public UUID getKey() {
-      return this.key;
    }
 }

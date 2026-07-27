@@ -78,9 +78,8 @@ public class PortalClient implements IPortalClient {
 
          try {
             this.cipherManager.init(this.proxyConfig.getEncryptionKey());
-         } catch (NoSuchAlgorithmException var3) {
-            this.logger.severe("Unable to find algorithm to encrypt proxy connection");
-            var3.printStackTrace();
+         } catch (NoSuchAlgorithmException e) {
+            this.logger.severe("Unable to find algorithm to encrypt proxy connection: %s", e.getMessage());
          }
 
          new Thread(() -> {
@@ -96,19 +95,19 @@ public class PortalClient implements IPortalClient {
 
                   return;
                }
-            } catch (AEADBadTagException var9) {
+            } catch (AEADBadTagException e) {
                this.shouldReconnectIfFailed = false;
                if (printErrors) {
                   this.logger.warning("Failed to initialise encryption with the proxy");
                   this.logger.warning("Please make sure that your encryption key is valid!");
-                  var9.printStackTrace();
+                  this.logger.warning("%s", e.getMessage());
                }
 
                return;
-            } catch (Exception var10) {
+            } catch (Exception e) {
                if (printErrors) {
                   this.logger.warning("An error occurred while connected to the proxy");
-                  var10.printStackTrace();
+                  this.logger.warning("%s: %s", e.getClass().getName(), e.getMessage());
                }
 
                return;
@@ -152,9 +151,8 @@ public class PortalClient implements IPortalClient {
 
          try {
             this.send(response);
-         } catch (GeneralSecurityException | IOException var4) {
-            this.logger.warning("IO Error occurred while sending a response to a request");
-            var4.printStackTrace();
+         } catch (GeneralSecurityException | IOException e) {
+            this.logger.warning("IO Error occurred while sending a response to a request: %s", e.getMessage());
             this.disconnect();
          }
       }));
@@ -172,7 +170,7 @@ public class PortalClient implements IPortalClient {
    private boolean runHandshake() throws IOException, GeneralSecurityException, ClassNotFoundException {
       this.logger.fine("Running handshake . . .");
       Handshake handshake = new Handshake();
-      handshake.setPluginVersion(this.pl.getDescription().getVersion());
+      handshake.setPluginVersion(this.pl.getPluginMeta().getVersion());
       handshake.setServerPort(Bukkit.getPort());
       handshake.setGameVersion(VersionUtil.getCurrentVersion());
       handshake.setOverrideServerName(this.proxyConfig.getOverrideServerName());
@@ -210,9 +208,8 @@ public class PortalClient implements IPortalClient {
             if (this.objectStream != null) {
                this.send(new DisconnectNotice());
             }
-         } catch (GeneralSecurityException | IOException var2) {
-            this.logger.warning("Error occurred while sending disconnection notice to proxy");
-            var2.printStackTrace();
+         } catch (GeneralSecurityException | IOException e) {
+            this.logger.warning("Error occurred while sending disconnection notice to proxy: %s", e.getMessage());
          }
 
          this.disconnect(true);
@@ -251,9 +248,8 @@ public class PortalClient implements IPortalClient {
             if (this.socket != null) {
                this.socket.close();
             }
-         } catch (IOException var5) {
-            this.logger.warning("Error occurred while closing proxy connection socket");
-            var5.printStackTrace();
+         } catch (IOException e) {
+            this.logger.warning("Error occurred while closing proxy connection socket: %s", e.getMessage());
          }
 
          Response disconnectResponse = new Response();

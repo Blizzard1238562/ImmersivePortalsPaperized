@@ -45,53 +45,51 @@ A Minecraft plugin that allows nether portals to be seen through, it displays wh
 - Performance optimizations
 
 **Commands:**
-- _**/immersiveportalspaper create**_ Create a new portal
-- _**/immersiveportalspaper createcustom**_ Create a custom portal
-- _**/immersiveportalspaper createfromcoords**_ Create a portal from coordinates
-- _**/immersiveportalspaper link**_ Link two portal locations together
-- _**/immersiveportalspaper linkexternal**_ Create a cross-server portal
-- _**/immersiveportalspaper remove**_ Remove the closest portal
-- _**/immersiveportalspaper removebyname**_ Remove portals by name
-- _**/immersiveportalspaper reload**_ Reload the plugin configuration
-- _**/immersiveportalspaper wand**_ Get the portal selection wand
-- _**/immersiveportalspaper tp**_ Teleport to a portal destination
-- _**/immersiveportalspaper setprice**_ Set the price for using a portal
-- _**/immersiveportalspaper setpreset**_ Set the preset for a portal
-- _**/immersiveportalspaper getname**_ Get the name of a portal
-- _**/immersiveportalspaper getportalname**_ Get the name of the nearest portal
-- _**/immersiveportalspaper setPortalName**_ Set a custom name for a portal
-- _**/immersiveportalspaper setOrigin**_ Set the selection as the origin position
-- _**/immersiveportalspaper setDestination**_ Set the selection as the destination position
-- _**/immersiveportalspaper menu**_ Open the Portal Admin GUI
-- _**/immersiveportalspaper reconnect**_ Reconnect to the proxy if disconnected
-- _**/immersiveportalspaper setseethroughportal**_ Toggle see-through portals for yourself
-- _**/immersiveportalspaper toggleseethroughportal**_ Toggle see-through portal visibility
-- _**/immersiveportalspaper getallowNonPlayerTeleportation**_ Check if items and mobs can teleport
-- _**/immersiveportalspaper setAllowNonPlayerTeleportation**_ Allow or disallow item and mob teleportation
 
-**Alias:**
-- _**/p**_ Can be used instead of _**/immersiveportalspaper**_
+All commands are under `/immersiveportalspaperized`, which can also be shortened to `/p` or `/bp`.
+
+- _**/bp reload**_ Reloads the plugin and the config file
+- _**/bp reconnect**_ Reconnects to the proxy if the connection dropped
+- _**/bp wand**_ Gives you the portal selection wand
+- _**/bp setOrigin**_ (alias `origin`) Sets your current wand selection as the origin position
+- _**/bp setDestination**_ (alias `destination`/`dest`) Sets your current wand selection as the destination position
+- _**/bp linkPortals [twoWay] [invert]**_ (alias `link`) Links your origin and destination selections together
+- _**/bp linkExternalPortals [invert]**_ (alias `linkexternal`) Links your origin selection with a destination selection on another server
+- _**/bp createfromcoords <originWorld> <originCorner1> <originCorner2> <destWorld> <destCorner1> <destCorner2> [twoWay] [invert] [name]**_ Creates a portal directly from coordinates, without needing a player or wand
+- _**/bp remove [removeDestination]**_ (aliases `delete`/`del`) Removes the nearest portal within 20 blocks
+- _**/bp removebyname <portalName>**_ (alias `deletename`) Removes all portals with the given name
+- _**/bp setPortalName <name>**_ (alias `setname`) Sets the name of the nearest custom portal within 20 blocks
+- _**/bp getportalname**_ (alias `getname`) Tells you the name of the nearest portal within 20 blocks
+- _**/bp setprice <price>**_ Sets the price of the nearest custom portal
+- _**/bp setpreset <preset>**_ Sets the effect preset of the nearest custom portal
+- _**/bp getallowNonPlayerTeleportation**_ (alias `getcanteleportmobs`) Tells you whether the nearest portal allows non-player (item/mob) teleportation
+- _**/bp setAllowNonPlayerTeleportation <true|false>**_ (alias `setcanteleportmobs`) Sets whether the nearest portal allows non-player (item/mob) teleportation
+- _**/bp setseethroughportal <true|false>**_ (alias `setenablebpview`) Sets whether you personally can see through portals
+- _**/bp toggleseethroughportal**_ (alias `togglevanillaview`) Toggles whether you personally can see through portals
+- _**/bp menu**_ (aliases `list`/`admin`/`gui`) Opens the Portal Admin GUI
+
+To build a custom portal: grab the wand (`/bp wand`), select your origin corners and run `/bp setOrigin`, select your destination corners and run `/bp setDestination`, then `/bp linkPortals` (or `/bp linkExternalPortals` for a cross-server portal).
 
 **Permissions:**
-- _**immersiveportalspaper.createfromcoords**_ Allows creating portals from coordinates
-- _**immersiveportalspaper.getname**_ Allows getting portal names
-- _**immersiveportalspaper.link**_ Allows linking portals
-- _**immersiveportalspaper.linkexternal**_ Allows creating cross-server portals
-- _**immersiveportalspaper.removeclosest**_ Allows removing the closest portal
-- _**immersiveportalspaper.removebyname**_ Allows removing portals by name
-- _**immersiveportalspaper.reload**_ Allows reloading the plugin configuration
-- _**immersiveportalspaper.create**_ Allows creating portals
-- _**immersiveportalspaper.updatecoords**_ Allows updating portal coordinates
-- _**immersiveportalspaper.tp**_ Allows teleporting to portal destinations
-- _**immersiveportalspaper.setprice**_ Allows setting portal prices
-- _**immersiveportalspaper.setpreset**_ Allows setting portal presets
-- _**immersiveportalspaper.bypassprice**_ Allows bypassing portal usage costs
-- _**immersiveportalspaper.admin**_ Allows bypassing portal size restrictions and viewing debug information
-- _**immersiveportalspaper.createcustom**_ Allows creating custom portals
-- _**immersiveportalspaper.wand**_ Allows using the portal selection wand
-- _**immersiveportalspaper.reconnect**_ Allows reconnecting to the proxy
-- _**immersiveportalspaper.user**_ Allows using portals *(default: true)*
-- _**immersiveportalspaper.see**_ Allows seeing through portals *(default: true)*
+
+- _**immersiveportalspaperized.createfromcoords**_ Allows creating portals from coordinates
+- _**immersiveportalspaperized.getname**_ Allows getting portal names
+- _**immersiveportalspaperized.link**_ Allows linking portals
+- _**immersiveportalspaperized.linkexternal**_ Allows creating cross-server portals
+- _**immersiveportalspaperized.remove**_ Allows removing portals (`/bp remove`, `/bp removebyname`)
+- _**immersiveportalspaperized.remove.others**_ Allows removing portals you don't own
+- _**immersiveportalspaperized.reload**_ Allows reloading the plugin configuration
+- _**immersiveportalspaperized.reconnect**_ Allows reconnecting to the proxy
+- _**immersiveportalspaperized.select**_ Allows using the selection wand workflow (`/bp setOrigin`, `/bp setDestination`) and the admin menu
+- _**immersiveportalspaperized.setname**_ Allows renaming portals and setting their price/preset (`/bp setPortalName`, `/bp setprice`, `/bp setpreset`)
+- _**immersiveportalspaperized.setname.others**_ Allows renaming portals you don't own
+- _**immersiveportalspaperized.getallowNonPlayerTeleportation**_ Allows checking if items/mobs can teleport through a portal
+- _**immersiveportalspaperized.setAllowNonPlayerTeleportation**_ Allows toggling item/mob teleportation for a portal
+- _**immersiveportalspaperized.wand**_ Allows using the portal selection wand
+- _**immersiveportalspaperized.user**_ Allows using portals *(default: true)*
+- _**immersiveportalspaperized.see**_ Allows seeing through portals *(default: true)*
+
+By default, everyone can walk through and see through portals (`.user`/`.see`). Everything related to creating, editing or removing portals defaults to OP.
 
 **Dependencies:**
 - ProtocolLib (required, used for packet-based portal rendering)
@@ -100,9 +98,9 @@ A Minecraft plugin that allows nether portals to be seen through, it displays wh
 - My_Worlds (optional, for world management)
 
 **Configuration:**
-The plugin configuration file will be generated on first startup at `plugins/ImmersivePortalsPaper/config.yml`.
+The plugin configuration file will be generated on first startup at `plugins/ImmersivePortalsPaperized/config.yml`.
 
-The plugin supports hot-reloading via _**/immersiveportalspaper reload**_.
+The plugin supports hot-reloading via _**/bp reload**_.
 
 For detailed configuration options, including world connections, portal effect presets, proxy settings, and performance tuning, refer to the comments in the generated config.yml.
 

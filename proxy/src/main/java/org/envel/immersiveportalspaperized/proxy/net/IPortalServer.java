@@ -8,10 +8,10 @@ public interface IPortalServer {
 
    void shutDown();
 
-   void registerServer(@NotNull IClientHandler var1, @NotNull String var2);
+   void registerServer(@NotNull IClientHandler serverHandler, @NotNull String serverName);
 
-   void onServerDisconnect(@NotNull IClientHandler var1);
+   void onServerDisconnect(@NotNull IClientHandler handler);
 
    @Nullable
-   IClientHandler getServer(@NotNull String var1);
+   IClientHandler getServer(@NotNull String name);
 }

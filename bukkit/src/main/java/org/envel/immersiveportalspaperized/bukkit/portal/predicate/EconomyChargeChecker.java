@@ -4,7 +4,6 @@ import io.foxserver.common.locale.LocaleAPI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.envel.immersiveportalspaperized.api.ImmersivePortal;
 import org.envel.immersiveportalspaperized.api.PortalPredicate;
@@ -41,7 +40,7 @@ public class EconomyChargeChecker implements PortalPredicate {
          if (msg != null) {
             player.sendMessage(this.messageConfig.formatMiniMessage(this.messageConfig.getPrefix(player) + msg));
          } else {
-            player.sendMessage(ChatColor.GREEN + "Charged " + this.economyManager.format(price) + " to use this portal.");
+            player.sendMessage(this.messageConfig.formatMiniMessage("<green>Charged " + this.economyManager.format(price) + " to use this portal.</green>"));
          }
 
          return true;
@@ -62,12 +61,14 @@ public class EconomyChargeChecker implements PortalPredicate {
                player.sendMessage(this.messageConfig.formatMiniMessage(this.messageConfig.getPrefix(player) + msg));
             } else {
                player.sendMessage(
-                  ChatColor.RED
-                     + "You need "
-                     + this.economyManager.format(price)
-                     + " to pass through this portal! (Your balance: "
-                     + this.economyManager.format(this.economyManager.getBalance(player))
-                     + ")"
+                  this.messageConfig
+                     .formatMiniMessage(
+                        "<red>You need "
+                           + this.economyManager.format(price)
+                           + " to pass through this portal! (Your balance: "
+                           + this.economyManager.format(this.economyManager.getBalance(player))
+                           + ")</red>"
+                     )
                );
             }
 

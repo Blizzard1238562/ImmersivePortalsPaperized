@@ -1,6 +1,6 @@
 name: ImmersivePortalsPaperized
 main: org.envel.immersiveportalspaperized.bungee.ImmersivePortalsPaperized
-version: 1.1.0
+version: 1.1.1
 author: Envel
 description: Proxy side plugin for ImmersivePortalsPaperized which helps to allow
   cross-server portals

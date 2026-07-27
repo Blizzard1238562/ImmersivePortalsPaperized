@@ -43,9 +43,8 @@ public class ServerSwitch implements Listener {
                try {
                   this.logger.finer("Sent and received response");
                   response.checkForErrors();
-               } catch (RequestException var4x) {
-                  this.logger.warning("Failed to set previous server for player %s", event.getPlayer().getUniqueId());
-                  var4x.printStackTrace();
+               } catch (RequestException e) {
+                  this.logger.warning("Failed to set previous server for player %s: %s", event.getPlayer().getUniqueId(), e.getMessage());
                }
             });
          }

@@ -16,9 +16,9 @@ public interface IClientHandler {
 
    void shutDown();
 
-   void sendRequest(@NotNull Request var1, @NotNull Consumer<Response> var2);
+   void sendRequest(@NotNull Request request, @NotNull Consumer<Response> onFinish);
 
    public interface Factory {
-      IClientHandler create(Socket var1);
+      IClientHandler create(Socket socket);
    }
 }

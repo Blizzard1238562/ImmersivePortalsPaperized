@@ -1,155 +1,115 @@
 # ==============================================================================
-# ImmersivePortalsPaperized Configuration File / Файл конфигурации ImmersivePortalsPaperized
+# ImmersivePortalsPaperized Configuration File
 # ==============================================================================
 # Many of these values should not be changed unless you know what you are doing.
-# Многие параметры не рекомендуется менять без четкого понимания их назначения.
 
 # WARNING: The portal effect size is the biggest performance sink, higher numbers can cause tons of lag!
 # The number of blocks that the portal effect will render to the up, down, forwards and backwards of the portal.
 # (The total width of the effect is twice this value).
-# ВНИМАНИЕ: Размер эффекта портала сильнее всего влияет на производительность. Высокие значения вызовут лаги!
-# Количество блоков, в пределах которых рендерится изображение с другой стороны (вверх, вниз, вперед, назад).
-# (Общая ширина эффекта равна двукратному этому значению).
 portalEffectSizeXZ: 13
 
 # Same as the previous, but up/down instead.
-# То же, что и выше, но по оси Y (вверх/вниз).
 portalEffectSizeY: 7
 
 # The closest portal in this range will be activated. All others are discarded.
-# Ближайший портал в этом радиусе будет активирован, остальные проигнорированы.
 portalActivationDistance: 20
 
 # How often the portal will re-check for the blocks around it (in ticks).
-# Как часто портал перепроверяет блоки вокруг себя (в тиках).
 portalBlockUpdateInterval: 20
 
 # How often modified block states are resent to the player (in ticks).
-# Как часто измененные состояния блоков отправляются игроку (в тиках).
 blockStateRefreshInterval: 40
 
 # Delay between portal autosaves, in ticks. Set to -1 to disable.
-# Задержка автоматического сохранения порталов (в тиках). Установите -1 для отключения.
 portalSaveInterval: 6000
 
 # Enables or disables entity tracking and rendering through portals.
-# Включает или отключает отслеживание и рендеринг сущностей сквозь порталы.
 enableEntitySupport: true
 
 # If this is true, the check interval below is always treated as 1 tick.
-# Если включено, интервал проверки сущностей ниже всегда приравнивается к 1 тику.
 checkForEntitiesEveryTick: false
 
 # How often the portal will check for surrounding entities (in ticks).
-# Как часто портал проверяет наличие сущностей вокруг (в тиках).
 entityCheckInterval: 7
 
 # Interval for sending entity metadata updates in ticks.
 # (Higher values improve performance as updating metadata is heavy for CPU and network bandwidth).
-# Интервал обновления метаданных сущностей (в тиках).
-# (Чем выше значение, тем лучше производительность — обновление метаданных нагружает процессор и сеть).
 entityMetadataUpdateInterval: 6
 
 # Setting this to true will hide the obsidian/portal blocks to see straight through.
 # NOTE: Setting to false might make it look less seamless if the client lags behind.
-# Если включено, рамка и блоки портала скрываются для полностью прозрачного вида.
-# ПРИМЕЧАНИЕ: При отключении переход может выглядеть менее плавно при лагах клиента.
 hidePortalBlocks: true
 
 # Minimum distance allowed between spawned portals (in blocks).
-# Минимальное расстояние между создаваемыми порталами (в блоках).
 minimumPortalSpawnDistance: 6
 
 # Change this to FINE, FINER or FINEST to enable debug logging.
-# Уровень логирования. Измените на FINE, FINER или FINEST для отладочного вывода.
 logLevel: INFO
 
 # The update checker notifies admins when a new version of the plugin is available.
-# Проверка обновлений. Оповещает администраторов о выходе новой версии плагина.
 enableUpdateCheck: true
 
 # Enables the /bp test ... commands. Recommended to keep false for production.
-# Включает тестовые команды /bp test. Рекомендуется отключать на рабочих серверах.
 enableTestingCommands: false
 
 # The maximum size of custom portals (X = width, Y = height).
 # This should never be larger than twice the portal effect size.
-# Максимальный размер кастомных порталов (X — ширина, Y — высота).
-# Не должен превышать двукратный размер эффекта портала.
 maxPortalSize:
   x: 5
   y: 5
 
 # Offset from portal corners where the collision box is placed for rendering rays.
 # It is recommended to leave these values at defaults.
-# Смещение от углов портала, определяющее зону столкновения для расчета видимости.
-# Рекомендуется оставить значения по умолчанию.
 portalCollisionBox:
   x: 0.50
   y: 0.50
   z: 0.50
 
 # Worlds where the plugin will fall back to vanilla portal teleportation behavior.
-# Миры, в которых плагин будет использовать стандартную ванильную логику порталов.
 disabledWorlds:
   - 'some_world'
 
 # Delay (in seconds) before rendering portals after changing worlds to mitigate loading lag.
-# Задержка (в секундах) перед началом рендеринга порталов после смены мира для уменьшения лагов.
 waitTimeAfterSwitchingWorlds: 1
 
 # Custom portal view background blocks for specific worlds.
 # Overworld defaults to white concrete, Nether to red, End to black.
-# Настройка фоновых блоков для определенных миров.
-# По умолчанию: Обычный мир — белый бетон, Нижний мир — красный, Энд — черный.
 worldBackgroundBlocks:
   'example': STONE
 
 # Overrides all worldBackgroundBlocks if set to a material name (e.g., OBSIDIAN). Leave empty to use defaults.
-# Переопределяет все фоновые блоки, если указан конкретный материал. Оставьте пустым для значений по умолчанию.
 backgroundBlock: ''
 
 # Cooldown (in seconds) before a player can teleport back through a portal. Set to 0 to disable.
-# Задержка (в секундах) перед возможностью повторной телепортации назад через портал. 0 для отключения.
 teleportCooldown: 2
 
 # Fair Use Policy: limits how many portals a single player can render simultaneously.
 # Closest portals are prioritized. Set to 0 to disable the limit (unlimited).
-# Лимит рендеринга: сколько порталов может отображаться у одного игрока одновременно.
-# Приоритет отдается ближайшим. 0 для отключения лимита (без ограничений).
 maxPortalsPerPlayer: 3
 
 # Minimum server TPS required to render/visualize portals.
 # If TPS drops below this threshold, portal rendering is temporarily disabled to prevent server lag. Set to 0 to disable.
-# Минимальный TPS сервера, необходимый для визуализации порталов.
-# Если TPS опускается ниже этого порога, рендеринг сквозь порталы временно отключается во избежание лагов. 0 для отключения.
 minTpsForRendering: 19.0
 
 # Anti-Dupe Portal Policy: prevents registering duplicate portals with identical coordinates.
-# Предотвращает регистрацию дублирующихся порталов с одинаковыми координатами.
 preventDuplicatePortals: true
 
 # Enables default linkages between default overworld and nether worlds if they exist.
-# Включает стандартную связь между стандартным обычным и нижним мирами, если они существуют.
 enableDefaultWorldConnections: true
 
 # Interval for replacing air with light blocks at portal destinations to prevent darkness (1.18+).
 # Set to -1 or 0 to disable. Reasonably set to 7 to enable.
-# Интервал размещения блоков света вместо воздуха в точке назначения для предотвращения темноты (1.18+).
-# Установите -1 или 0 для отключения. Рекомендуемое значение для включения — 7.
 lightBlockInterval: -1
 
 # Forces a specific light level for the blocks specified above. -1 determines automatically based on dimension/time.
-# Устанавливает фиксированный уровень света для блоков выше. -1 для автоматического определения.
 forceLightLevel: -1
 
 # Custom linkages between worlds. Coordinate scaling factor adjusts portal locations.
-# Настройки связей между мирами. Коэффициент масштабирования (coordinateRescalingFactor) корректирует координаты.
 worldConnections: {}
   #'0':
   #  originWorld: 'example'
   #  destinationWorld: 'example_nether'
-  #  minSpawnY: 5 # Leave blank for auto / Оставьте пустым для авто
+  #  minSpawnY: 5 # Leave blank for auto
   #  maxSpawnY: 122
   #  coordinateRescalingFactor: 0.125
   #'1':
@@ -160,55 +120,45 @@ worldConnections: {}
   #  coordinateRescalingFactor: 8.0
 
 # Allowed CPU time (in ms) per tick when finding a destination to avoid server thread freezing.
-# Лимит процессорного времени (в мс) на один тик при расчете пути для предотвращения зависания сервера.
 allowedSpawnTimePerTick: 35
 
 # Proxy settings for cross-server portal connections.
-# Настройки прокси-сервера для межсерверных порталов.
 proxy:
-  # Enable or disable proxy support / Включить или отключить поддержку прокси
+  # Enable or disable proxy support
   enableProxy: false
   
-  # IP address of the BungeeCord/Velocity proxy / IP-адрес прокси BungeeCord/Velocity
+  # IP address of the BungeeCord/Velocity proxy
   proxyAddress: ""
   
-  # Port of the BungeeCord/Velocity proxy / Порт прокси BungeeCord/Velocity
+  # Port of the BungeeCord/Velocity proxy
   proxyPort: 25510
   
   # Encryption key matching the UUID in proxy's ImmersivePortalsPaperized config.
-  # Ключ шифрования, совпадающий с UUID в конфигурации ImmersivePortalsPaperized на стороне прокси.
   key: ""
   
   # Delay (in ticks) before trying to reconnect to the proxy if disconnected. -1 to disable.
-  # Задержка (в тиках) перед повторным подключением к прокси при обрыве. -1 для отключения.
   reconnectionDelay: 300
 
   # Name of this server in the BungeeCord/Velocity config.yml.
-  # Имя этого сервера в конфигурации BungeeCord/Velocity config.yml.
   serverName: ""
 
   # Warns if player's selection is lost when switching servers (requires UUID forwarding).
-  # Предупреждать, если выделение игрока теряется при переходе между серверами (требуется передача UUID).
   warnOnMissingSelection: true
 
-  # Enable TCP keep-alive on connection sockets / Включить поддержку keep-alive для сетевых сокетов
+  # Enable TCP keep-alive on connection sockets
   keepAlive: true
 
 # Dimension Blend: randomly swaps blocks between portal ends to create a smooth transition effect.
-# Смешивание измерений: случайно перемешивает блоки по краям портала для красивого эффекта перехода.
 dimensionBlend:
   enable: false
   
   # Fall-off rate of block mixing. Lower values extend the distance of mixing.
-  # Коэффициент затухания смешивания блоков. Меньшие значения увеличивают радиус смешивания.
   fallOffRate: 0.15
 
 # Name of the item used as the selection wand.
-# Название предмета, выдаваемого в качестве палочки выделения.
 portalWandName: "&aPortal Wand"
 
 # Custom portal ambient effects and sound presets
-# Настройка визуальных эффектов и звуков для порталов
 portalEffects:
   default:
     particle:

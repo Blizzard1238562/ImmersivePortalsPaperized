@@ -24,10 +24,10 @@ public class ImmersivePortalsPaperized extends Plugin {
 
       try {
          this.config.load();
-      } catch (Exception var4) {
+      } catch (Exception e) {
          this.logger.severe("Failed to load the config file");
          this.logger.severe("Please check that your YAML syntax is correct");
-         var4.printStackTrace();
+         this.logger.severe("%s", e.getMessage());
          this.didEnableFail = true;
          return;
       }

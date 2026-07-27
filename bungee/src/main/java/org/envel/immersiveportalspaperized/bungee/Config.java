@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.logging.Level;
-import lombok.Generated;
+import lombok.Getter;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
@@ -22,7 +22,9 @@ import org.envel.immersiveportalspaperized.shared.logging.Logger;
 public class Config implements IProxyConfig {
    private final Plugin pl;
    private final Logger logger;
+   @Getter
    private InetSocketAddress bindAddress;
+   @Getter
    private UUID key;
 
    @Inject
@@ -86,17 +88,5 @@ public class Config implements IProxyConfig {
             }
          }
       }
-   }
-
-   @Generated
-   @Override
-   public InetSocketAddress getBindAddress() {
-      return this.bindAddress;
-   }
-
-   @Generated
-   @Override
-   public UUID getKey() {
-      return this.key;
    }
 }

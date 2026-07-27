@@ -158,7 +158,6 @@ public class PlayerData implements IPlayerData {
             permanentDataFile.createNewFile();
          }
 
-         this.permanentData.options().copyHeader(true);
          this.permanentData.save(permanentDataFile);
       } catch (IOException var4) {
          this.logger.severe("Unable to save " + this.player.getName() + "'s permanent player data! \n" + var4.getMessage());

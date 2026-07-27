@@ -45,6 +45,12 @@ public class SchedulerUtil {
    }
 
    private static SchedulerUtil.PortalTask trackOneShot(Function<Runnable, SchedulerUtil.PortalTask> scheduler, Runnable runnable) {
+      if (!plugin.isEnabled()) {
+         runnable.run();
+         return () -> {
+         };
+      }
+
       SchedulerUtil.PortalTask[] taskRef = new SchedulerUtil.PortalTask[1];
       Runnable wrapped = () -> {
          try {
@@ -64,6 +70,11 @@ public class SchedulerUtil {
    }
 
    private static SchedulerUtil.PortalTask trackRepeating(Function<Runnable, SchedulerUtil.PortalTask> scheduler, Runnable runnable) {
+      if (!plugin.isEnabled()) {
+         return () -> {
+         };
+      }
+
       SchedulerUtil.PortalTask[] taskRef = new SchedulerUtil.PortalTask[1];
       SchedulerUtil.PortalTask task = scheduler.apply(runnable);
       SchedulerUtil.PortalTask wrappedTask = () -> {

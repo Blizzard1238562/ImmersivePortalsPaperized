@@ -6,7 +6,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.envel.immersiveportalspaperized.bukkit.command.TestingCommands;
 import org.envel.immersiveportalspaperized.bukkit.command.framework.annotations.Aliases;
@@ -86,8 +85,8 @@ public class CommandTree {
 
       try {
          return this.rootNode.execute(sender, "/", args);
-      } catch (CommandException var6) {
-         sender.sendMessage(ChatColor.RED + var6.getMessage());
+      } catch (CommandException e) {
+         sender.sendMessage(this.messages.formatMiniMessage("<red>" + e.getMessage() + "</red>"));
          return false;
       }
    }

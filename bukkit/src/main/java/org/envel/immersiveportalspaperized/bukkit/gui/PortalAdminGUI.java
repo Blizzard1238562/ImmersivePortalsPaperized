@@ -11,6 +11,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Registry;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -213,7 +214,7 @@ public class PortalAdminGUI implements Listener {
          String particleStr = preset.getParticle().name();
          String countStr = String.valueOf(preset.getParticleCount());
          String speedStr = String.format("%.2f", preset.getParticleSpeed());
-         String soundStr = preset.getSound() != null ? preset.getSound().getKey().toString() : "None";
+         String soundStr = preset.getSound() != null ? Registry.SOUNDS.getKeyOrThrow(preset.getSound()).toString() : "None";
          String volumeStr = String.format("%.2f", preset.getSoundVolume());
          String pitchStr = String.format("%.2f", preset.getSoundPitch());
          String intervalStr = String.valueOf(preset.getSoundIntervalTicks());

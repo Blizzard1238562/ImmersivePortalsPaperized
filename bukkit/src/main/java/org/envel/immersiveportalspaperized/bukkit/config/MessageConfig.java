@@ -5,9 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
@@ -64,7 +65,7 @@ public class MessageConfig {
 
    @NotNull
    private String translateColorCodes(@NotNull String message) {
-      message = ChatColor.translateAlternateColorCodes('&', message);
+      message = LegacyComponentSerializer.legacyAmpersand().serialize(LegacyComponentSerializer.legacyAmpersand().deserialize(message));
       return this.translateHexColors(message);
    }
 
@@ -89,11 +90,11 @@ public class MessageConfig {
             boolean parsingFailed = true;
             if (segment.charAt(1) == '(' && segment.charAt(segment.length() - 2) == ')') {
                String hexString = segment.substring(2, segment.length() - 2);
-
-               try {
-                  result.append(net.md_5.bungee.api.ChatColor.of(hexString));
+               TextColor color = TextColor.fromHexString("#" + hexString);
+               if (color != null) {
+                  result.append(this.legacyColorCode(color));
                   parsingFailed = false;
-               } catch (IllegalArgumentException var12) {
+               } else {
                   this.logger.warning("Failed to parse hex colour: %s", hexString);
                }
             }
@@ -110,6 +111,12 @@ public class MessageConfig {
    }
 
    @NotNull
+   private String legacyColorCode(@NotNull TextColor color) {
+      String serialized = LegacyComponentSerializer.legacySection().serialize(Component.text('\u0000').color(color));
+      return serialized.substring(0, serialized.length() - 1);
+   }
+
+   @NotNull
    public ItemStack getPortalWand() {
       if (this.portalWand == null) {
          this.portalWand = new ItemStack(Material.BLAZE_ROD);
@@ -117,7 +124,7 @@ public class MessageConfig {
          if (meta == null) {
             this.logger.warning("Failed to get ItemMeta for portal wand - this should never happen!");
          } else {
-            meta.setDisplayName(this.portalWandName);
+            meta.displayName(LegacyComponentSerializer.legacySection().deserialize(this.portalWandName));
             this.portalWand.setItemMeta(meta);
          }
 

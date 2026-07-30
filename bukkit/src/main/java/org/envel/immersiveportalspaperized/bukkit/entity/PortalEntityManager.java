@@ -160,10 +160,12 @@ public class PortalEntityManager implements IPortalEntityManager {
 
    private void handleTeleportation() {
       List<Entity> toRemove = new ArrayList<>();
+      boolean allowsNonPlayerTeleportation = this.portal.allowsNonPlayerTeleportation();
+      boolean isCrossServer = this.portal.isCrossServer();
 
       for (Entry<Entity, Location> entry : this.originEntities.entrySet()) {
          Entity entity = entry.getKey();
-         if (entity instanceof Player || this.portal.allowsNonPlayerTeleportation() && !this.portal.isCrossServer()) {
+         if (entity instanceof Player || allowsNonPlayerTeleportation && !isCrossServer) {
             Location lastPosition = entry.getValue();
             Location currentPosition = entity.getLocation();
             if (lastPosition != null) {
@@ -172,7 +174,7 @@ public class PortalEntityManager implements IPortalEntityManager {
                   .createIntersectionChecker(lastPosition.toVector())
                   .checkIfIntersects(currentPosition.toVector());
                if (didWalkThroughPortal && this.checkCanTeleport(entity)) {
-                  if (this.portal.isCrossServer()) {
+                  if (isCrossServer) {
                      if (entity instanceof Player player) {
                         this.teleportCrossServer(player);
                      }
@@ -366,13 +368,14 @@ public class PortalEntityManager implements IPortalEntityManager {
                try {
                   response.checkForErrors();
                   this.alreadyTeleporting.remove(player);
-               } catch (RequestException var4x) {
+               } catch (RequestException e) {
+                  this.alreadyTeleporting.remove(player);
+                  playerData.unfreezePortalViews();
                   if (!this.pl.isEnabled()) {
                      return;
                   }
 
-                  this.logger.warning("An error occurred while attempting to teleport a player across servers");
-                  var4x.printStackTrace();
+                  this.logger.warning("An error occurred while attempting to teleport a player across servers: %s", e.getMessage());
                }
             });
          }

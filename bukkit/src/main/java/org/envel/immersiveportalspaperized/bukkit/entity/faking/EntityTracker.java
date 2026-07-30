@@ -94,8 +94,9 @@ public class EntityTracker implements IEntityTracker {
       Vector velocity = this.entity.getVelocity();
       if (this.lastVelocity != null && !velocity.equals(this.lastVelocity)) {
          this.packetManipulator.sendEntityVelocity(this.entityInfo, velocity, this.trackingPlayers);
-         this.lastVelocity = velocity;
       }
+
+      this.lastVelocity = velocity;
 
       this.ticksSinceCreated++;
    }

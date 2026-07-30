@@ -1,5 +1,6 @@
 package org.envel.immersiveportalspaperized.bukkit.portal;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -9,7 +10,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.Map.Entry;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.envel.immersiveportalspaperized.bukkit.config.MiscConfig;
@@ -81,12 +81,23 @@ public class PortalManager implements IPortalManager {
    @NotNull
    @Override
    public Collection<IPortal> findActivatablePortals(@NotNull Player player) {
-      return this.portals
-         .values()
-         .stream()
-         .flatMap(Collection::stream)
-         .filter(portal -> this.predicateManager.isActivatable(portal, player))
-         .collect(Collectors.toList());
+      Location playerLoc = player.getLocation();
+      double activationDistance = this.miscConfig.getPortalActivationDistance();
+      double activationDistanceSquared = activationDistance * activationDistance;
+      List<IPortal> result = new ArrayList<>();
+
+      for (Entry<Location, Set<IPortal>> entry : this.portals.entrySet()) {
+         Location portalLoc = entry.getKey();
+         if (portalLoc.getWorld() == playerLoc.getWorld() && portalLoc.distanceSquared(playerLoc) < activationDistanceSquared) {
+            for (IPortal portal : entry.getValue()) {
+               if (this.predicateManager.isActivatable(portal, player)) {
+                  result.add(portal);
+               }
+            }
+         }
+      }
+
+      return result;
    }
 
    @Override
@@ -142,7 +153,7 @@ public class PortalManager implements IPortalManager {
          return false;
       } else {
          boolean wasRemoved = portalsAtLoc.remove(portal);
-         if (portalsAtLoc.size() == 0) {
+         if (portalsAtLoc.isEmpty()) {
             this.portals.remove(portal.getOriginPos().getLocation());
          }
 

@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.Getter;
 import lombok.Setter;
@@ -78,8 +80,10 @@ public class PlayerData implements IPlayerData {
    }
 
    private void updatePortalViews(Collection<IPortal> nowViewablePortals) {
+      Set<IPortal> nowViewableSet = nowViewablePortals instanceof Set ? (Set<IPortal>)nowViewablePortals : new HashSet<>(nowViewablePortals);
+
       for (Entry<IPortal, IPlayerPortalView> entry : this.portalViews.entrySet()) {
-         if (nowViewablePortals.contains(entry.getKey()) && this.player.getWorld() == entry.getKey().getOriginPos().getWorld()) {
+         if (nowViewableSet.contains(entry.getKey()) && this.player.getWorld() == entry.getKey().getOriginPos().getWorld()) {
             this.portalActivityManager.onPortalViewedThisTick(entry.getKey());
             entry.getValue().update();
          } else {
@@ -159,14 +163,19 @@ public class PlayerData implements IPlayerData {
          }
 
          this.permanentData.save(permanentDataFile);
-      } catch (IOException var4) {
-         this.logger.severe("Unable to save " + this.player.getName() + "'s permanent player data! \n" + var4.getMessage());
+      } catch (IOException e) {
+         this.logger.severe("Unable to save %s's permanent player data! %s", this.player.getName(), e.getMessage());
       }
    }
 
    @Override
    public void freezePortalViews() {
       this.viewsFrozen = true;
+   }
+
+   @Override
+   public void unfreezePortalViews() {
+      this.viewsFrozen = false;
    }
 
    private void setViewing(IPortal portal) {
@@ -193,8 +202,8 @@ public class PlayerData implements IPlayerData {
          YamlConfiguration permanentDataYml = this.createDefaultDataFile(permanentDataFile);
          permanentDataYml.save(permanentDataFile);
          return permanentDataYml;
-      } catch (IOException var4) {
-         this.logger.severe("Unable to load " + this.player.getName() + "'s permanent player data! Default data will be used. \n" + var4.getMessage());
+      } catch (IOException e) {
+         this.logger.severe("Unable to load %s's permanent player data! Default data will be used. %s", this.player.getName(), e.getMessage());
          return this.createDefaultDataFile(permanentDataFile);
       }
    }

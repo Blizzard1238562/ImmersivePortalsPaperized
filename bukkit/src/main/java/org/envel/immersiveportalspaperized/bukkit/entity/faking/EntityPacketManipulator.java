@@ -36,10 +36,19 @@ import org.envel.immersiveportalspaperized.bukkit.nms.AnimationType;
 import org.envel.immersiveportalspaperized.bukkit.nms.EntityUtil;
 import org.envel.immersiveportalspaperized.bukkit.nms.PacketUtil;
 import org.envel.immersiveportalspaperized.bukkit.nms.RotationUtil;
+import org.envel.immersiveportalspaperized.shared.logging.Logger;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
 public class EntityPacketManipulator implements IEntityPacketManipulator {
+   private final Logger logger;
+
+   @Inject
+   public EntityPacketManipulator(Logger logger) {
+      this.logger = logger;
+   }
+
    @Override
    public void showEntity(EntityInfo tracker, Collection<Player> players) {
       try {
@@ -71,7 +80,8 @@ public class EntityPacketManipulator implements IEntityPacketManipulator {
          }
 
          this.sendMetadata(tracker, players);
-      } catch (Throwable var8) {
+      } catch (Throwable e) {
+         this.logger.finer("showEntity failed for entity %s: %s", tracker.getEntityId(), e.getMessage());
       }
    }
 
@@ -107,7 +117,8 @@ public class EntityPacketManipulator implements IEntityPacketManipulator {
          PacketContainer packet = new PacketContainer(Server.ENTITY_DESTROY);
          packet.getIntLists().write(0, Collections.singletonList(tracker.getEntityId()));
          PacketUtil.sendPacket(players, packet);
-      } catch (Throwable var4) {
+      } catch (Throwable e) {
+         this.logger.finer("hideEntity failed for entity %s: %s", tracker.getEntityId(), e.getMessage());
       }
    }
 
@@ -120,7 +131,8 @@ public class EntityPacketManipulator implements IEntityPacketManipulator {
          PacketUtil.writeRelativeOffset(packet, offset);
          packet.getBooleans().write(0, tracker.getEntity().isOnGround());
          PacketUtil.sendPacket(players, packet);
-      } catch (Throwable var5) {
+      } catch (Throwable e) {
+         this.logger.finer("sendEntityMove failed for entity %s: %s", tracker.getEntityId(), e.getMessage());
       }
    }
 
@@ -135,7 +147,8 @@ public class EntityPacketManipulator implements IEntityPacketManipulator {
          PacketUtil.writeRelativeOffset(packet, offset);
          packet.getBooleans().write(0, tracker.getEntity().isOnGround());
          PacketUtil.sendPacket(players, packet);
-      } catch (Throwable var6) {
+      } catch (Throwable e) {
+         this.logger.finer("sendEntityMoveLook failed for entity %s: %s", tracker.getEntityId(), e.getMessage());
       }
    }
 
@@ -148,7 +161,8 @@ public class EntityPacketManipulator implements IEntityPacketManipulator {
          PacketUtil.writeLookRotation(packet, entityPos.getYaw(), entityPos.getPitch());
          packet.getBooleans().write(0, tracker.getEntity().isOnGround());
          PacketUtil.sendPacket(players, packet);
-      } catch (Throwable var5) {
+      } catch (Throwable e) {
+         this.logger.finer("sendEntityLook failed for entity %s: %s", tracker.getEntityId(), e.getMessage());
       }
    }
 
@@ -162,7 +176,8 @@ public class EntityPacketManipulator implements IEntityPacketManipulator {
          PacketUtil.writeTeleportRotation(packet, entityPos.getYaw(), entityPos.getPitch());
          packet.getBooleans().write(0, tracker.getEntity().isOnGround());
          PacketUtil.sendPacket(players, packet);
-      } catch (Throwable var5) {
+      } catch (Throwable e) {
+         this.logger.finer("sendEntityTeleport failed for entity %s: %s", tracker.getEntityId(), e.getMessage());
       }
    }
 
@@ -181,14 +196,15 @@ public class EntityPacketManipulator implements IEntityPacketManipulator {
             Object nmsPacket = constructor.newInstance(nmsEntity, headRotation);
             packet = new PacketContainer(Server.ENTITY_HEAD_ROTATION, nmsPacket);
             packet.getIntegers().write(0, tracker.getEntityId());
-         } catch (Throwable var11) {
+         } catch (Throwable inner) {
             packet = new PacketContainer(Server.ENTITY_HEAD_ROTATION);
             packet.getIntegers().write(0, tracker.getEntityId());
             packet.getBytes().write(0, headRotation);
          }
 
          PacketUtil.sendPacket(players, packet);
-      } catch (Throwable var12) {
+      } catch (Throwable e) {
+         this.logger.finer("sendEntityHeadRotation failed for entity %s: %s", tracker.getEntityId(), e.getMessage());
       }
    }
 
@@ -213,14 +229,15 @@ public class EntityPacketManipulator implements IEntityPacketManipulator {
             packet = new PacketContainer(Server.MOUNT, nmsPacket);
             packet.getIntegers().write(0, tracker.getEntityId());
             packet.getIntegerArrays().write(0, ridingIds);
-         } catch (Throwable var12) {
+         } catch (Throwable inner) {
             packet = new PacketContainer(Server.MOUNT);
             packet.getIntegers().write(0, tracker.getEntityId());
             packet.getIntegerArrays().write(0, ridingIds);
          }
 
          PacketUtil.sendPacket(players, packet);
-      } catch (Throwable var13) {
+      } catch (Throwable e) {
+         this.logger.finer("sendMount failed for entity %s: %s", tracker.getEntityId(), e.getMessage());
       }
    }
 
@@ -233,7 +250,8 @@ public class EntityPacketManipulator implements IEntityPacketManipulator {
          packet.getIntegers().write(0, tracker.getEntityId());
          packet.getSlotStackPairLists().write(0, wrappedChanges);
          PacketUtil.sendPacket(players, packet);
-      } catch (Throwable var6) {
+      } catch (Throwable e) {
+         this.logger.finer("sendEntityEquipment failed for entity %s: %s", tracker.getEntityId(), e.getMessage());
       }
    }
 
@@ -249,7 +267,8 @@ public class EntityPacketManipulator implements IEntityPacketManipulator {
          }).toList();
          packet.getDataValueCollectionModifier().write(0, wrappedDataValueList);
          PacketUtil.sendPacket(players, packet);
-      } catch (Throwable var6) {
+      } catch (Throwable e) {
+         this.logger.finer("sendMetadata failed for entity %s: %s", tracker.getEntityId(), e.getMessage());
       }
    }
 
@@ -263,7 +282,8 @@ public class EntityPacketManipulator implements IEntityPacketManipulator {
          packet.getIntegers().write(0, tracker.getEntityId());
          PacketUtil.writeVelocity(packet, entityVelocity);
          PacketUtil.sendPacket(players, packet);
-      } catch (Throwable var6) {
+      } catch (Throwable e) {
+         this.logger.finer("sendEntityVelocity failed for entity %s: %s", tracker.getEntityId(), e.getMessage());
       }
    }
 
@@ -279,19 +299,21 @@ public class EntityPacketManipulator implements IEntityPacketManipulator {
             Object nmsPacket = constructor.newInstance(nmsEntity, animationType.getNmsId());
             packet = new PacketContainer(Server.ANIMATION, nmsPacket);
             packet.getIntegers().write(0, tracker.getEntityId());
-         } catch (Throwable var11) {
+         } catch (Throwable inner) {
             try {
                packet = new PacketContainer(Server.ANIMATION);
                StructureModifier<Integer> integers = packet.getIntegers();
                integers.write(0, tracker.getEntityId());
                integers.write(1, animationType.getNmsId());
-            } catch (Throwable var10) {
+            } catch (Throwable innerFallback) {
+               this.logger.finer("sendEntityAnimation failed for entity %s: %s", tracker.getEntityId(), innerFallback.getMessage());
                return;
             }
          }
 
          PacketUtil.sendPacket(players, packet);
-      } catch (Throwable var12) {
+      } catch (Throwable e) {
+         this.logger.finer("sendEntityAnimation failed for entity %s: %s", tracker.getEntityId(), e.getMessage());
       }
    }
 
@@ -304,7 +326,8 @@ public class EntityPacketManipulator implements IEntityPacketManipulator {
          integers.write(1, tracker.getEntityId());
          integers.write(2, ((Item)pickedUp.getEntity()).getItemStack().getAmount());
          PacketUtil.sendPacket(players, packet);
-      } catch (Throwable var6) {
+      } catch (Throwable e) {
+         this.logger.finer("sendEntityPickupItem failed for entity %s: %s", tracker.getEntityId(), e.getMessage());
       }
    }
 
@@ -321,11 +344,12 @@ public class EntityPacketManipulator implements IEntityPacketManipulator {
          properties.getClass().getMethod("removeAll", Object.class).invoke(properties, "textures");
          Collection<?> textures = (Collection<?>)playerProperties.getClass().getMethod("get", Object.class).invoke(playerProperties, "textures");
          properties.getClass().getMethod("putAll", Object.class, Iterable.class).invoke(properties, "textures", textures);
-      } catch (Throwable var11) {
+      } catch (Throwable inner) {
          try {
             profile.getProperties().removeAll("textures");
             profile.getProperties().putAll("textures", playerProfile.getProperties().get("textures"));
-         } catch (Throwable var10) {
+         } catch (Throwable innerFallback) {
+            this.logger.finer("Failed to copy player skin textures for %s: %s", trackingPlayer.getName(), innerFallback.getMessage());
          }
       }
 
@@ -343,7 +367,8 @@ public class EntityPacketManipulator implements IEntityPacketManipulator {
          playerInfoDataList.add(this.generatePlayerInfoData(tracker));
          packet.getPlayerInfoDataLists().write(1, playerInfoDataList);
          PacketUtil.sendPacket(players, packet);
-      } catch (Throwable var5) {
+      } catch (Throwable e) {
+         this.logger.finer("sendAddPlayerProfile failed for entity %s: %s", tracker.getEntityId(), e.getMessage());
       }
    }
 
@@ -353,7 +378,8 @@ public class EntityPacketManipulator implements IEntityPacketManipulator {
          PacketContainer packet = new PacketContainer(Server.PLAYER_INFO_REMOVE);
          packet.getUUIDLists().write(0, Collections.singletonList(tracker.getEntityUniqueId()));
          PacketUtil.sendPacket(players, packet);
-      } catch (Throwable var4) {
+      } catch (Throwable e) {
+         this.logger.finer("sendRemovePlayerProfile failed for entity %s: %s", tracker.getEntityId(), e.getMessage());
       }
    }
 }

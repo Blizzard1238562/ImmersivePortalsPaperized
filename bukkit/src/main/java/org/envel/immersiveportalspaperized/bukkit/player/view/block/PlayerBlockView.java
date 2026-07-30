@@ -138,7 +138,7 @@ public class PlayerBlockView implements IPlayerBlockView {
                         this.logger.fine("Queueing tile state update at destination");
                      }
                   }
-               } else if (this.blockStates.setNonViewable(position, blockInfo)) {
+               } else if (this.blockStates.setNonViewable(position, blockInfo) || refresh) {
                   multiBlockChangeManager.addChangeOrigin(position, blockInfo);
                   PacketContainer nbtUpdatePacket = viewableBlockArray.getOriginTileEntityPacket(blockInfo.getOriginPos());
                   if (nbtUpdatePacket != null && nbtUpdatePacket.getBlocks() == null) {

@@ -75,7 +75,7 @@ public class MathUtil {
          float yaw = (float)Math.toDegrees((theta + (Math.PI * 2)) % (Math.PI * 2));
          double xz = Math.sqrt(dir.getX() * dir.getX() + dir.getZ() * dir.getZ());
          float pitch = (float)Math.toDegrees(Math.atan(-dir.getY() / xz));
-         return new Pair(pitch, yaw);
+         return new Pair(yaw, pitch);
       }
    }
 }

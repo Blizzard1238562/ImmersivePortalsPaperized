@@ -21,6 +21,8 @@ public interface IPlayerData {
 
    void freezePortalViews();
 
+   void unfreezePortalViews();
+
    @NotNull
    ISelectionManager getSelection();
 

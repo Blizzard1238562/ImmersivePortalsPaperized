@@ -88,7 +88,7 @@ public class MainUpdate implements Runnable {
          this.blockWatcherManager.update();
       } catch (RuntimeException e) {
          this.logger.severe("A critical error occurred during main update.");
-         this.logger.severe("Please create an issue at %s to get this fixed.", "https://discord.gg/wTVNTJsBUr");
+         this.logger.severe("Please create an issue at %s to get this fixed.", ISSUES_URL);
          this.logger.severe("Error: %s", e.getMessage());
       }
    }

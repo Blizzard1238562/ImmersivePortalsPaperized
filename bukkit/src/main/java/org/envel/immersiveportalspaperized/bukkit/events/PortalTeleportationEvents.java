@@ -1,5 +1,6 @@
 package org.envel.immersiveportalspaperized.bukkit.events;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -47,7 +48,8 @@ public class PortalTeleportationEvents implements Listener {
       if (this.isPluginNetherPortal(event.getPlayer()) && isNetherPortal) {
          event.setCancelled(true);
       } else if (isNetherPortal) {
-         if (this.spawnConfig.isWorldDisabled(event.getFrom().getWorld()) || this.spawnConfig.isWorldDisabled(event.getTo().getWorld())) {
+         Location to = event.getTo();
+         if (this.spawnConfig.isWorldDisabled(event.getFrom().getWorld()) || to != null && this.spawnConfig.isWorldDisabled(to.getWorld())) {
             return;
          }
 

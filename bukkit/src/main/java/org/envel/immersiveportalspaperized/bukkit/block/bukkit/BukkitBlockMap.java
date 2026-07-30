@@ -70,15 +70,19 @@ public class BukkitBlockMap extends FloodFillBlockMap {
       int[] stack = new int[Math.max(16, this.renderConfig.getTotalArrayLength())];
       stack[0] = this.getArrayMapIndex(start.subtract(this.centerPos));
       int stackPos = 0;
+      int zMultip = this.renderConfig.getZMultip();
+      int yMultip = this.renderConfig.getYMultip();
+      double maxXZ = this.renderConfig.getMaxXZ();
+      double maxY = this.renderConfig.getMaxY();
 
       while (stackPos >= 0) {
          int positionInt = stack[stackPos--];
-         int relX = positionInt % this.renderConfig.getZMultip();
-         int relY = Math.floorDiv(positionInt, this.renderConfig.getYMultip());
-         int relZ = Math.floorDiv(positionInt - relY * this.renderConfig.getYMultip(), this.renderConfig.getZMultip());
-         relX = (int)(relX - this.renderConfig.getMaxXZ());
-         relY = (int)(relY - this.renderConfig.getMaxY());
-         relZ = (int)(relZ - this.renderConfig.getMaxXZ());
+         int relX = positionInt % zMultip;
+         int relY = Math.floorDiv(positionInt, yMultip);
+         int relZ = Math.floorDiv(positionInt - relY * yMultip, zMultip);
+         relX = (int)(relX - maxXZ);
+         relY = (int)(relY - maxY);
+         relZ = (int)(relZ - maxXZ);
          IntVector originPos = new IntVector(relX + this.portalOriginPos.getX(), relY + this.portalOriginPos.getY(), relZ + this.portalOriginPos.getZ());
          IntVector destRelPos = this.rotateOriginToDest.transform(relX, relY, relZ);
          IntVector destPos = destRelPos.add(this.portalDestPos);
@@ -176,7 +180,7 @@ public class BukkitBlockMap extends FloodFillBlockMap {
          BlockData newDestData = this.dataFetcher.getData(destPos);
          if (newDestData != null) {
             if (!newDestData.equals(blockInfo.getBaseDestData())) {
-               this.logger.finer("Destination block change detected at " + destPos);
+               this.logger.finer("Destination block change detected at %s", destPos);
                blockInfo.setBaseDestData(newDestData);
                this.searchFromBlock(originPos, newStates, blockInfo);
             }

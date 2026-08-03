@@ -5,6 +5,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
+/**
+ * VaultEconomyHook.
+ */
 public class VaultEconomyHook implements EconomyHook {
    private Economy econ;
 
@@ -39,3 +42,5 @@ public class VaultEconomyHook implements EconomyHook {
       return this.econ != null ? this.econ.format(amount) : String.format("$%.2f", amount);
    }
 }
+
+

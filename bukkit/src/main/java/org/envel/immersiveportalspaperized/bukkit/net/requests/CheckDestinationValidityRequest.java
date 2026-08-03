@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.envel.immersiveportalspaperized.shared.net.requests.Request;
 
+/**
+ * CheckDestinationValidityRequest.
+ */
 @Getter
 @Setter
 public class CheckDestinationValidityRequest extends Request {
@@ -13,3 +16,5 @@ public class CheckDestinationValidityRequest extends Request {
    private UUID destinationWorldId;
    private String originGameVersion;
 }
+
+

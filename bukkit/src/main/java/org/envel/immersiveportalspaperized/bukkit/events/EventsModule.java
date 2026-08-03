@@ -2,6 +2,9 @@ package org.envel.immersiveportalspaperized.bukkit.events;
 
 import com.google.inject.AbstractModule;
 
+/**
+ * EventsModule.
+ */
 public class EventsModule extends AbstractModule {
    @Override
    public void configure() {
@@ -11,3 +14,5 @@ public class EventsModule extends AbstractModule {
       this.bind(SpawningEvents.class).asEagerSingleton();
    }
 }
+
+

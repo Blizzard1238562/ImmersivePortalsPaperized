@@ -38,6 +38,9 @@ import org.envel.immersiveportalspaperized.shared.logging.Logger;
 import org.envel.immersiveportalspaperized.shared.net.RequestException;
 import org.envel.immersiveportalspaperized.shared.net.requests.TeleportRequest;
 
+/**
+ * PortalEntityManager.
+ */
 public class PortalEntityManager implements IPortalEntityManager {
    private final IPortal portal;
    private final MiscConfig miscConfig;
@@ -382,3 +385,5 @@ public class PortalEntityManager implements IPortalEntityManager {
       }
    }
 }
+
+

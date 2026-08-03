@@ -22,6 +22,9 @@ import com.google.inject.Singleton;
 import org.jetbrains.annotations.NotNull;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * MessageConfig.
+ */
 @Singleton
 public class MessageConfig {
    private static final String PORTAL_WAND_TAG = "portalWand";
@@ -196,10 +199,12 @@ public class MessageConfig {
       String rawPrefix = this.localeApi.getRaw(player, "prefix");
       return rawPrefix != null && !rawPrefix.equals("<gray>[<green>ImmersivePortalsPaperized</green>]</gray> ")
          ? rawPrefix
-         : "<bold><gradient:#00FFA0:#00BFFF>ImmersivePortalsPaperized</gradient></bold> <gray>»</gray> ";
+         : "<bold><gradient:#00FFA0:#00BFFF>ImmersivePortalsPaperized</gradient></bold> <gray>Â»</gray> ";
    }
 
    public String getRawMessage(String name) {
       return this.messageMap.get(name);
    }
 }
+
+

@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * StateQueue.
+ */
 public class StateQueue {
    private List<IViewableBlockInfo> viewableStates = null;
    private int size = 0;
@@ -57,3 +60,5 @@ public class StateQueue {
       return this.size;
    }
 }
+
+

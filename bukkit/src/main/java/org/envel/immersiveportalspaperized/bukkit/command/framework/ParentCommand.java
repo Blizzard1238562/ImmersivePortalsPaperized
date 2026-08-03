@@ -15,6 +15,9 @@ import org.envel.immersiveportalspaperized.bukkit.config.MessageConfig;
 import org.envel.immersiveportalspaperized.bukkit.util.ArrayUtil;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * ParentCommand.
+ */
 public class ParentCommand implements ICommand {
    private final Logger logger;
    private final MessageConfig messageConfig;
@@ -134,7 +137,7 @@ public class ParentCommand implements ICommand {
 
          headerStr = headerStr.replace("{page}", String.valueOf(page)).replace("{total_pages}", String.valueOf(totalPages));
          sender.sendMessage(mm.deserialize(headerStr));
-         sender.sendMessage(mm.deserialize("<yellow>──────────────────────────────────────────────────</yellow>"));
+         sender.sendMessage(mm.deserialize("<yellow>â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€</yellow>"));
 
          for (int i = startIndex; i < endIndex; i++) {
             ParentCommand.HelpEntry entry = entries.get(i);
@@ -146,7 +149,7 @@ public class ParentCommand implements ICommand {
             }
 
             String cleanCommand = "/" + path + " " + name;
-            String label = "<gold>• <yellow>/" + path + " <white>" + name + "</white>";
+            String label = "<gold>â€¢ <yellow>/" + path + " <white>" + name + "</white>";
             String desc = "";
             String argsUsage = "";
             if (subCommand instanceof SubCommand sc) {
@@ -213,17 +216,17 @@ public class ParentCommand implements ICommand {
             sender.sendMessage(mm.deserialize(miniMessageString));
          }
 
-         sender.sendMessage(mm.deserialize("<yellow>──────────────────────────────────────────────────</yellow>"));
+         sender.sendMessage(mm.deserialize("<yellow>â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€</yellow>"));
          if (totalPages > 1) {
             String footer = "";
             String prevText = this.localeApi.getRaw(player, "help_previous");
             if (prevText == null) {
-               prevText = "[◀ Previous]";
+               prevText = "[â—€ Previous]";
             }
 
             String nextText = this.localeApi.getRaw(player, "help_next");
             if (nextText == null) {
-               nextText = "[Next ▶]";
+               nextText = "[Next â–¶]";
             }
 
             String goToPageText = this.localeApi.getRaw(player, "help_go_to_page");
@@ -338,3 +341,5 @@ public class ParentCommand implements ICommand {
       }
    }
 }
+
+

@@ -12,6 +12,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.envel.immersiveportalspaperized.shared.util.ReflectionUtil;
 
+/**
+ * BlockDataUtil.
+ */
 public class BlockDataUtil {
    private static Method GET_STATE;
    private static Method GET_ID;
@@ -138,3 +141,5 @@ public class BlockDataUtil {
       }
    }
 }
+
+

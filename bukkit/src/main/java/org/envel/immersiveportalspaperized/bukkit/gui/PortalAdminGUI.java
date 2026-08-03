@@ -28,6 +28,9 @@ import org.envel.immersiveportalspaperized.bukkit.portal.effects.PortalEffectsTa
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+/**
+ * PortalAdminGUI.
+ */
 @Singleton
 public class PortalAdminGUI implements Listener {
    private final IPortalManager portalManager;
@@ -404,3 +407,5 @@ public class PortalAdminGUI implements Listener {
       List<IPortal> portalsCache;
    }
 }
+
+

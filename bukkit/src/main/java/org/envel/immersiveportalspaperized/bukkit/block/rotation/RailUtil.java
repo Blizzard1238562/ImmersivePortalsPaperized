@@ -8,6 +8,9 @@ import org.envel.immersiveportalspaperized.bukkit.math.MathUtil;
 import org.envel.immersiveportalspaperized.bukkit.math.Matrix;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * RailUtil.
+ */
 public class RailUtil {
    private static final Map<Shape, RailUtil.RailShapeSet> shapeToRotationSet = new HashMap<>();
 
@@ -54,3 +57,5 @@ public class RailUtil {
       }
    }
 }
+
+

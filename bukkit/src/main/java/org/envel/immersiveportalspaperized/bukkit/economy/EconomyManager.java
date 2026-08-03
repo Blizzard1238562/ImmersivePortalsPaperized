@@ -6,6 +6,9 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * EconomyManager.
+ */
 @Singleton
 public class EconomyManager {
    private final Logger logger;
@@ -56,3 +59,5 @@ public class EconomyManager {
       return !this.isEconomyEnabled() ? String.format("$%.2f", amount) : this.hook.format(amount);
    }
 }
+
+

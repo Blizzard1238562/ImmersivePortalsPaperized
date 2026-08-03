@@ -5,6 +5,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 import com.google.inject.assistedinject.Assisted;
 
+/**
+ * IMultiBlockChangeManager.
+ */
 public interface IMultiBlockChangeManager {
    void addChangeOrigin(Vector position, IViewableBlockInfo newData);
 
@@ -18,3 +21,5 @@ public interface IMultiBlockChangeManager {
       IMultiBlockChangeManager create(Player player, @Assisted("minChunkY") int minChunkY, @Assisted("maxChunkY") int maxChunkY);
    }
 }
+
+

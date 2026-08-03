@@ -14,6 +14,9 @@ import org.jetbrains.annotations.NotNull;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 import org.envel.immersiveportalspaperized.shared.net.RequestException;
 
+/**
+ * ExternalBlockDataFetcher.
+ */
 public class ExternalBlockDataFetcher implements IBlockDataFetcher {
    private final Logger logger;
    private final IPortalClient portalClient;
@@ -69,3 +72,5 @@ public class ExternalBlockDataFetcher implements IBlockDataFetcher {
       return this.currentStates.get(position);
    }
 }
+
+

@@ -13,6 +13,9 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * PlayerPortalView.
+ */
 public class PlayerPortalView implements IPlayerPortalView {
    private final Player player;
    private final Logger logger;
@@ -80,3 +83,5 @@ public class PlayerPortalView implements IPlayerPortalView {
       }
    }
 }
+
+

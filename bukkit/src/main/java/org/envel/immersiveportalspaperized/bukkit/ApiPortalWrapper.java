@@ -9,6 +9,9 @@ import org.envel.immersiveportalspaperized.bukkit.portal.IPortalManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * ApiPortalWrapper.
+ */
 public class ApiPortalWrapper implements ImmersivePortal {
    private final UUID id;
 
@@ -87,3 +90,5 @@ public class ApiPortalWrapper implements ImmersivePortal {
       this.getDelegate().remove(removeOtherDirection);
    }
 }
+
+

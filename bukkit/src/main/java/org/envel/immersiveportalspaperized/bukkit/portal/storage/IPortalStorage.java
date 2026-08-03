@@ -6,6 +6,9 @@ import org.envel.immersiveportalspaperized.bukkit.config.MiscConfig;
 import org.envel.immersiveportalspaperized.bukkit.util.SchedulerUtil;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * .
+ */
 public abstract class IPortalStorage implements Runnable {
    protected Logger logger;
    private final JavaPlugin pl;
@@ -52,3 +55,5 @@ public abstract class IPortalStorage implements Runnable {
       }
    }
 }
+
+

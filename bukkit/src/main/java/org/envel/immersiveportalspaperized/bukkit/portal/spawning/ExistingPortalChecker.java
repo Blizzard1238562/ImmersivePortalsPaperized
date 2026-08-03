@@ -19,6 +19,9 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * ExistingPortalChecker.
+ */
 @Singleton
 public class ExistingPortalChecker implements IChunkChecker {
    private static final double VALIDITY_THRESHOLD = 0.85;
@@ -124,3 +127,5 @@ public class ExistingPortalChecker implements IChunkChecker {
       return isInsideWorldBorder && isFarEnoughSpaced && isValid;
    }
 }
+
+

@@ -1,0 +1,14 @@
+# ImmersivePortalsPaperized Developer Configuration
+# Copy this file to gradle.properties and adjust values as needed.
+
+# Build a developer version with git short hash appended to the version.
+# Uncomment to enable:
+# BP_DEVELOPER_BUILD=1
+
+# Override the Paper API version (must match your target server version).
+# Uncomment and set to your server's Paper version if needed:
+# PAPER_VERSION=1.21.4-R0.1-SNAPSHOT
+
+# Override the Gradle version (requires matching gradle-wrapper.properties).
+# Uncomment if using a custom Gradle installation:
+# GRADLE_VERSION=9.5.1

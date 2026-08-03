@@ -4,6 +4,9 @@ import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Informs the proxy of the server a player just left, so the proxy can sync the player's destination selection.
+ */
 @Getter
 @Setter
 public class PreviousServerPutRequest extends Request {

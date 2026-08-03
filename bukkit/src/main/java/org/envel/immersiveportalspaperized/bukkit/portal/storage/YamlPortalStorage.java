@@ -17,6 +17,9 @@ import org.envel.immersiveportalspaperized.bukkit.portal.Portal;
 import com.google.inject.Inject;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * YamlPortalStorage.
+ */
 public class YamlPortalStorage extends IPortalStorage {
    private final JavaPlugin pl;
    private final IPortalManager portalManager;
@@ -119,3 +122,5 @@ public class YamlPortalStorage extends IPortalStorage {
       this.savePortalsFile(file);
    }
 }
+
+

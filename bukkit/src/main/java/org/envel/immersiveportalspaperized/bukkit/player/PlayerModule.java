@@ -14,6 +14,9 @@ import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.name.Names;
 
+/**
+ * PlayerModule.
+ */
 public class PlayerModule extends AbstractModule {
    @Override
    public void configure() {
@@ -27,3 +30,5 @@ public class PlayerModule extends AbstractModule {
       this.bind(IPortalSelection.class).to(PortalSelection.class);
    }
 }
+
+

@@ -30,6 +30,9 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.envel.immersiveportalspaperized.shared.net.RequestException;
 
+/**
+ * TestingCommands.
+ */
 @Singleton
 public class TestingCommands {
    private final NewPortalChecker spawnChecker;
@@ -190,3 +193,5 @@ public class TestingCommands {
       return true;
    }
 }
+
+

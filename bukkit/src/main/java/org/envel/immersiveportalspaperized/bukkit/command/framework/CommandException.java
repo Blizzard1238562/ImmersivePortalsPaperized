@@ -1,5 +1,8 @@
 package org.envel.immersiveportalspaperized.bukkit.command.framework;
 
+/**
+ * CommandException.
+ */
 public class CommandException extends Exception {
    public CommandException(String message) {
       super(message);
@@ -13,3 +16,5 @@ public class CommandException extends Exception {
       super(message, cause);
    }
 }
+
+

@@ -15,6 +15,13 @@ import org.envel.immersiveportalspaperized.shared.net.requests.RelayRequest;
 import org.envel.immersiveportalspaperized.shared.net.requests.Request;
 import org.envel.immersiveportalspaperized.shared.net.requests.TeleportRequest;
 
+/**
+ * Dispatches cross-server requests received by the proxy.
+ * <p>
+ * Handles {@link TeleportRequest} directly and forwards {@link RelayRequest}
+ * to the target server handler.
+ * </p>
+ */
 @Singleton
 public class ProxyRequestHandler implements IRequestHandler {
    private final IPortalServer portalServer;

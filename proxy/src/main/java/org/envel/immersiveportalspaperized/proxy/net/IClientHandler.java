@@ -7,6 +7,9 @@ import org.jetbrains.annotations.Nullable;
 import org.envel.immersiveportalspaperized.shared.net.Response;
 import org.envel.immersiveportalspaperized.shared.net.requests.Request;
 
+/**
+ * Represents a single connected Bukkit server and its request/response channel.
+ */
 public interface IClientHandler {
    @Nullable
    String getGameVersion();

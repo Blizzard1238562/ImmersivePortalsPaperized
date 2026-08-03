@@ -6,6 +6,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * NBTTagUtil.
+ */
 public class NBTTagUtil {
    private static final NamespacedKey MARKER_KEY = new NamespacedKey("immersiveportalspaperized", "marker");
    private static final String MARKER_VALUE = "marked";
@@ -33,3 +36,5 @@ public class NBTTagUtil {
       }
    }
 }
+
+

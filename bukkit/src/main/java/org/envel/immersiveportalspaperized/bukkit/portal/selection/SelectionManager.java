@@ -12,6 +12,9 @@ import org.envel.immersiveportalspaperized.bukkit.portal.IPortal;
 import org.envel.immersiveportalspaperized.bukkit.portal.IPortalManager;
 import com.google.inject.Inject;
 
+/**
+ * SelectionManager.
+ */
 public class SelectionManager implements ISelectionManager {
    private final MessageConfig messageConfig;
    @Getter
@@ -137,3 +140,5 @@ public class SelectionManager implements ISelectionManager {
       this.lastActivityTime = System.currentTimeMillis();
    }
 }
+
+

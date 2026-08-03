@@ -6,6 +6,9 @@ import org.bukkit.util.Vector;
 import org.envel.immersiveportalspaperized.api.PortalDirection;
 import org.envel.immersiveportalspaperized.api.PortalPosition;
 
+/**
+ * PortalSpawnPosition.
+ */
 @Getter
 public class PortalSpawnPosition {
    private final Location position;
@@ -32,3 +35,5 @@ public class PortalSpawnPosition {
       );
    }
 }
+
+

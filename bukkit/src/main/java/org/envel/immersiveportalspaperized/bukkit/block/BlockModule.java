@@ -16,6 +16,9 @@ import org.envel.immersiveportalspaperized.bukkit.player.view.entity.PlayerEntit
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 
+/**
+ * BlockModule.
+ */
 public class BlockModule extends AbstractModule {
    private final boolean usingNms;
 
@@ -46,3 +49,5 @@ public class BlockModule extends AbstractModule {
       }
    }
 }
+
+

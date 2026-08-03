@@ -5,6 +5,9 @@ import jakarta.inject.Singleton;
 import org.envel.immersiveportalspaperized.bukkit.portal.IPortal;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * DummyLightDataManager.
+ */
 @Singleton
 public class DummyLightDataManager implements ILightDataManager {
    @Nullable
@@ -13,3 +16,5 @@ public class DummyLightDataManager implements ILightDataManager {
       return null;
    }
 }
+
+

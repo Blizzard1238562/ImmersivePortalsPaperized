@@ -13,6 +13,9 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * MainUpdate.
+ */
 @Singleton
 public class MainUpdate implements Runnable {
    private static final String ISSUES_URL = "https://discord.gg/wTVNTJsBUr";
@@ -107,3 +110,5 @@ public class MainUpdate implements Runnable {
       }
    }
 }
+
+

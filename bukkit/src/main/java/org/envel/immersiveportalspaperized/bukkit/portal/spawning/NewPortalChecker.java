@@ -14,6 +14,9 @@ import com.google.inject.Singleton;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * NewPortalChecker.
+ */
 @Singleton
 public class NewPortalChecker implements IChunkChecker {
    private static final PortalDirection[] CHECKED_DIRECTIONS = new PortalDirection[]{PortalDirection.NORTH, PortalDirection.EAST};
@@ -91,3 +94,5 @@ public class NewPortalChecker implements IChunkChecker {
       return isFarEnoughSpaced && isInsideWorldBorder;
    }
 }
+
+

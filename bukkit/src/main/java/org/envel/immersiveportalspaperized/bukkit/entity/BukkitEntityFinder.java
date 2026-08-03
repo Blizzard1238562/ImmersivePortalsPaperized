@@ -8,6 +8,9 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 
+/**
+ * BukkitEntityFinder.
+ */
 @Singleton
 public class BukkitEntityFinder implements IEntityFinder {
    @Override
@@ -21,3 +24,5 @@ public class BukkitEntityFinder implements IEntityFinder {
       this.getNearbyEntities(null, location, xRadius, yRadius, zRadius).forEach(consumer);
    }
 }
+
+

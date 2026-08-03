@@ -10,6 +10,9 @@ import com.google.inject.Singleton;
 import org.jetbrains.annotations.NotNull;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * EventRegistrar.
+ */
 @Singleton
 public class EventRegistrar implements IEventRegistrar {
    private final JavaPlugin pl;
@@ -38,3 +41,5 @@ public class EventRegistrar implements IEventRegistrar {
       }
    }
 }
+
+

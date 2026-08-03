@@ -28,6 +28,9 @@ import org.jetbrains.annotations.Nullable;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 import org.envel.immersiveportalspaperized.shared.net.requests.TeleportRequest;
 
+/**
+ * PlayerDataManager.
+ */
 @Singleton
 public class PlayerDataManager implements IPlayerDataManager, Listener {
    private static final long LOGGED_OUT_SELECTION_CLEANUP_DELAY_TICKS = 6000L;
@@ -189,3 +192,5 @@ public class PlayerDataManager implements IPlayerDataManager, Listener {
       }
    }
 }
+
+

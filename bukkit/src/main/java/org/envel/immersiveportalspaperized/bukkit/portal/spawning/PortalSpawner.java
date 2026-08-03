@@ -22,6 +22,9 @@ import com.google.inject.Singleton;
 import org.jetbrains.annotations.NotNull;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * PortalSpawner.
+ */
 @Singleton
 public class PortalSpawner implements IPortalSpawner {
    private static final double BORDER_PADDING = 10.0;
@@ -138,3 +141,5 @@ public class PortalSpawner implements IPortalSpawner {
       });
    }
 }
+
+

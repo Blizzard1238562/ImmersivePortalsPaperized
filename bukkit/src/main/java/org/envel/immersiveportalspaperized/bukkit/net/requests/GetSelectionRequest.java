@@ -8,6 +8,9 @@ import org.envel.immersiveportalspaperized.api.PortalPosition;
 import org.envel.immersiveportalspaperized.bukkit.portal.selection.IPortalSelection;
 import org.envel.immersiveportalspaperized.shared.net.requests.Request;
 
+/**
+ * GetSelectionRequest.
+ */
 public class GetSelectionRequest extends Request {
    private static final long serialVersionUID = 1L;
    @Getter
@@ -33,3 +36,5 @@ public class GetSelectionRequest extends Request {
       }
    }
 }
+
+

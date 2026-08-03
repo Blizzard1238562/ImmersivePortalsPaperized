@@ -8,6 +8,9 @@ import org.envel.immersiveportalspaperized.bukkit.player.IPlayerData;
 import org.envel.immersiveportalspaperized.bukkit.player.IPlayerDataManager;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * PlayerPreferenceChecker.
+ */
 public class PlayerPreferenceChecker implements PortalPredicate {
    private final IPlayerDataManager playerDataManager;
    private final String preference;
@@ -28,3 +31,5 @@ public class PlayerPreferenceChecker implements PortalPredicate {
       return permanentData.getBoolean(this.preference);
    }
 }
+
+

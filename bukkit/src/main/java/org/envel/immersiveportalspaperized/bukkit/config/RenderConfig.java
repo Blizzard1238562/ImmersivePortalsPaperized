@@ -21,6 +21,9 @@ import com.google.inject.Singleton;
 import org.jetbrains.annotations.Nullable;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * RenderConfig.
+ */
 @Singleton
 @Getter
 public class RenderConfig {
@@ -148,3 +151,5 @@ public class RenderConfig {
       }
    }
 }
+
+

@@ -4,6 +4,9 @@ import java.util.Iterator;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * SpiralChunkAreaIterator.
+ */
 public class SpiralChunkAreaIterator implements Iterator<ChunkPosition> {
    private static final ChunkPosition[] directions = new ChunkPosition[]{
       new ChunkPosition(null, 1, 0), new ChunkPosition(null, 0, 1), new ChunkPosition(null, -1, 0), new ChunkPosition(null, 0, -1)
@@ -57,3 +60,5 @@ public class SpiralChunkAreaIterator implements Iterator<ChunkPosition> {
       return result;
    }
 }
+
+

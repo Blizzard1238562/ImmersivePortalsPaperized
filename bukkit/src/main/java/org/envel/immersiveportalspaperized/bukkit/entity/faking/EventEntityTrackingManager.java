@@ -23,6 +23,9 @@ import com.google.inject.Singleton;
 import org.jetbrains.annotations.Nullable;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * EventEntityTrackingManager.
+ */
 @Singleton
 public class EventEntityTrackingManager extends EntityTrackingManager implements Listener {
    private final Map<Entity, List<IEntityTracker>> trackersByEntity = new ConcurrentHashMap<>();
@@ -103,3 +106,5 @@ public class EventEntityTrackingManager extends EntityTrackingManager implements
       return portalTrackers == null ? null : portalTrackers.get(entity);
    }
 }
+
+

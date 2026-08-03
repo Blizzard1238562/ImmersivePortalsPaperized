@@ -19,6 +19,9 @@ import com.google.inject.Inject;
 import org.envel.immersiveportalspaperized.proxy.IProxyConfig;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * Loads Velocity-specific configuration from {@code config.toml}.
+ */
 @Singleton
 public class Config implements IProxyConfig {
    private final Path dataDirectory;

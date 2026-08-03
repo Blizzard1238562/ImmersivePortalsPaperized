@@ -17,6 +17,9 @@ import com.google.inject.Singleton;
 import org.jetbrains.annotations.NotNull;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * DimensionBlendManager.
+ */
 @Singleton
 public class DimensionBlendManager implements IDimensionBlendManager {
    private static final double INITIAL_CHANCE = 1.0;
@@ -161,3 +164,5 @@ public class DimensionBlendManager implements IDimensionBlendManager {
       return INITIAL_CHANCE - distance * this.spawnConfig.getBlendFallOff();
    }
 }
+
+

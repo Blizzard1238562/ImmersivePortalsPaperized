@@ -17,6 +17,9 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * PlayerEntityView.
+ */
 public class PlayerEntityView implements IPlayerEntityView {
    private final Logger logger;
    private final IPortal portal;
@@ -128,3 +131,5 @@ public class PlayerEntityView implements IPlayerEntityView {
       this.replicatedEntities.forEach(entity -> this.trackingManager.setNoLongerTracking(entity, this.portal, this.player, shouldResetEntities));
    }
 }
+
+

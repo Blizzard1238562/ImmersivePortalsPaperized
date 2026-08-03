@@ -7,6 +7,12 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Utility methods for reflective access to classes, constructors, fields, and methods.
+ * <p>
+ * Used primarily for NMS version-agnostic module loading and late-bound optimizations.
+ * </p>
+ */
 public class ReflectionUtil {
    public static Class<?> findClass(String name) {
       try {

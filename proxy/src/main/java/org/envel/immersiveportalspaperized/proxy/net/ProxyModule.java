@@ -7,6 +7,9 @@ import org.envel.immersiveportalspaperized.shared.net.encryption.EncryptedObject
 import org.envel.immersiveportalspaperized.shared.net.encryption.EncryptedObjectStreamFactory;
 import org.envel.immersiveportalspaperized.shared.net.encryption.IEncryptedObjectStream;
 
+/**
+ * Guice bindings for the proxy module.
+ */
 public class ProxyModule extends AbstractModule {
    @Override
    protected void configure() {

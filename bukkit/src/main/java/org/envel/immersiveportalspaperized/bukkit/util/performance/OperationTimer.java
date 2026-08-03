@@ -3,6 +3,9 @@ package org.envel.immersiveportalspaperized.bukkit.util.performance;
 import java.time.Duration;
 import java.time.Instant;
 
+/**
+ * OperationTimer.
+ */
 public class OperationTimer {
    private final Instant before = this.getNowPrecise();
 
@@ -29,3 +32,5 @@ public class OperationTimer {
       return Instant.ofEpochSecond(seconds, leftOverNano);
    }
 }
+
+

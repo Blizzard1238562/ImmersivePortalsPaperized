@@ -16,6 +16,9 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * TeleportCooldownChecker.
+ */
 @Singleton
 public class TeleportCooldownChecker implements PortalPredicate, Listener {
    private final MiscConfig miscConfig;
@@ -52,3 +55,5 @@ public class TeleportCooldownChecker implements PortalPredicate, Listener {
       this.lastTeleportTime.put(event.getPlayer().getUniqueId(), System.currentTimeMillis());
    }
 }
+
+

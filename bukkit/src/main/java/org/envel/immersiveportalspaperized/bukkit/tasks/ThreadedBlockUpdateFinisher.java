@@ -4,6 +4,9 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * ThreadedBlockUpdateFinisher.
+ */
 @Singleton
 public class ThreadedBlockUpdateFinisher extends BlockUpdateFinisher implements Runnable {
    private Thread thread;
@@ -36,3 +39,5 @@ public class ThreadedBlockUpdateFinisher extends BlockUpdateFinisher implements 
       this.logger.fine("Goodbye from block view update thread!");
    }
 }
+
+

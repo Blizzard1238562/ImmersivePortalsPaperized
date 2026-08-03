@@ -32,6 +32,9 @@ import org.envel.immersiveportalspaperized.shared.net.encryption.IEncryptedObjec
 import org.envel.immersiveportalspaperized.shared.net.requests.RelayRequest;
 import org.envel.immersiveportalspaperized.shared.net.requests.Request;
 
+/**
+ * PortalClient.
+ */
 @Singleton
 public class PortalClient implements IPortalClient {
    private final JavaPlugin pl;
@@ -309,3 +312,5 @@ public class PortalClient implements IPortalClient {
       this.objectStream.writeObject(obj);
    }
 }
+
+

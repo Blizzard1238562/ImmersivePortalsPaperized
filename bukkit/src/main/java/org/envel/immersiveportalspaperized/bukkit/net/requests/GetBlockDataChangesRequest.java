@@ -7,6 +7,9 @@ import org.envel.immersiveportalspaperized.api.IntVector;
 import org.envel.immersiveportalspaperized.bukkit.math.Matrix;
 import org.envel.immersiveportalspaperized.shared.net.requests.Request;
 
+/**
+ * GetBlockDataChangesRequest.
+ */
 @Getter
 @Setter
 public class GetBlockDataChangesRequest extends Request {
@@ -19,3 +22,5 @@ public class GetBlockDataChangesRequest extends Request {
    private int xAndZRadius;
    private int yRadius;
 }
+
+

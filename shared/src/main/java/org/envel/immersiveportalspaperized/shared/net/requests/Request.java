@@ -4,6 +4,9 @@ import java.io.Serializable;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Base class for all cross-server request payloads.
+ */
 @Getter
 @Setter
 public abstract class Request implements Serializable {

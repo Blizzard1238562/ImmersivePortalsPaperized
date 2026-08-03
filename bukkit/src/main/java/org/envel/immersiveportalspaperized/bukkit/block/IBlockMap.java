@@ -7,6 +7,9 @@ import org.envel.immersiveportalspaperized.bukkit.portal.IPortal;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * IBlockMap.
+ */
 public interface IBlockMap {
    void update(int ticksSinceActivated);
 
@@ -25,3 +28,5 @@ public interface IBlockMap {
       IBlockMap create(IPortal portal);
    }
 }
+
+

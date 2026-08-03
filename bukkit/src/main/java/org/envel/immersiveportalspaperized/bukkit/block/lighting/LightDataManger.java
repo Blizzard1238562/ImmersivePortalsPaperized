@@ -13,6 +13,9 @@ import org.envel.immersiveportalspaperized.bukkit.config.RenderConfig;
 import org.envel.immersiveportalspaperized.bukkit.portal.IPortal;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * LightDataManger.
+ */
 @Singleton
 public class LightDataManger implements ILightDataManager {
    private final RenderConfig renderConfig;
@@ -60,3 +63,5 @@ public class LightDataManger implements ILightDataManager {
       }
    }
 }
+
+

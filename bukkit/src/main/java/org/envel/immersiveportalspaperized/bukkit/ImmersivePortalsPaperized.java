@@ -30,6 +30,9 @@ import com.google.inject.Injector;
 import org.jetbrains.annotations.NotNull;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * ImmersivePortalsPaperized.
+ */
 public class ImmersivePortalsPaperized extends JavaPlugin {
    @Inject
    private Logger logger;
@@ -232,3 +235,5 @@ public class ImmersivePortalsPaperized extends JavaPlugin {
       return this.commandTree.onGlobalTabComplete(sender, label, args);
    }
 }
+
+

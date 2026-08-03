@@ -3,7 +3,6 @@
 # ==============================================================================
 .gradle/
 **/build/
-!src/**/build/
 gradle-app.setting
 !gradle-wrapper.jar
 !gradle-wrapper.properties
@@ -11,6 +10,7 @@ gradle-app.setting
 
 # Ignore Gradle GUI config
 gradle.properties.local
+gradle.properties
 
 # ==============================================================================
 # IntelliJ IDEA

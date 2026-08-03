@@ -16,6 +16,13 @@ import org.envel.immersiveportalspaperized.proxy.IProxyConfig;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 import org.envel.immersiveportalspaperized.shared.net.encryption.CipherManager;
 
+/**
+ * Accepts TCP connections from Bukkit servers and manages their lifecycle.
+ * <p>
+ * Each connected server is represented by an {@link IClientHandler} and can be
+ * looked up by name via {@link #getServer(String)}.
+ * </p>
+ */
 @Singleton
 public class PortalServer implements IPortalServer {
    private final Logger logger;

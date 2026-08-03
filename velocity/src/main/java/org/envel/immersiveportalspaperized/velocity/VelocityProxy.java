@@ -13,6 +13,9 @@ import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 import org.envel.immersiveportalspaperized.proxy.IProxy;
 
+/**
+ * Velocity implementation of {@link IProxy}.
+ */
 @Singleton
 public class VelocityProxy implements IProxy {
    private final ProxyServer proxyServer;

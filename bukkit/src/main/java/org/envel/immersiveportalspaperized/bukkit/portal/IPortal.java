@@ -11,6 +11,9 @@ import org.envel.immersiveportalspaperized.bukkit.math.PortalTransformations;
 import com.google.inject.assistedinject.Assisted;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * IPortal.
+ */
 public interface IPortal extends ImmersivePortal {
    void onUpdate();
 
@@ -67,3 +70,5 @@ public interface IPortal extends ImmersivePortal {
       );
    }
 }
+
+

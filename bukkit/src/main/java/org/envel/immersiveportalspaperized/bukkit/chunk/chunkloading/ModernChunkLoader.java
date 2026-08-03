@@ -8,6 +8,9 @@ import org.envel.immersiveportalspaperized.bukkit.chunk.chunkpos.ChunkPosition;
 import org.envel.immersiveportalspaperized.bukkit.util.SchedulerUtil;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * ModernChunkLoader.
+ */
 @Singleton
 public class ModernChunkLoader implements IChunkLoader {
    private final Set<ChunkPosition> loadedChunks = ConcurrentHashMap.newKeySet();
@@ -40,3 +43,5 @@ public class ModernChunkLoader implements IChunkLoader {
       return this.loadedChunks.contains(chunk);
    }
 }
+
+

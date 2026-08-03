@@ -26,6 +26,9 @@ import com.google.inject.assistedinject.Assisted;
 import org.jetbrains.annotations.NotNull;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * Portal.
+ */
 public class Portal implements IPortal, ConfigurationSerializable {
    @Getter
    private final UUID id;
@@ -309,3 +312,5 @@ public class Portal implements IPortal, ConfigurationSerializable {
       return portal;
    }
 }
+
+

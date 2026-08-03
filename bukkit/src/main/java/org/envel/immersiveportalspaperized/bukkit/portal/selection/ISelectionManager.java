@@ -6,6 +6,9 @@ import org.envel.immersiveportalspaperized.bukkit.net.requests.GetSelectionReque
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * ISelectionManager.
+ */
 public interface ISelectionManager {
    @NotNull
    IPortalSelection getCurrentlySelecting();
@@ -33,3 +36,5 @@ public interface ISelectionManager {
 
    void recordActivity();
 }
+
+

@@ -9,6 +9,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 import org.envel.immersiveportalspaperized.bukkit.nms.AnimationType;
 
+/**
+ * IEntityPacketManipulator.
+ */
 public interface IEntityPacketManipulator {
    void showEntity(EntityInfo tracker, Collection<Player> players);
 
@@ -48,3 +51,5 @@ public interface IEntityPacketManipulator {
 
    void sendRemovePlayerProfile(EntityInfo tracker, Collection<Player> players);
 }
+
+

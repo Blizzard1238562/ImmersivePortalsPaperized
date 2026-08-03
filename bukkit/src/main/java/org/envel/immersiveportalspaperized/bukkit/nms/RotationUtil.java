@@ -9,6 +9,9 @@ import org.envel.immersiveportalspaperized.bukkit.math.Matrix;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * RotationUtil.
+ */
 public class RotationUtil {
    private static final Map<BlockFace, Vector> directionToVector = new HashMap<>();
    private static final Map<Vector, BlockFace> vectorToDirection = new HashMap<>();
@@ -68,3 +71,5 @@ public class RotationUtil {
       idToDirection.forEach((id, direction) -> directionToId.put(direction, id));
    }
 }
+
+

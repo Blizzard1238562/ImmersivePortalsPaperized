@@ -10,6 +10,9 @@ import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
 import org.envel.immersiveportalspaperized.bukkit.nms.CraftBukkitClassUtil;
 
+/**
+ * MaterialUtil.
+ */
 public class MaterialUtil {
    public static final Material PORTAL_MATERIAL = Material.NETHER_PORTAL;
    public static final WrappedBlockState PORTAL_EDGE_DATA = SpigotConversionUtil.fromBukkitBlockData(Bukkit.createBlockData(Material.BLACK_CONCRETE));
@@ -196,3 +199,5 @@ public class MaterialUtil {
       }
    }
 }
+
+

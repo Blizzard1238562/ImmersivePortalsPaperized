@@ -2,6 +2,9 @@ package org.envel.immersiveportalspaperized.bukkit.math;
 
 import org.bukkit.util.Vector;
 
+/**
+ * PlaneIntersectionChecker.
+ */
 public class PlaneIntersectionChecker {
    private final Vector planeCenter;
    private final Vector planeNormal;
@@ -37,3 +40,5 @@ public class PlaneIntersectionChecker {
       return false;
    }
 }
+
+

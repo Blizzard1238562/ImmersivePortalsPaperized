@@ -5,6 +5,9 @@ import org.envel.immersiveportalspaperized.api.IntVector;
 import org.envel.immersiveportalspaperized.bukkit.net.requests.GetBlockDataChangesRequest;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * IBlockChangeWatcher.
+ */
 public interface IBlockChangeWatcher {
    @NotNull
    Map<IntVector, Integer> checkForChanges();
@@ -13,3 +16,5 @@ public interface IBlockChangeWatcher {
       IBlockChangeWatcher create(GetBlockDataChangesRequest request);
    }
 }
+
+

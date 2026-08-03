@@ -15,6 +15,9 @@ import org.envel.immersiveportalspaperized.bukkit.util.SchedulerUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+/**
+ * PortalEffectsTask.
+ */
 @Singleton
 public class PortalEffectsTask implements Runnable {
    private static final double SOUND_RADIUS_SQUARED = 2500.0;
@@ -125,3 +128,5 @@ public class PortalEffectsTask implements Runnable {
       }
    }
 }
+
+

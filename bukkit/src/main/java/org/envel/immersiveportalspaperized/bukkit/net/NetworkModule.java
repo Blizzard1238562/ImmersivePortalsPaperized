@@ -7,6 +7,9 @@ import org.envel.immersiveportalspaperized.shared.net.encryption.EncryptedObject
 import org.envel.immersiveportalspaperized.shared.net.encryption.EncryptedObjectStreamFactory;
 import org.envel.immersiveportalspaperized.shared.net.encryption.IEncryptedObjectStream;
 
+/**
+ * NetworkModule.
+ */
 public class NetworkModule extends AbstractModule {
    @Override
    public void configure() {
@@ -16,3 +19,5 @@ public class NetworkModule extends AbstractModule {
       this.bind(IClientReconnectHandler.class).to(ClientReconnectHandler.class);
    }
 }
+
+

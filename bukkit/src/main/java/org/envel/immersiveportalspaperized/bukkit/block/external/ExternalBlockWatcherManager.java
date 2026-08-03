@@ -13,6 +13,9 @@ import com.google.inject.Singleton;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 import org.envel.immersiveportalspaperized.shared.net.Response;
 
+/**
+ * ExternalBlockWatcherManager.
+ */
 @Singleton
 public class ExternalBlockWatcherManager implements IExternalBlockWatcherManager {
    private static final int BLOCK_WATCHER_CLEAR_DELAY = 5;
@@ -64,3 +67,5 @@ public class ExternalBlockWatcherManager implements IExternalBlockWatcherManager
       this.lastRequestedMillis.clear();
    }
 }
+
+

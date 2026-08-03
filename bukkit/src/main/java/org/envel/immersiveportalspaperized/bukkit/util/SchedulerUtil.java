@@ -13,6 +13,9 @@ import org.bukkit.entity.Entity;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
+/**
+ * SchedulerUtil.
+ */
 public class SchedulerUtil {
    private static JavaPlugin plugin;
    private static boolean isFolia;
@@ -241,3 +244,5 @@ public class SchedulerUtil {
       void cancel();
    }
 }
+
+

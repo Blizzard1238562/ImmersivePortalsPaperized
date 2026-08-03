@@ -13,6 +13,9 @@ import org.envel.immersiveportalspaperized.proxy.IProxyConfig;
 import org.envel.immersiveportalspaperized.proxy.net.ProxyModule;
 import org.slf4j.Logger;
 
+/**
+ * Guice bindings for the Velocity module.
+ */
 public class MainModule extends AbstractModule {
    private final ProxyServer proxyServer;
    private final Path dataDirectory;

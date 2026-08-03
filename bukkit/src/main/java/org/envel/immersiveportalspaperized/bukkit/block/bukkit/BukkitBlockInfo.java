@@ -8,6 +8,9 @@ import org.bukkit.block.data.BlockData;
 import org.envel.immersiveportalspaperized.api.IntVector;
 import org.envel.immersiveportalspaperized.bukkit.block.IViewableBlockInfo;
 
+/**
+ * BukkitBlockInfo.
+ */
 @Getter
 public class BukkitBlockInfo implements IViewableBlockInfo {
    private final IntVector originPos;
@@ -33,3 +36,5 @@ public class BukkitBlockInfo implements IViewableBlockInfo {
       this.renderedDestData = destData;
    }
 }
+
+

@@ -30,6 +30,9 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * CustomPortalCommands.
+ */
 @Singleton
 public class CustomPortalCommands {
    private static final String[] EASTER_EGG_NAMES = new String[]{"dinnerbone"};
@@ -454,3 +457,5 @@ public class CustomPortalCommands {
       }
    }
 }
+
+

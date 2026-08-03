@@ -30,6 +30,9 @@ import org.jetbrains.annotations.Nullable;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 import org.envel.immersiveportalspaperized.shared.util.ReflectionUtil;
 
+/**
+ * SubCommand.
+ */
 public class SubCommand implements ICommand {
    private final Object instance;
    private final Method method;
@@ -397,3 +400,5 @@ public class SubCommand implements ICommand {
       }
    }
 }
+
+

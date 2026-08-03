@@ -13,6 +13,9 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * BlockChangeWatcher.
+ */
 public class BlockChangeWatcher implements IBlockChangeWatcher {
    private final IntVector center;
    private final Matrix rotationMatrix;
@@ -55,3 +58,5 @@ public class BlockChangeWatcher implements IBlockChangeWatcher {
       return result;
    }
 }
+
+

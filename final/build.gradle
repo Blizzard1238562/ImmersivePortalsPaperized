@@ -19,6 +19,9 @@ shadowJar {
     archiveClassifier.set('all')
     archiveVersion.set(gradle.ext.versionName)
 
+    // Shade Guice and its transitive dependencies so the all-in-one JAR works across
+    // Bukkit, BungeeCord, Velocity, and proxy runtimes without requiring users to
+    // manually install these libraries on their server.
     relocate 'com.google.inject', 'org.envel.immersiveportalspaperized.dependencies.com.google.inject'
     relocate 'org.jetbrains.annotations', 'org.envel.immersiveportalspaperized.dependencies.jetbrains.annotations'
     relocate 'org.aopalliance', 'org.envel.immersiveportalspaperized.dependencies.aopalliance'

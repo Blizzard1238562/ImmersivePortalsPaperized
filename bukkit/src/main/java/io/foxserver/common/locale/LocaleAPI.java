@@ -35,6 +35,9 @@ import org.bukkit.event.player.PlayerLocaleChangeEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 
+/**
+ * LocaleAPI.
+ */
 public class LocaleAPI implements Listener {
    public static final String LANG_FOLDER = "lang";
    private static final MiniMessage MM = MiniMessage.miniMessage();
@@ -268,7 +271,7 @@ public class LocaleAPI implements Listener {
             .getLogger()
             .log(
                Level.WARNING,
-               "Could not auto-extract lang files from jar (unusual ClassLoader?): " + var18.getMessage() + " — place lang/*.yml files manually if needed."
+               "Could not auto-extract lang files from jar (unusual ClassLoader?): " + var18.getMessage() + " â€” place lang/*.yml files manually if needed."
             );
       }
    }
@@ -288,3 +291,5 @@ public class LocaleAPI implements Listener {
       return new File(this.plugin.getDataFolder(), "lang");
    }
 }
+
+

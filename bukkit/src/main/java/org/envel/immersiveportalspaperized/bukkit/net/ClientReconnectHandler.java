@@ -7,6 +7,9 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * ClientReconnectHandler.
+ */
 @Singleton
 public class ClientReconnectHandler implements IClientReconnectHandler, Runnable {
    private final JavaPlugin pl;
@@ -74,3 +77,5 @@ public class ClientReconnectHandler implements IClientReconnectHandler, Runnable
       }
    }
 }
+
+

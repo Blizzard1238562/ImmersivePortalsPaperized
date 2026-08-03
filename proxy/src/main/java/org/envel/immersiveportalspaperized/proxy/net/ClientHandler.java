@@ -25,6 +25,9 @@ import org.envel.immersiveportalspaperized.shared.net.encryption.EncryptedObject
 import org.envel.immersiveportalspaperized.shared.net.encryption.IEncryptedObjectStream;
 import org.envel.immersiveportalspaperized.shared.net.requests.Request;
 
+/**
+ * Manages the encrypted object stream and request routing for one connected Bukkit server.
+ */
 public class ClientHandler implements IClientHandler {
    private final IPortalServer portalServer;
    private final Logger logger;

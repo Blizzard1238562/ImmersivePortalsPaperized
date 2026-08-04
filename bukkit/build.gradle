@@ -3,7 +3,10 @@ dependencies {
     implementation project(':api')
 
     compileOnly "io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT"
-    compileOnly "com.comphenix.protocol:ProtocolLib:5.3.0"
+    // ProtocolLib -> PacketEvents migration: verify latest version against
+    // https://repo.codemc.io/repository/maven-releases/com/github/retrooper/packetevents-spigot/
+    // before the first real build - 2.13.0 was current per javadocs.packetevents.com at time of writing.
+    compileOnly "com.github.retrooper:packetevents-spigot:2.13.0"
     compileOnly("com.github.MilkBowl:VaultAPI:1.7") {
         exclude group: "org.bukkit", module: "bukkit"
     }

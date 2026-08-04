@@ -71,11 +71,11 @@ public class ImmersivePortalsPaperized extends JavaPlugin {
    private boolean didEnableFail = false;
 
    public void onEnable() {
-      if (this.getServer().getPluginManager().getPlugin("ProtocolLib") == null) {
+      if (this.getServer().getPluginManager().getPlugin("packetevents") == null) {
          this.getLogger().severe("==================================================");
-         this.getLogger().severe(" ImmersivePortalsPaperized REQUIRES PROTOCOLLIB TO FUNCTION!");
-         this.getLogger().severe(" Please download and install ProtocolLib from:");
-         this.getLogger().severe(" https://www.spigotmc.org/resources/protocollib.1997/");
+         this.getLogger().severe(" ImmersivePortalsPaperized REQUIRES PACKETEVENTS TO FUNCTION!");
+         this.getLogger().severe(" Please download and install PacketEvents from:");
+         this.getLogger().severe(" https://www.spigotmc.org/resources/packetevents-api.80279/");
          this.getLogger().severe("==================================================");
          this.didEnableFail = true;
          this.getServer().getPluginManager().disablePlugin(this);

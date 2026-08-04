@@ -1,6 +1,5 @@
 package org.envel.immersiveportalspaperized.bukkit.net;
 
-import com.comphenix.protocol.wrappers.Pair;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -15,6 +14,7 @@ import org.envel.immersiveportalspaperized.bukkit.net.requests.GetSelectionReque
 import org.envel.immersiveportalspaperized.bukkit.net.requests.TestForwardedRequest;
 import org.envel.immersiveportalspaperized.bukkit.player.IPlayerDataManager;
 import org.envel.immersiveportalspaperized.bukkit.portal.selection.IPortalSelection;
+import org.envel.immersiveportalspaperized.bukkit.util.Pair;
 import org.envel.immersiveportalspaperized.bukkit.util.VersionUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -49,13 +49,13 @@ public class ClientRequestHandler implements IRequestHandler {
    public void handlePendingRequests() {
       while (!this.awaitingHandling.isEmpty()) {
          Pair<Request, Consumer<Response>> next = this.awaitingHandling.remove();
-         this.handleRequestInternal((Request)next.getFirst(), (Consumer<Response>)next.getSecond());
+         this.handleRequestInternal(next.first(), next.second());
       }
    }
 
    @Override
    public void handleRequest(@NotNull Request request, @NotNull Consumer<Response> onFinish) {
-      this.awaitingHandling.add(new Pair(request, onFinish));
+      this.awaitingHandling.add(new Pair<>(request, onFinish));
    }
 
    private void handleRequestInternal(@NotNull Request request, @NotNull Consumer<Response> onFinish) {

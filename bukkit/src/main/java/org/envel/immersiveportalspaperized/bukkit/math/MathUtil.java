@@ -1,8 +1,8 @@
 package org.envel.immersiveportalspaperized.bukkit.math;
 
-import com.comphenix.protocol.wrappers.Pair;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
+import org.envel.immersiveportalspaperized.bukkit.util.Pair;
 
 public class MathUtil {
    public static final double EPSILON = 1.0E-4;
@@ -69,13 +69,13 @@ public class MathUtil {
 
    public static Pair<Float, Float> getYawAndPitch(Vector dir) {
       if (dir.getX() == 0.0 && dir.getZ() == 0.0) {
-         return new Pair(0.0F, dir.getY() > 0.0 ? -90.0F : 90.0F);
+         return new Pair<>(0.0F, dir.getY() > 0.0 ? -90.0F : 90.0F);
       } else {
          double theta = Math.atan2(-dir.getX(), dir.getZ());
          float yaw = (float)Math.toDegrees((theta + (Math.PI * 2)) % (Math.PI * 2));
          double xz = Math.sqrt(dir.getX() * dir.getX() + dir.getZ() * dir.getZ());
          float pitch = (float)Math.toDegrees(Math.atan(-dir.getY() / xz));
-         return new Pair(yaw, pitch);
+         return new Pair<>(yaw, pitch);
       }
    }
 }

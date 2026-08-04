@@ -1,6 +1,5 @@
 package org.envel.immersiveportalspaperized.bukkit.chunk.chunkpos;
 
-import com.comphenix.protocol.wrappers.ChunkCoordIntPair;
 import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
@@ -42,10 +41,6 @@ public class ChunkPosition implements Cloneable {
       this.x = chunk.getX();
       this.z = chunk.getZ();
       this.world = chunk.getWorld();
-   }
-
-   public ChunkCoordIntPair toProtocolLib() {
-      return new ChunkCoordIntPair(this.x, this.z);
    }
 
    public Chunk getChunk() {

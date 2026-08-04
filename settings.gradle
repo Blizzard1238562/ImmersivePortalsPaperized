@@ -9,6 +9,6 @@ pluginManagement {
 }
 
 rootProject.name = 'ImmersivePortalsPaperized'
-gradle.ext.versionName = '1.1.1'
+gradle.ext.versionName = '1.1.2'
 
 include 'bukkit', 'bungee', 'shared', 'api', 'final', 'velocity', 'proxy'

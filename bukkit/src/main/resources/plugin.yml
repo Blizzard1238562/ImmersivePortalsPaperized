@@ -1,11 +1,11 @@
 name: ImmersivePortalsPaperized
-version: 1.1.1
+version: 1.1.2
 main: org.envel.immersiveportalspaperized.bukkit.ImmersivePortalsPaperized
 description: "Plugin which allows nether portals to be seen through, and allows custom portal creation"
 folia-supported: true
 author: Envel
 depend:
-  - ProtocolLib
+  - packetevents
 api-version: "1.21"
 softdepend:
   - Multiverse-Core

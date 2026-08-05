@@ -1,10 +1,6 @@
 package org.envel.immersiveportalspaperized.bukkit.nms;
 
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.PacketType.Play.Server;
-import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.wrappers.BlockPosition;
+import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerBlockEntityData;
 import java.lang.reflect.Method;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -23,6 +19,9 @@ public class BlockDataUtil {
    private static Method FROM_DATA;
    private static final BlockData DEFAULT_BLOCK_DATA = Bukkit.createBlockData(Material.AIR);
 
+   // getCombinedId / getByCombinedId are unrelated to ProtocolLib or PacketEvents - always were
+   // raw NMS reflection for turning a BlockData into/from a plain int for the cross-server
+   // external-block-watching feature. Left untouched by this migration.
    public static int getCombinedId(@NotNull BlockData blockData) {
       if (GET_STATE != null && GET_ID != null) {
          try {
@@ -57,19 +56,33 @@ public class BlockDataUtil {
       return DEFAULT_BLOCK_DATA;
    }
 
+   /**
+    * NOTE on this migration: intentionally returns {@code null} for now, same as the
+    * {@code !(tileState instanceof TileState)} branch below already did in the ProtocolLib
+    * version - every caller already null-checks this, so that's a safe, non-breaking choice.
+    * <p>
+    * Not implemented because the ProtocolLib version this replaced was itself incomplete: it
+    * only ever built an empty {@code TILE_ENTITY_DATA} packet and set the position on it -
+    * nowhere did it populate the actual NBT contents or block-entity type from {@code tileState}.
+    * Reproducing that gap with PacketEvents' typed {@code WrapperPlayServerBlockEntityData}
+    * would mean inventing placeholder type/NBT values that were never there before, which risks
+    * sending a packet the client rejects or misinterprets - worse than not sending one. Properly
+    * finishing this needs: confirming WrapperPlayServerBlockEntityData's real constructor
+    * (position + block entity type + NBT compound, exact types not verified this session),
+    * reading tileState's NBT via Paper's API, and mapping it to PacketEvents' NBT/compound type.
+    */
    @Nullable
-   public static PacketContainer getUpdatePacket(@NotNull BlockState tileState) {
+   public static WrapperPlayServerBlockEntityData getUpdatePacket(@NotNull BlockState tileState) {
       if (!(tileState instanceof TileState)) {
          return null;
       } else {
-         ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-         return protocolManager.createPacket(Server.TILE_ENTITY_DATA);
+         return null;
       }
    }
 
-   public static void setTileEntityPosition(@NotNull PacketContainer packet, @NotNull IntVector position) {
-      BlockPosition blockPosition = new BlockPosition(position.getX(), position.getY(), position.getZ());
-      packet.getBlockPositionModifier().write(0, blockPosition);
+   public static void setTileEntityPosition(@NotNull WrapperPlayServerBlockEntityData packet, @NotNull IntVector position) {
+      // Left as a stub matching getUpdatePacket() above - nothing currently constructs a
+      // non-null packet for this to be called on.
    }
 
    static {

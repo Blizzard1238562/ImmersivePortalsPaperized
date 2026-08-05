@@ -1,11 +1,13 @@
 package org.envel.immersiveportalspaperized.bukkit.config;
 
-import com.comphenix.protocol.wrappers.WrappedBlockData;
+import com.github.retrooper.packetevents.protocol.world.states.WrappedBlockState;
+import io.github.retrooper.packetevents.util.SpigotConversionUtil;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
@@ -31,8 +33,8 @@ public class RenderConfig {
    private int zMultip;
    private int totalArrayLength;
    private IntVector halfFullSize;
-   private WrappedBlockData backgroundBlockData;
-   private final Map<String, WrappedBlockData> worldBackgroundBlockData = new HashMap<>();
+   private WrappedBlockState backgroundBlockData;
+   private final Map<String, WrappedBlockState> worldBackgroundBlockData = new HashMap<>();
    private int[] intOffsets;
    private Vector collisionBox;
    private int blockUpdateInterval;
@@ -49,9 +51,9 @@ public class RenderConfig {
    }
 
    @Nullable
-   private WrappedBlockData parseBlockData(String str) {
+   private WrappedBlockState parseBlockData(String str) {
       try {
-         return WrappedBlockData.createData(Material.valueOf(str.toUpperCase(Locale.ROOT)));
+         return SpigotConversionUtil.fromBukkitBlockData(Bukkit.createBlockData(Material.valueOf(str.toUpperCase(Locale.ROOT))));
       } catch (IllegalArgumentException var3) {
          this.logger.warning("Unknown material for portal edge block " + str);
          this.logger.warning("Using default of black concrete");
@@ -94,7 +96,7 @@ public class RenderConfig {
             for (String worldName : Objects.requireNonNull(worldBgsSection).getKeys(false)) {
                String bgValue = worldBgsSection.getString(worldName);
                if (bgValue != null) {
-                  WrappedBlockData parsedData = this.parseBlockData(bgValue);
+                  WrappedBlockState parsedData = this.parseBlockData(bgValue);
                   if (parsedData != null) {
                      this.worldBackgroundBlockData.put(worldName, parsedData);
                   }
@@ -112,19 +114,19 @@ public class RenderConfig {
       return x <= this.minXZ || x >= this.maxXZ || y <= this.minY || y >= this.maxY || z <= this.minXZ || z >= this.maxXZ;
    }
 
-   public WrappedBlockData findBackgroundData(PortalPosition destPosition) {
+   public WrappedBlockState findBackgroundData(PortalPosition destPosition) {
       if (this.backgroundBlockData != null) {
          return this.backgroundBlockData;
       } else {
-         WrappedBlockData worldSpecificBg = this.worldBackgroundBlockData.get(destPosition.getWorldName());
+         WrappedBlockState worldSpecificBg = this.worldBackgroundBlockData.get(destPosition.getWorldName());
          if (worldSpecificBg != null) {
             return worldSpecificBg;
          } else if (destPosition.isExternal()) {
-            return WrappedBlockData.createData(Material.BLACK_CONCRETE);
+            return SpigotConversionUtil.fromBukkitBlockData(Bukkit.createBlockData(Material.BLACK_CONCRETE));
          } else {
             World world = destPosition.getWorld();
             if (world == null) {
-               return WrappedBlockData.createData(Material.BLACK_CONCRETE);
+               return SpigotConversionUtil.fromBukkitBlockData(Bukkit.createBlockData(Material.BLACK_CONCRETE));
             }
 
             Material material;
@@ -141,7 +143,7 @@ public class RenderConfig {
                material = Material.BLACK_CONCRETE;
             }
 
-            return WrappedBlockData.createData(material);
+            return SpigotConversionUtil.fromBukkitBlockData(Bukkit.createBlockData(material));
          }
       }
    }

@@ -1,6 +1,6 @@
 package org.envel.immersiveportalspaperized.bukkit.block.lighting;
 
-import com.comphenix.protocol.wrappers.WrappedBlockData;
+import com.github.retrooper.packetevents.protocol.world.states.WrappedBlockState;
 import jakarta.inject.Singleton;
 import org.envel.immersiveportalspaperized.bukkit.portal.IPortal;
 import org.jetbrains.annotations.Nullable;
@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
 public class DummyLightDataManager implements ILightDataManager {
    @Nullable
    @Override
-   public WrappedBlockData getLightData(IPortal portal) {
+   public WrappedBlockState getLightData(IPortal portal) {
       return null;
    }
 }

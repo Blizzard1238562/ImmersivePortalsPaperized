@@ -1,7 +1,8 @@
 package org.envel.immersiveportalspaperized.bukkit.player.view.block;
 
-import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.wrappers.WrappedBlockData;
+import com.github.retrooper.packetevents.protocol.world.states.WrappedBlockState;
+import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerBlockEntityData;
+import io.github.retrooper.packetevents.util.SpigotConversionUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
@@ -69,7 +70,7 @@ public class PlayerBlockView implements IPlayerBlockView {
       this.playerPosition = this.player.getEyeLocation().toVector();
       this.updateFinisher.scheduleUpdate(this, refresh);
       if (refresh && this.shouldHidePortalBlocks) {
-         this.setPortalBlocks(WrappedBlockData.createData(Material.AIR));
+         this.setPortalBlocks(SpigotConversionUtil.fromBukkitBlockData(Bukkit.createBlockData(Material.AIR)));
       }
    }
 
@@ -118,7 +119,7 @@ public class PlayerBlockView implements IPlayerBlockView {
 
          try {
             IMultiBlockChangeManager multiBlockChangeManager = this.multiBlockChangeManagerFactory.create(this.player, this.minChunkY, this.maxChunkY);
-            List<PacketContainer> queuedTileEntityUpdates = new ArrayList<>();
+            List<WrapperPlayServerBlockEntityData> queuedTileEntityUpdates = new ArrayList<>();
             PlaneIntersectionChecker intersectionChecker = this.portal.getTransformations().createIntersectionChecker(this.playerPosition);
             IBlockMap viewableBlockArray = this.portal.getViewableBlocks();
             List<IViewableBlockInfo> viewableStates = viewableBlockArray.getViewableStates();
@@ -132,16 +133,16 @@ public class PlayerBlockView implements IPlayerBlockView {
                if (visible) {
                   if (this.blockStates.setViewable(position, blockInfo) || refresh) {
                      multiBlockChangeManager.addChangeDestination(position, blockInfo);
-                     PacketContainer nbtUpdatePacket = viewableBlockArray.getDestinationTileEntityPacket(blockInfo.getOriginPos());
-                     if (nbtUpdatePacket != null && nbtUpdatePacket.getBlocks() == null) {
+                     WrapperPlayServerBlockEntityData nbtUpdatePacket = viewableBlockArray.getDestinationTileEntityPacket(blockInfo.getOriginPos());
+                     if (nbtUpdatePacket != null) {
                         queuedTileEntityUpdates.add(nbtUpdatePacket);
                         this.logger.fine("Queueing tile state update at destination");
                      }
                   }
                } else if (this.blockStates.setNonViewable(position, blockInfo) || refresh) {
                   multiBlockChangeManager.addChangeOrigin(position, blockInfo);
-                  PacketContainer nbtUpdatePacket = viewableBlockArray.getOriginTileEntityPacket(blockInfo.getOriginPos());
-                  if (nbtUpdatePacket != null && nbtUpdatePacket.getBlocks() == null) {
+                  WrapperPlayServerBlockEntityData nbtUpdatePacket = viewableBlockArray.getOriginTileEntityPacket(blockInfo.getOriginPos());
+                  if (nbtUpdatePacket != null) {
                      queuedTileEntityUpdates.add(nbtUpdatePacket);
                      this.logger.fine("Queueing tile state update at origin");
                   }
@@ -152,14 +153,14 @@ public class PlayerBlockView implements IPlayerBlockView {
                SchedulerUtil.runForEntity(this.player, () -> {
                   multiBlockChangeManager.sendChanges();
 
-                  for (PacketContainer packetx : queuedTileEntityUpdates) {
+                  for (WrapperPlayServerBlockEntityData packetx : queuedTileEntityUpdates) {
                      PacketUtil.sendPacket(this.player, packetx);
                   }
                });
             } else {
                multiBlockChangeManager.sendChanges();
 
-               for (PacketContainer packet : queuedTileEntityUpdates) {
+               for (WrapperPlayServerBlockEntityData packet : queuedTileEntityUpdates) {
                   PacketUtil.sendPacket(this.player, packet);
                }
             }
@@ -169,10 +170,10 @@ public class PlayerBlockView implements IPlayerBlockView {
       }
    }
 
-   private WrappedBlockData getPortalBlockData() {
+   private WrappedBlockState getPortalBlockData() {
       PortalDirection portalDirection = this.portal.getOriginPos().getDirection();
       if (!(Bukkit.createBlockData(MaterialUtil.PORTAL_MATERIAL) instanceof Orientable orientable)) {
-         return WrappedBlockData.createData(MaterialUtil.PORTAL_MATERIAL);
+         return SpigotConversionUtil.fromBukkitBlockData(Bukkit.createBlockData(MaterialUtil.PORTAL_MATERIAL));
       } else {
          if (portalDirection != PortalDirection.EAST && portalDirection != PortalDirection.WEST) {
             if (portalDirection != PortalDirection.NORTH && portalDirection != PortalDirection.SOUTH) {
@@ -184,11 +185,11 @@ public class PlayerBlockView implements IPlayerBlockView {
             orientable.setAxis(Axis.Z);
          }
 
-         return WrappedBlockData.createData(orientable);
+         return SpigotConversionUtil.fromBukkitBlockData(orientable);
       }
    }
 
-   private void setPortalBlocks(WrappedBlockData data) {
+   private void setPortalBlocks(WrappedBlockState data) {
       Vector portalPos = this.portal.getOriginPos().getVector();
       Vector portalSize = this.portal.getSize();
       PortalDirection portalDirection = this.portal.getOriginPos().getDirection();

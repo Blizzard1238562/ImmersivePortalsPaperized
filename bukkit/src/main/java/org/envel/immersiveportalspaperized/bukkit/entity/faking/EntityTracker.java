@@ -1,6 +1,5 @@
 package org.envel.immersiveportalspaperized.bukkit.entity.faking;
 
-import com.comphenix.protocol.wrappers.EnumWrappers.ItemSlot;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -11,6 +10,7 @@ import lombok.Getter;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
@@ -65,7 +65,7 @@ public class EntityTracker implements IEntityTracker {
    public void update() {
       this.sendMovementUpdates();
       if (this.equipmentWatcher != null) {
-         Map<ItemSlot, ItemStack> equipmentChanges = this.equipmentWatcher.checkForChanges();
+         Map<EquipmentSlot, ItemStack> equipmentChanges = this.equipmentWatcher.checkForChanges();
          if (!equipmentChanges.isEmpty()) {
             this.packetManipulator.sendEntityEquipment(this.entityInfo, equipmentChanges, this.trackingPlayers);
          }

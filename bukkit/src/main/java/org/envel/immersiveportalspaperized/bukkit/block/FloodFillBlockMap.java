@@ -1,7 +1,7 @@
 package org.envel.immersiveportalspaperized.bukkit.block;
 
-import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.wrappers.WrappedBlockData;
+import com.github.retrooper.packetevents.protocol.world.states.WrappedBlockState;
+import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerBlockEntityData;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,8 +20,8 @@ import org.envel.immersiveportalspaperized.shared.logging.Logger;
 public abstract class FloodFillBlockMap implements IBlockMap {
    protected final Logger logger;
    protected final RenderConfig renderConfig;
-   protected final ConcurrentHashMap<IntVector, PacketContainer> originTileStates = new ConcurrentHashMap<>();
-   protected final ConcurrentHashMap<IntVector, PacketContainer> destTileStates = new ConcurrentHashMap<>();
+   protected final ConcurrentHashMap<IntVector, WrapperPlayServerBlockEntityData> originTileStates = new ConcurrentHashMap<>();
+   protected final ConcurrentHashMap<IntVector, WrapperPlayServerBlockEntityData> destTileStates = new ConcurrentHashMap<>();
    protected StateQueue stateQueue;
    protected List<IViewableBlockInfo> nonObscuredStates = new ArrayList<>();
    protected byte[] alreadyReachedMap;
@@ -69,7 +69,7 @@ public abstract class FloodFillBlockMap implements IBlockMap {
 
    protected abstract void checkForChanges();
 
-   protected final WrappedBlockData getBackgroundData() {
+   protected final WrappedBlockState getBackgroundData() {
       return this.renderConfig.findBackgroundData(this.portal.getDestPos());
    }
 
@@ -122,13 +122,13 @@ public abstract class FloodFillBlockMap implements IBlockMap {
 
    @Nullable
    @Override
-   public PacketContainer getOriginTileEntityPacket(@NotNull IntVector position) {
+   public WrapperPlayServerBlockEntityData getOriginTileEntityPacket(@NotNull IntVector position) {
       return this.originTileStates.get(position);
    }
 
    @Nullable
    @Override
-   public PacketContainer getDestinationTileEntityPacket(@NotNull IntVector position) {
+   public WrapperPlayServerBlockEntityData getDestinationTileEntityPacket(@NotNull IntVector position) {
       return this.destTileStates.get(position);
    }
 }

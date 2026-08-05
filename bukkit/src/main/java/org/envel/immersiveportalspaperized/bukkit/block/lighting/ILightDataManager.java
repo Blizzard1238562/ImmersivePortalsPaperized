@@ -1,10 +1,10 @@
 package org.envel.immersiveportalspaperized.bukkit.block.lighting;
 
-import com.comphenix.protocol.wrappers.WrappedBlockData;
+import com.github.retrooper.packetevents.protocol.world.states.WrappedBlockState;
 import org.envel.immersiveportalspaperized.bukkit.portal.IPortal;
 import org.jetbrains.annotations.Nullable;
 
 public interface ILightDataManager {
    @Nullable
-   WrappedBlockData getLightData(IPortal portal);
+   WrappedBlockState getLightData(IPortal portal);
 }

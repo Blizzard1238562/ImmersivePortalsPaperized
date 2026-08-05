@@ -1,10 +1,10 @@
 package org.envel.immersiveportalspaperized.bukkit.entity.faking;
 
-import com.comphenix.protocol.wrappers.EnumWrappers.ItemSlot;
 import java.util.HashMap;
 import java.util.Map;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EntityEquipment;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 public class EntityEquipmentWatcher {
@@ -20,40 +20,40 @@ public class EntityEquipmentWatcher {
       this.entity = entity;
    }
 
-   public Map<ItemSlot, ItemStack> checkForChanges() {
-      Map<ItemSlot, ItemStack> result = new HashMap<>();
+   public Map<EquipmentSlot, ItemStack> checkForChanges() {
+      Map<EquipmentSlot, ItemStack> result = new HashMap<>();
       EntityEquipment current = this.entity.getEquipment();
       if (current == null) {
          return result;
       } else {
          if (this.isStateDifferent(this.mainHand, current.getItemInMainHand())) {
             this.mainHand = current.getItemInMainHand();
-            result.put(ItemSlot.MAINHAND, this.mainHand);
+            result.put(EquipmentSlot.HAND, this.mainHand);
          }
 
          if (this.isStateDifferent(this.offHand, current.getItemInOffHand())) {
             this.offHand = current.getItemInOffHand();
-            result.put(ItemSlot.OFFHAND, this.offHand);
+            result.put(EquipmentSlot.OFF_HAND, this.offHand);
          }
 
          if (this.isStateDifferent(this.helmet, current.getHelmet())) {
             this.helmet = current.getHelmet();
-            result.put(ItemSlot.HEAD, this.helmet);
+            result.put(EquipmentSlot.HEAD, this.helmet);
          }
 
          if (this.isStateDifferent(this.chestplate, current.getChestplate())) {
             this.chestplate = current.getChestplate();
-            result.put(ItemSlot.CHEST, this.chestplate);
+            result.put(EquipmentSlot.CHEST, this.chestplate);
          }
 
          if (this.isStateDifferent(this.leggings, current.getLeggings())) {
             this.leggings = current.getLeggings();
-            result.put(ItemSlot.LEGS, this.leggings);
+            result.put(EquipmentSlot.LEGS, this.leggings);
          }
 
          if (this.isStateDifferent(this.boots, current.getBoots())) {
             this.boots = current.getBoots();
-            result.put(ItemSlot.FEET, this.boots);
+            result.put(EquipmentSlot.FEET, this.boots);
          }
 
          return result;

@@ -1,6 +1,7 @@
 package org.envel.immersiveportalspaperized.bukkit.util;
 
-import com.comphenix.protocol.wrappers.WrappedBlockData;
+import com.github.retrooper.packetevents.protocol.world.states.WrappedBlockState;
+import io.github.retrooper.packetevents.util.SpigotConversionUtil;
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,7 +12,7 @@ import org.envel.immersiveportalspaperized.bukkit.nms.CraftBukkitClassUtil;
 
 public class MaterialUtil {
    public static final Material PORTAL_MATERIAL = Material.NETHER_PORTAL;
-   public static final WrappedBlockData PORTAL_EDGE_DATA = WrappedBlockData.createData(Material.BLACK_CONCRETE);
+   public static final WrappedBlockState PORTAL_EDGE_DATA = SpigotConversionUtil.fromBukkitBlockData(Bukkit.createBlockData(Material.BLACK_CONCRETE));
    private static final String[] TILE_ENTITY_MATERIALS_STRING = new String[]{
       "DISPENSER",
       "SPAWNER",

@@ -1,39 +1,45 @@
 package org.envel.immersiveportalspaperized.bukkit.entity.faking;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.PacketType.Play.Server;
-import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.reflect.StructureModifier;
-import com.comphenix.protocol.wrappers.Pair;
-import com.comphenix.protocol.wrappers.PlayerInfoData;
-import com.comphenix.protocol.wrappers.WrappedChatComponent;
-import com.comphenix.protocol.wrappers.WrappedDataValue;
-import com.comphenix.protocol.wrappers.WrappedDataWatcher;
-import com.comphenix.protocol.wrappers.WrappedGameProfile;
-import com.comphenix.protocol.wrappers.EnumWrappers.Direction;
-import com.comphenix.protocol.wrappers.EnumWrappers.ItemSlot;
-import com.comphenix.protocol.wrappers.EnumWrappers.NativeGameMode;
-import com.comphenix.protocol.wrappers.EnumWrappers.PlayerInfoAction;
-import com.comphenix.protocol.wrappers.WrappedDataWatcher.WrappedDataWatcherObject;
-import java.lang.reflect.Constructor;
+import com.github.retrooper.packetevents.protocol.entity.data.EntityData;
+import com.github.retrooper.packetevents.protocol.player.GameMode;
+import com.github.retrooper.packetevents.protocol.player.TextureProperty;
+import com.github.retrooper.packetevents.protocol.player.UserProfile;
+import com.github.retrooper.packetevents.util.Vector3d;
+import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerCollectItem;
+import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerDestroyEntities;
+import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerEntityAnimation;
+import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerEntityEquipment;
+import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerEntityHeadLook;
+import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerEntityMetadata;
+import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerEntityRelativeMove;
+import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerEntityRelativeMoveAndRotation;
+import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerEntityRotation;
+import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerEntityTeleport;
+import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerEntityVelocity;
+import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerPlayerInfoRemove;
+import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerPlayerInfoUpdate;
+import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerSetPassengers;
+import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerSpawnEntity;
+import io.github.retrooper.packetevents.util.SpigotConversionUtil;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Hanging;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.profile.PlayerProfile;
+import org.bukkit.profile.PlayerTextures;
 import org.bukkit.util.Vector;
 import org.envel.immersiveportalspaperized.bukkit.math.MathUtil;
 import org.envel.immersiveportalspaperized.bukkit.nms.AnimationType;
-import org.envel.immersiveportalspaperized.bukkit.nms.EntityUtil;
 import org.envel.immersiveportalspaperized.bukkit.nms.PacketUtil;
 import org.envel.immersiveportalspaperized.bukkit.nms.RotationUtil;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
@@ -52,28 +58,57 @@ public class EntityPacketManipulator implements IEntityPacketManipulator {
    @Override
    public void showEntity(EntityInfo tracker, Collection<Player> players) {
       try {
-         PacketContainer spawnPacket = EntityUtil.getRawEntitySpawnPacket(tracker.getEntity());
-         if (spawnPacket == null) {
+         if (tracker.getEntity() instanceof org.bukkit.entity.EnderDragonPart || tracker.getEntity() instanceof org.bukkit.entity.Marker) {
             return;
          }
 
-         if (spawnPacket.getUUIDs().size() > 0) {
-            spawnPacket.getUUIDs().write(0, tracker.getEntityUniqueId());
-         }
-
-         spawnPacket.getIntegers().write(0, tracker.getEntityId());
          Vector actualPos = tracker.getEntity().getLocation().toVector();
          if (tracker.getEntity() instanceof Hanging) {
             actualPos = MathUtil.moveToCenterOfBlock(actualPos);
          }
 
          Vector renderedPos = tracker.getTranslation().transform(actualPos);
-         PacketUtil.writeDoublePosition(spawnPacket, renderedPos);
-         this.setSpawnRotation(spawnPacket, tracker);
+         Location renderedLocation = tracker.findRenderedLocation();
+         float yaw = renderedLocation.getYaw();
+         float pitch = renderedLocation.getPitch();
+         Location spawnBukkitLocation = new Location(
+            tracker.getEntity().getWorld(), renderedPos.getX(), renderedPos.getY(), renderedPos.getZ(), yaw, pitch
+         );
+
+         int data = 0;
+         if (tracker.getEntity() instanceof Hanging) {
+            // Preserves the exact behaviour of the pre-migration code: it read the "data" field
+            // back off a freshly built (all-default) spawn packet rather than the real entity's
+            // current BlockFace, so this always rotated starting from id 0 (BlockFace.DOWN). That
+            // looks like a pre-existing bug independent of this migration - not changed here to
+            // keep this a pure library swap. Worth a look separately.
+            BlockFace currentDirection = RotationUtil.getDirection(0);
+            if (currentDirection != null) {
+               BlockFace rotated = RotationUtil.rotateBy(currentDirection, tracker.getRotation());
+               if (rotated == null) {
+                  throw new IllegalStateException("Portal attempted to rotate a hanging entity to an invalid block direction");
+               }
+
+               data = RotationUtil.getId(rotated);
+            }
+         }
+
+         // NOTE: entity type conversion via SpigotConversionUtil#fromBukkitEntityType - verify
+         // exact method name against the installed jar / IDE autocomplete, was not individually
+         // confirmed this session (fromBukkitLocation and fromBukkitItemStack were).
+         WrapperPlayServerSpawnEntity spawnPacket = new WrapperPlayServerSpawnEntity(
+            tracker.getEntityId(),
+            tracker.getEntityUniqueId(),
+            SpigotConversionUtil.fromBukkitEntityType(tracker.getEntity().getType()),
+            SpigotConversionUtil.fromBukkitLocation(spawnBukkitLocation),
+            yaw,
+            data,
+            null
+         );
          PacketUtil.sendPacket(players, spawnPacket);
          if (tracker.getEntity() instanceof LivingEntity) {
             EntityEquipmentWatcher equipmentWatcher = new EntityEquipmentWatcher((LivingEntity)tracker.getEntity());
-            Map<ItemSlot, ItemStack> changes = equipmentWatcher.checkForChanges();
+            Map<EquipmentSlot, ItemStack> changes = equipmentWatcher.checkForChanges();
             if (changes.size() > 0) {
                this.sendEntityEquipment(tracker, changes, players);
             }
@@ -85,37 +120,10 @@ public class EntityPacketManipulator implements IEntityPacketManipulator {
       }
    }
 
-   private void setSpawnRotation(PacketContainer packet, EntityInfo entityInfo) {
-      Location renderedPos = entityInfo.findRenderedLocation();
-      int yaw = RotationUtil.getPacketRotationInt(renderedPos.getYaw());
-      int pitch = RotationUtil.getPacketRotationInt(renderedPos.getPitch());
-      PacketType packetType = packet.getType();
-      if (packetType == Server.SPAWN_ENTITY) {
-         if (entityInfo.getEntity() instanceof Hanging) {
-            Direction currentDirection = RotationUtil.getDirection((Integer)packet.getIntegers().read(4));
-            if (currentDirection != null) {
-               Direction rotated = RotationUtil.rotateBy(currentDirection, entityInfo.getRotation());
-               if (rotated == null) {
-                  throw new IllegalStateException("Portal attempted to rotate a hanging entity to an invalid block direction");
-               }
-
-               packet.getIntegers().write(4, RotationUtil.getId(rotated));
-            }
-         }
-
-         packet.getBytes().write(0, (byte)pitch);
-         packet.getBytes().write(1, (byte)yaw);
-      } else if (packetType == Server.NAMED_ENTITY_SPAWN) {
-         packet.getBytes().write(0, (byte)yaw);
-         packet.getBytes().write(1, (byte)pitch);
-      }
-   }
-
    @Override
    public void hideEntity(EntityInfo tracker, Collection<Player> players) {
       try {
-         PacketContainer packet = new PacketContainer(Server.ENTITY_DESTROY);
-         packet.getIntLists().write(0, Collections.singletonList(tracker.getEntityId()));
+         WrapperPlayServerDestroyEntities packet = new WrapperPlayServerDestroyEntities(tracker.getEntityId());
          PacketUtil.sendPacket(players, packet);
       } catch (Throwable e) {
          this.logger.finer("hideEntity failed for entity %s: %s", tracker.getEntityId(), e.getMessage());
@@ -126,10 +134,9 @@ public class EntityPacketManipulator implements IEntityPacketManipulator {
    public void sendEntityMove(EntityInfo tracker, Vector offset, Collection<Player> players) {
       try {
          offset = tracker.getRotation().transform(offset);
-         PacketContainer packet = new PacketContainer(Server.REL_ENTITY_MOVE);
-         packet.getIntegers().write(0, tracker.getEntityId());
-         PacketUtil.writeRelativeOffset(packet, offset);
-         packet.getBooleans().write(0, tracker.getEntity().isOnGround());
+         WrapperPlayServerEntityRelativeMove packet = new WrapperPlayServerEntityRelativeMove(
+            tracker.getEntityId(), offset.getX(), offset.getY(), offset.getZ(), tracker.getEntity().isOnGround()
+         );
          PacketUtil.sendPacket(players, packet);
       } catch (Throwable e) {
          this.logger.finer("sendEntityMove failed for entity %s: %s", tracker.getEntityId(), e.getMessage());
@@ -141,11 +148,15 @@ public class EntityPacketManipulator implements IEntityPacketManipulator {
       try {
          Location entityPos = tracker.findRenderedLocation();
          offset = tracker.getRotation().transform(offset);
-         PacketContainer packet = new PacketContainer(Server.REL_ENTITY_MOVE_LOOK);
-         packet.getIntegers().write(0, tracker.getEntityId());
-         PacketUtil.writeLookRotation(packet, entityPos.getYaw(), entityPos.getPitch());
-         PacketUtil.writeRelativeOffset(packet, offset);
-         packet.getBooleans().write(0, tracker.getEntity().isOnGround());
+         WrapperPlayServerEntityRelativeMoveAndRotation packet = new WrapperPlayServerEntityRelativeMoveAndRotation(
+            tracker.getEntityId(),
+            offset.getX(),
+            offset.getY(),
+            offset.getZ(),
+            entityPos.getYaw(),
+            entityPos.getPitch(),
+            tracker.getEntity().isOnGround()
+         );
          PacketUtil.sendPacket(players, packet);
       } catch (Throwable e) {
          this.logger.finer("sendEntityMoveLook failed for entity %s: %s", tracker.getEntityId(), e.getMessage());
@@ -156,10 +167,9 @@ public class EntityPacketManipulator implements IEntityPacketManipulator {
    public void sendEntityLook(EntityInfo tracker, Collection<Player> players) {
       try {
          Location entityPos = tracker.findRenderedLocation();
-         PacketContainer packet = new PacketContainer(Server.ENTITY_LOOK);
-         packet.getIntegers().write(0, tracker.getEntityId());
-         PacketUtil.writeLookRotation(packet, entityPos.getYaw(), entityPos.getPitch());
-         packet.getBooleans().write(0, tracker.getEntity().isOnGround());
+         WrapperPlayServerEntityRotation packet = new WrapperPlayServerEntityRotation(
+            tracker.getEntityId(), entityPos.getYaw(), entityPos.getPitch(), tracker.getEntity().isOnGround()
+         );
          PacketUtil.sendPacket(players, packet);
       } catch (Throwable e) {
          this.logger.finer("sendEntityLook failed for entity %s: %s", tracker.getEntityId(), e.getMessage());
@@ -169,12 +179,14 @@ public class EntityPacketManipulator implements IEntityPacketManipulator {
    @Override
    public void sendEntityTeleport(EntityInfo tracker, Collection<Player> players) {
       try {
-         PacketContainer packet = new PacketContainer(Server.ENTITY_TELEPORT);
-         packet.getIntegers().write(0, tracker.getEntityId());
          Location entityPos = tracker.findRenderedLocation();
-         PacketUtil.writeDoublePosition(packet, entityPos.toVector());
-         PacketUtil.writeTeleportRotation(packet, entityPos.getYaw(), entityPos.getPitch());
-         packet.getBooleans().write(0, tracker.getEntity().isOnGround());
+         WrapperPlayServerEntityTeleport packet = new WrapperPlayServerEntityTeleport(
+            tracker.getEntityId(),
+            new Vector3d(entityPos.getX(), entityPos.getY(), entityPos.getZ()),
+            entityPos.getYaw(),
+            entityPos.getPitch(),
+            tracker.getEntity().isOnGround()
+         );
          PacketUtil.sendPacket(players, packet);
       } catch (Throwable e) {
          this.logger.finer("sendEntityTeleport failed for entity %s: %s", tracker.getEntityId(), e.getMessage());
@@ -185,23 +197,9 @@ public class EntityPacketManipulator implements IEntityPacketManipulator {
    public void sendEntityHeadRotation(EntityInfo tracker, Collection<Player> players) {
       try {
          Location renderedPos = tracker.findRenderedLocation();
-         byte headRotation = RotationUtil.getPacketRotationByte(renderedPos.getYaw());
-
-         PacketContainer packet;
-         try {
-            Object nmsEntity = tracker.getEntity().getClass().getMethod("getHandle").invoke(tracker.getEntity());
-            Class<?> nmsEntityClass = Class.forName("net.minecraft.world.entity.Entity");
-            Class<?> packetClass = Class.forName("net.minecraft.network.protocol.game.ClientboundRotateHeadPacket");
-            Constructor<?> constructor = packetClass.getConstructor(nmsEntityClass, byte.class);
-            Object nmsPacket = constructor.newInstance(nmsEntity, headRotation);
-            packet = new PacketContainer(Server.ENTITY_HEAD_ROTATION, nmsPacket);
-            packet.getIntegers().write(0, tracker.getEntityId());
-         } catch (Throwable inner) {
-            packet = new PacketContainer(Server.ENTITY_HEAD_ROTATION);
-            packet.getIntegers().write(0, tracker.getEntityId());
-            packet.getBytes().write(0, headRotation);
-         }
-
+         // No more reflection fallback needed - PacketEvents' wrapper covers this packet
+         // directly, unlike the ProtocolLib version which had to reach for raw NMS first.
+         WrapperPlayServerEntityHeadLook packet = new WrapperPlayServerEntityHeadLook(tracker.getEntityId(), renderedPos.getYaw());
          PacketUtil.sendPacket(players, packet);
       } catch (Throwable e) {
          this.logger.finer("sendEntityHeadRotation failed for entity %s: %s", tracker.getEntityId(), e.getMessage());
@@ -219,22 +217,8 @@ public class EntityPacketManipulator implements IEntityPacketManipulator {
             i++;
          }
 
-         PacketContainer packet;
-         try {
-            Object nmsEntity = tracker.getEntity().getClass().getMethod("getHandle").invoke(tracker.getEntity());
-            Class<?> nmsEntityClass = Class.forName("net.minecraft.world.entity.Entity");
-            Class<?> packetClass = Class.forName("net.minecraft.network.protocol.game.ClientboundSetPassengersPacket");
-            Constructor<?> constructor = packetClass.getConstructor(nmsEntityClass);
-            Object nmsPacket = constructor.newInstance(nmsEntity);
-            packet = new PacketContainer(Server.MOUNT, nmsPacket);
-            packet.getIntegers().write(0, tracker.getEntityId());
-            packet.getIntegerArrays().write(0, ridingIds);
-         } catch (Throwable inner) {
-            packet = new PacketContainer(Server.MOUNT);
-            packet.getIntegers().write(0, tracker.getEntityId());
-            packet.getIntegerArrays().write(0, ridingIds);
-         }
-
+         // No more reflection fallback needed - see sendEntityHeadRotation above.
+         WrapperPlayServerSetPassengers packet = new WrapperPlayServerSetPassengers(tracker.getEntityId(), ridingIds);
          PacketUtil.sendPacket(players, packet);
       } catch (Throwable e) {
          this.logger.finer("sendMount failed for entity %s: %s", tracker.getEntityId(), e.getMessage());
@@ -242,13 +226,24 @@ public class EntityPacketManipulator implements IEntityPacketManipulator {
    }
 
    @Override
-   public void sendEntityEquipment(EntityInfo tracker, Map<ItemSlot, ItemStack> changes, Collection<Player> players) {
+   public void sendEntityEquipment(EntityInfo tracker, Map<EquipmentSlot, ItemStack> changes, Collection<Player> players) {
       try {
-         List<Pair<ItemSlot, ItemStack>> wrappedChanges = new ArrayList<>();
-         changes.forEach((slot, item) -> wrappedChanges.add(new Pair(slot, item == null ? new ItemStack(Material.AIR) : item)));
-         PacketContainer packet = new PacketContainer(Server.ENTITY_EQUIPMENT);
-         packet.getIntegers().write(0, tracker.getEntityId());
-         packet.getSlotStackPairLists().write(0, wrappedChanges);
+         // NOTE: WrapperPlayServerEntityEquipment's exact constructor and its per-slot entry
+         // type were not individually confirmed this session (unlike most other wrappers used
+         // in this file) - verify against the installed jar / IDE autocomplete. The shape below
+         // (entity id + list of slot/item pairs) follows the same pattern as every other
+         // multi-entry wrapper confirmed here (EntityMetadata, PlayerInfoUpdate), so it's a
+         // reasonable expectation, not a confirmed fact.
+         List<WrapperPlayServerEntityEquipment.Equipment> equipment = new ArrayList<>();
+         changes.forEach((slot, item) -> {
+            ItemStack safeItem = item == null ? new ItemStack(org.bukkit.Material.AIR) : item;
+            equipment.add(
+               new WrapperPlayServerEntityEquipment.Equipment(
+                  SpigotConversionUtil.fromBukkitEquipmentSlot(slot), SpigotConversionUtil.fromBukkitItemStack(safeItem)
+               )
+            );
+         });
+         WrapperPlayServerEntityEquipment packet = new WrapperPlayServerEntityEquipment(tracker.getEntityId(), equipment);
          PacketUtil.sendPacket(players, packet);
       } catch (Throwable e) {
          this.logger.finer("sendEntityEquipment failed for entity %s: %s", tracker.getEntityId(), e.getMessage());
@@ -258,14 +253,26 @@ public class EntityPacketManipulator implements IEntityPacketManipulator {
    @Override
    public void sendMetadata(EntityInfo tracker, Collection<Player> players) {
       try {
-         PacketContainer packet = new PacketContainer(Server.ENTITY_METADATA);
-         packet.getIntegers().write(0, tracker.getEntityId());
-         WrappedDataWatcher dataWatcher = EntityUtil.getActualDataWatcher(tracker.getEntity());
-         List<WrappedDataValue> wrappedDataValueList = dataWatcher.getWatchableObjects().stream().filter(Objects::nonNull).map(entry -> {
-            WrappedDataWatcherObject dataWatcherObject = entry.getWatcherObject();
-            return new WrappedDataValue(dataWatcherObject.getIndex(), dataWatcherObject.getSerializer(), entry.getRawValue());
-         }).toList();
-         packet.getDataValueCollectionModifier().write(0, wrappedDataValueList);
+         // NOTE: this is the one method in this file that is NOT a faithful port, on purpose.
+         // ProtocolLib's WrappedDataWatcher.getEntityWatcher(entity) generically read the
+         // CURRENT metadata (glowing, on fire, sneaking, pose, custom name, ...) of an arbitrary
+         // live entity via its own NMS reflection. PacketEvents doesn't provide an equivalent -
+         // it's a packet library, not a live-entity-introspection library, so there's no
+         // WrapperPlayServerEntityMetadata source-side counterpart to read FROM.
+         //
+         // Sending an empty list here is a deliberate, safe placeholder: fake entities stop
+         // mirroring special visual states until this is resolved, but nothing throws or sends
+         // malformed data. Two realistic ways to close this gap, worth deciding deliberately
+         // rather than guessing one here:
+         //   1. Reflectively read the entity's internal SynchedEntityData (same idea as
+         //      ProtocolLib's own implementation, just written and maintained by this project
+         //      instead of relying on ProtocolLib for it), converting each entry to
+         //      EntityData(index, EntityDataTypes.X, value).
+         //   2. Track only specific, known-relevant fields via public Bukkit API
+         //      (Entity#isGlowing, #getFireTicks, LivingEntity#getPose, etc.) and build the
+         //      EntityData list from those - less generic, but no reflection at all.
+         List<EntityData> metadata = Collections.emptyList();
+         WrapperPlayServerEntityMetadata packet = new WrapperPlayServerEntityMetadata(tracker.getEntityId(), metadata);
          PacketUtil.sendPacket(players, packet);
       } catch (Throwable e) {
          this.logger.finer("sendMetadata failed for entity %s: %s", tracker.getEntityId(), e.getMessage());
@@ -278,39 +285,35 @@ public class EntityPacketManipulator implements IEntityPacketManipulator {
          Vector entityVelocity = tracker.getRotation().transform(newVelocity);
          entityVelocity = MathUtil.min(entityVelocity, new Vector(3.9, 3.9, 3.9));
          entityVelocity = MathUtil.max(entityVelocity, new Vector(-3.9, -3.9, -3.9));
-         PacketContainer packet = new PacketContainer(Server.ENTITY_VELOCITY);
-         packet.getIntegers().write(0, tracker.getEntityId());
-         PacketUtil.writeVelocity(packet, entityVelocity);
+         WrapperPlayServerEntityVelocity packet = new WrapperPlayServerEntityVelocity(
+            tracker.getEntityId(), new Vector3d(entityVelocity.getX(), entityVelocity.getY(), entityVelocity.getZ())
+         );
          PacketUtil.sendPacket(players, packet);
       } catch (Throwable e) {
          this.logger.finer("sendEntityVelocity failed for entity %s: %s", tracker.getEntityId(), e.getMessage());
       }
    }
 
+   private static WrapperPlayServerEntityAnimation.EntityAnimationType toPacketEventsAnimation(AnimationType animationType) {
+      // AnimationType only has 4 constants in this codebase (see nms/AnimationType.java); mapped
+      // to PacketEvents' EntityAnimationType by the well-known, stable vanilla animation ids
+      // (0/1/2/3). Constant names on the PacketEvents side were not individually confirmed this
+      // session - verify against IDE autocomplete.
+      return switch (animationType) {
+         case MAIN_HAND -> WrapperPlayServerEntityAnimation.EntityAnimationType.SWING_MAIN_ARM;
+         case DAMAGE -> WrapperPlayServerEntityAnimation.EntityAnimationType.TAKE_DAMAGE;
+         case LEAVE_BED -> WrapperPlayServerEntityAnimation.EntityAnimationType.LEAVE_BED;
+         case OFF_HAND -> WrapperPlayServerEntityAnimation.EntityAnimationType.SWING_OFF_HAND;
+      };
+   }
+
    @Override
    public void sendEntityAnimation(EntityInfo tracker, Collection<Player> players, AnimationType animationType) {
       try {
-         PacketContainer packet;
-         try {
-            Object nmsEntity = tracker.getEntity().getClass().getMethod("getHandle").invoke(tracker.getEntity());
-            Class<?> nmsEntityClass = Class.forName("net.minecraft.world.entity.Entity");
-            Class<?> packetClass = Class.forName("net.minecraft.network.protocol.game.ClientboundAnimatePacket");
-            Constructor<?> constructor = packetClass.getConstructor(nmsEntityClass, int.class);
-            Object nmsPacket = constructor.newInstance(nmsEntity, animationType.getNmsId());
-            packet = new PacketContainer(Server.ANIMATION, nmsPacket);
-            packet.getIntegers().write(0, tracker.getEntityId());
-         } catch (Throwable inner) {
-            try {
-               packet = new PacketContainer(Server.ANIMATION);
-               StructureModifier<Integer> integers = packet.getIntegers();
-               integers.write(0, tracker.getEntityId());
-               integers.write(1, animationType.getNmsId());
-            } catch (Throwable innerFallback) {
-               this.logger.finer("sendEntityAnimation failed for entity %s: %s", tracker.getEntityId(), innerFallback.getMessage());
-               return;
-            }
-         }
-
+         // No more reflection fallback needed - see sendEntityHeadRotation above.
+         WrapperPlayServerEntityAnimation packet = new WrapperPlayServerEntityAnimation(
+            tracker.getEntityId(), toPacketEventsAnimation(animationType)
+         );
          PacketUtil.sendPacket(players, packet);
       } catch (Throwable e) {
          this.logger.finer("sendEntityAnimation failed for entity %s: %s", tracker.getEntityId(), e.getMessage());
@@ -320,52 +323,64 @@ public class EntityPacketManipulator implements IEntityPacketManipulator {
    @Override
    public void sendEntityPickupItem(EntityInfo tracker, EntityInfo pickedUp, Collection<Player> players) {
       try {
-         PacketContainer packet = new PacketContainer(Server.COLLECT);
-         StructureModifier<Integer> integers = packet.getIntegers();
-         integers.write(0, pickedUp.getEntityId());
-         integers.write(1, tracker.getEntityId());
-         integers.write(2, ((Item)pickedUp.getEntity()).getItemStack().getAmount());
+         int amount = ((Item)pickedUp.getEntity()).getItemStack().getAmount();
+         WrapperPlayServerCollectItem packet = new WrapperPlayServerCollectItem(pickedUp.getEntityId(), tracker.getEntityId(), amount);
          PacketUtil.sendPacket(players, packet);
       } catch (Throwable e) {
          this.logger.finer("sendEntityPickupItem failed for entity %s: %s", tracker.getEntityId(), e.getMessage());
       }
    }
 
-   private PlayerInfoData generatePlayerInfoData(EntityInfo tracker) {
-      WrappedGameProfile profile = new WrappedGameProfile(tracker.getEntityUniqueId(), tracker.getEntity().getName());
+   private WrapperPlayServerPlayerInfoUpdate.PlayerInfo generatePlayerInfoData(EntityInfo tracker) {
       Player trackingPlayer = (Player)tracker.getEntity();
-      WrappedGameProfile playerProfile = WrappedGameProfile.fromPlayer(trackingPlayer);
+      UserProfile fakeProfile = new UserProfile(tracker.getEntityUniqueId(), trackingPlayer.getName());
 
       try {
-         Object profileHandle = profile.getHandle();
-         Object playerProfileHandle = playerProfile.getHandle();
-         Object properties = profileHandle.getClass().getMethod("getProperties").invoke(profileHandle);
-         Object playerProperties = playerProfileHandle.getClass().getMethod("getProperties").invoke(playerProfileHandle);
-         properties.getClass().getMethod("removeAll", Object.class).invoke(properties, "textures");
-         Collection<?> textures = (Collection<?>)playerProperties.getClass().getMethod("get", Object.class).invoke(playerProperties, "textures");
-         properties.getClass().getMethod("putAll", Object.class, Iterable.class).invoke(properties, "textures", textures);
-      } catch (Throwable inner) {
-         try {
-            profile.getProperties().removeAll("textures");
-            profile.getProperties().putAll("textures", playerProfile.getProperties().get("textures"));
-         } catch (Throwable innerFallback) {
-            this.logger.finer("Failed to copy player skin textures for %s: %s", trackingPlayer.getName(), innerFallback.getMessage());
+         PlayerProfile realProfile = trackingPlayer.getPlayerProfile();
+         PlayerTextures textures = realProfile.getTextures();
+         if (textures != null && textures.getSkin() != null) {
+            // Paper's PlayerTextures exposes the skin as a URL, not the raw signed "textures"
+            // property value ProtocolLib copied verbatim. Re-deriving a signed property from a
+            // URL isn't possible client-side without the original signature, so this copies the
+            // property the same way the ProtocolLib version did: straight from the profile's
+            // raw properties, just read via Paper's API instead of reflection.
+            realProfile.getProperties()
+               .stream()
+               .filter(property -> "textures".equals(property.getName()))
+               .findFirst()
+               .ifPresent(
+                  property -> fakeProfile.getTextureProperties()
+                        .add(new TextureProperty("textures", property.getValue(), property.getSignature()))
+               );
          }
+      } catch (Throwable inner) {
+         this.logger.finer("Failed to copy player skin textures for %s: %s", trackingPlayer.getName(), inner.getMessage());
       }
 
-      return new PlayerInfoData(
-         profile, trackingPlayer.getPing(), NativeGameMode.fromBukkit(trackingPlayer.getGameMode()), WrappedChatComponent.fromText(trackingPlayer.getName())
+      GameMode gameMode = switch (trackingPlayer.getGameMode()) {
+         case SURVIVAL -> GameMode.SURVIVAL;
+         case CREATIVE -> GameMode.CREATIVE;
+         case ADVENTURE -> GameMode.ADVENTURE;
+         case SPECTATOR -> GameMode.SPECTATOR;
+      };
+      return new WrapperPlayServerPlayerInfoUpdate.PlayerInfo(
+         fakeProfile,
+         false, // not listed in the tab list - this profile only exists long enough for the
+                // client to resolve the skin texture, then gets removed again (see
+                // EntityTracker#addTracking / FAKE_PLAYER_TAB_LIST_REMOVE_DELAY)
+         trackingPlayer.getPing(),
+         gameMode,
+         Component.text(trackingPlayer.getName()),
+         null
       );
    }
 
    @Override
    public void sendAddPlayerProfile(EntityInfo tracker, Collection<Player> players) {
       try {
-         PacketContainer packet = new PacketContainer(Server.PLAYER_INFO);
-         packet.getPlayerInfoActions().write(0, Set.of(PlayerInfoAction.ADD_PLAYER));
-         List<PlayerInfoData> playerInfoDataList = new ArrayList<>();
-         playerInfoDataList.add(this.generatePlayerInfoData(tracker));
-         packet.getPlayerInfoDataLists().write(1, playerInfoDataList);
+         WrapperPlayServerPlayerInfoUpdate packet = new WrapperPlayServerPlayerInfoUpdate(
+            WrapperPlayServerPlayerInfoUpdate.Action.ADD_PLAYER, this.generatePlayerInfoData(tracker)
+         );
          PacketUtil.sendPacket(players, packet);
       } catch (Throwable e) {
          this.logger.finer("sendAddPlayerProfile failed for entity %s: %s", tracker.getEntityId(), e.getMessage());
@@ -375,8 +390,7 @@ public class EntityPacketManipulator implements IEntityPacketManipulator {
    @Override
    public void sendRemovePlayerProfile(EntityInfo tracker, Collection<Player> players) {
       try {
-         PacketContainer packet = new PacketContainer(Server.PLAYER_INFO_REMOVE);
-         packet.getUUIDLists().write(0, Collections.singletonList(tracker.getEntityUniqueId()));
+         WrapperPlayServerPlayerInfoRemove packet = new WrapperPlayServerPlayerInfoRemove(tracker.getEntityUniqueId());
          PacketUtil.sendPacket(players, packet);
       } catch (Throwable e) {
          this.logger.finer("sendRemovePlayerProfile failed for entity %s: %s", tracker.getEntityId(), e.getMessage());

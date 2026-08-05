@@ -1,6 +1,7 @@
 package org.envel.immersiveportalspaperized.bukkit.block.lighting;
 
-import com.comphenix.protocol.wrappers.WrappedBlockData;
+import com.github.retrooper.packetevents.protocol.world.states.WrappedBlockState;
+import io.github.retrooper.packetevents.util.SpigotConversionUtil;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import org.bukkit.Bukkit;
@@ -48,14 +49,14 @@ public class LightDataManger implements ILightDataManager {
 
    @Nullable
    @Override
-   public WrappedBlockData getLightData(IPortal portal) {
+   public WrappedBlockState getLightData(IPortal portal) {
       int lightLevel = this.getLightLevel(portal);
       if (lightLevel == -1) {
          return null;
       } else {
          Light lightBlockData = (Light)Bukkit.createBlockData(Material.LIGHT);
          lightBlockData.setLevel(lightLevel);
-         return WrappedBlockData.createData(lightBlockData);
+         return SpigotConversionUtil.fromBukkitBlockData(lightBlockData);
       }
    }
 }

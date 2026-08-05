@@ -1,7 +1,8 @@
 package org.envel.immersiveportalspaperized.bukkit.block.bukkit;
 
-import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.wrappers.WrappedBlockData;
+import com.github.retrooper.packetevents.protocol.world.states.WrappedBlockState;
+import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerBlockEntityData;
+import io.github.retrooper.packetevents.util.SpigotConversionUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -36,7 +37,7 @@ public class BukkitBlockMap extends FloodFillBlockMap {
    private IBlockDataFetcher dataFetcher;
    private final World originWorld;
    private final ILightDataManager lightDataManager;
-   private WrappedBlockData wrappedLightData;
+   private WrappedBlockState wrappedLightData;
 
    @Inject
    public BukkitBlockMap(
@@ -59,7 +60,7 @@ public class BukkitBlockMap extends FloodFillBlockMap {
 
    @Override
    protected void searchFromBlock(IntVector start, List<IViewableBlockInfo> statesOutput, @Nullable IViewableBlockInfo firstBlockInfo) {
-      WrappedBlockData backgroundData = this.getBackgroundData();
+      WrappedBlockState backgroundData = this.getBackgroundData();
       int timeBetweenLightBlocks = this.renderConfig.getLightSimulationInterval();
       if (this.wrappedLightData == null) {
          this.wrappedLightData = this.lightDataManager.getLightData(this.portal);
@@ -140,7 +141,7 @@ public class BukkitBlockMap extends FloodFillBlockMap {
       if (!this.portal.isCrossServer() && MaterialUtil.isTileEntity(destData.getMaterial())) {
          this.logger.finer("Adding tile state to map . . .");
          Block destBlock = destPos.getBlock(Objects.requireNonNull(this.portal.getDestPos().getWorld()));
-         PacketContainer updatePacket = BlockDataUtil.getUpdatePacket(destBlock.getState());
+         WrapperPlayServerBlockEntityData updatePacket = BlockDataUtil.getUpdatePacket(destBlock.getState());
          if (updatePacket != null) {
             BlockDataUtil.setTileEntityPosition(updatePacket, originPos);
             this.destTileStates.put(originPos, updatePacket);
@@ -149,18 +150,18 @@ public class BukkitBlockMap extends FloodFillBlockMap {
 
       if (MaterialUtil.isTileEntity(originBlock.getType())) {
          this.logger.finer("Adding tile state to map . . .");
-         PacketContainer updatePacket = BlockDataUtil.getUpdatePacket(originBlock.getState());
+         WrapperPlayServerBlockEntityData updatePacket = BlockDataUtil.getUpdatePacket(originBlock.getState());
          if (updatePacket != null) {
             this.originTileStates.put(originPos, updatePacket);
          }
       }
    }
 
-   private void updateRenderedData(boolean isEdge, boolean isOccluding, BukkitBlockInfo blockInfo, WrappedBlockData backgroundData, BlockData destData) {
+   private void updateRenderedData(boolean isEdge, boolean isOccluding, BukkitBlockInfo blockInfo, WrappedBlockState backgroundData, BlockData destData) {
       if (isEdge && !isOccluding) {
          blockInfo.setRenderedDestData(backgroundData);
       } else {
-         blockInfo.setRenderedDestData(WrappedBlockData.createData(this.blockRotator.rotateByMatrix(this.rotateDestToOrigin, destData)));
+         blockInfo.setRenderedDestData(SpigotConversionUtil.fromBukkitBlockData(this.blockRotator.rotateByMatrix(this.rotateDestToOrigin, destData)));
       }
    }
 
@@ -187,7 +188,7 @@ public class BukkitBlockMap extends FloodFillBlockMap {
 
             if (!this.portal.isCrossServer() && MaterialUtil.isTileEntity(newDestData.getMaterial())) {
                Block destBlock = destPos.getBlock(Objects.requireNonNull(this.portal.getDestPos().getWorld()));
-               PacketContainer updatePacket = BlockDataUtil.getUpdatePacket(destBlock.getState());
+               WrapperPlayServerBlockEntityData updatePacket = BlockDataUtil.getUpdatePacket(destBlock.getState());
                if (updatePacket != null) {
                   BlockDataUtil.setTileEntityPosition(updatePacket, originPos);
                   this.destTileStates.put(originPos, updatePacket);
@@ -197,7 +198,7 @@ public class BukkitBlockMap extends FloodFillBlockMap {
             Block originBlock = originPos.getBlock(this.originWorld);
             BlockData newOriginData = originBlock.getBlockData();
             if (MaterialUtil.isTileEntity(originBlock.getType())) {
-               PacketContainer updatePacket = BlockDataUtil.getUpdatePacket(originBlock.getState());
+               WrapperPlayServerBlockEntityData updatePacket = BlockDataUtil.getUpdatePacket(originBlock.getState());
                if (updatePacket != null) {
                   this.originTileStates.put(originPos, updatePacket);
                }
@@ -226,8 +227,8 @@ public class BukkitBlockMap extends FloodFillBlockMap {
       }
    }
 
-   private void updateTileStateMap(ConcurrentMap<IntVector, PacketContainer> map, World world, boolean isDestination) {
-      for (Entry<IntVector, PacketContainer> entry : map.entrySet()) {
+   private void updateTileStateMap(ConcurrentMap<IntVector, WrapperPlayServerBlockEntityData> map, World world, boolean isDestination) {
+      for (Entry<IntVector, WrapperPlayServerBlockEntityData> entry : map.entrySet()) {
          IntVector position;
          if (isDestination) {
             IntVector portalRelativePos = entry.getKey().subtract(this.portalOriginPos);

@@ -1,6 +1,6 @@
 package org.envel.immersiveportalspaperized.bukkit.block;
 
-import com.comphenix.protocol.wrappers.WrappedBlockData;
+import com.github.retrooper.packetevents.protocol.world.states.WrappedBlockState;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 import com.google.inject.assistedinject.Assisted;
@@ -10,7 +10,7 @@ public interface IMultiBlockChangeManager {
 
    void addChangeDestination(Vector position, IViewableBlockInfo newData);
 
-   void addChange(Vector position, WrappedBlockData newData);
+   void addChange(Vector position, WrappedBlockState newData);
 
    void sendChanges();
 

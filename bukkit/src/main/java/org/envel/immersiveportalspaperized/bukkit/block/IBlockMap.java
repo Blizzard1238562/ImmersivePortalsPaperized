@@ -1,6 +1,6 @@
 package org.envel.immersiveportalspaperized.bukkit.block;
 
-import com.comphenix.protocol.events.PacketContainer;
+import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerBlockEntityData;
 import java.util.List;
 import org.envel.immersiveportalspaperized.api.IntVector;
 import org.envel.immersiveportalspaperized.bukkit.portal.IPortal;
@@ -14,10 +14,10 @@ public interface IBlockMap {
    List<IViewableBlockInfo> getViewableStates();
 
    @Nullable
-   PacketContainer getOriginTileEntityPacket(@NotNull IntVector position);
+   WrapperPlayServerBlockEntityData getOriginTileEntityPacket(@NotNull IntVector position);
 
    @Nullable
-   PacketContainer getDestinationTileEntityPacket(@NotNull IntVector position);
+   WrapperPlayServerBlockEntityData getDestinationTileEntityPacket(@NotNull IntVector position);
 
    void reset();
 

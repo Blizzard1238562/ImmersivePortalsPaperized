@@ -1,10 +1,10 @@
 package org.envel.immersiveportalspaperized.bukkit.entity.faking;
 
-import com.comphenix.protocol.wrappers.EnumWrappers.ItemSlot;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 import org.envel.immersiveportalspaperized.bukkit.nms.AnimationType;
@@ -34,7 +34,7 @@ public interface IEntityPacketManipulator {
 
    void sendMount(EntityInfo tracker, Collection<EntityInfo> riding, Collection<Player> players);
 
-   void sendEntityEquipment(EntityInfo tracker, Map<ItemSlot, ItemStack> changes, Collection<Player> players);
+   void sendEntityEquipment(EntityInfo tracker, Map<EquipmentSlot, ItemStack> changes, Collection<Player> players);
 
    void sendMetadata(EntityInfo tracker, Collection<Player> players);
 

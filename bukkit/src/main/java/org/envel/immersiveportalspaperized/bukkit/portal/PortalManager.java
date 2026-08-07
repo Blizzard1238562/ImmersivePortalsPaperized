@@ -86,6 +86,24 @@ public class PortalManager implements IPortalManager {
       World world = position.getWorld();
       if (world == null) {
          return null;
+      } else if (Double.isInfinite(maximumDistance)) {
+         // Chunk-radius scanning below assumes a finite radius; (int) casting an infinite
+         // distance yields Integer.MAX_VALUE and would iterate ~2^64 chunk cells. Fall back
+         // to a direct scan over all known portals in this world instead.
+         for (IPortal portal : this.portalsById.values()) {
+            Location portalPos = portal.getOriginPos().getLocation();
+            if (portalPos.getWorld() != world) {
+               continue;
+            }
+
+            double distanceSquared = portalPos.distanceSquared(position);
+            if (!(distanceSquared >= currentClosestDistanceSquared) && predicate.test(portal)) {
+               currentClosest = portal;
+               currentClosestDistanceSquared = distanceSquared;
+            }
+         }
+
+         return currentClosest;
       } else {
          int centerChunkX = position.getBlockX() >> 4;
          int centerChunkZ = position.getBlockZ() >> 4;

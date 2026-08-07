@@ -113,6 +113,11 @@ public abstract class BlockUpdateFinisher {
             ? false
             : this.blockView == ((BlockUpdateFinisher.BlockViewUpdateInfo)other).blockView;
       }
+
+      @Override
+      public int hashCode() {
+         return System.identityHashCode(this.blockView);
+      }
    }
 
    private static enum BlockViewUpdateType {

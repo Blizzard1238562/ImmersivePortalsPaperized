@@ -6,6 +6,9 @@ import org.envel.immersiveportalspaperized.bukkit.nms.AnimationType;
 import org.envel.immersiveportalspaperized.bukkit.portal.IPortal;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * IEntityTracker.
+ */
 public interface IEntityTracker {
    void addTracking(@NotNull Player player);
 
@@ -29,3 +32,5 @@ public interface IEntityTracker {
       IEntityTracker create(Entity entity, IPortal portal);
    }
 }
+
+

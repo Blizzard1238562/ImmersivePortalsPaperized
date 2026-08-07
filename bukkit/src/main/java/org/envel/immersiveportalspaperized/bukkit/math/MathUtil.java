@@ -4,6 +4,9 @@ import org.bukkit.Location;
 import org.bukkit.util.Vector;
 import org.envel.immersiveportalspaperized.bukkit.util.Pair;
 
+/**
+ * MathUtil.
+ */
 public class MathUtil {
    public static final double EPSILON = 1.0E-4;
    private static final double TWO_PI = Math.PI * 2;
@@ -79,3 +82,5 @@ public class MathUtil {
       }
    }
 }
+
+

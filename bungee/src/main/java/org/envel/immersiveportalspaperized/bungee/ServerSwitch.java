@@ -11,6 +11,9 @@ import org.envel.immersiveportalspaperized.shared.logging.Logger;
 import org.envel.immersiveportalspaperized.shared.net.RequestException;
 import org.envel.immersiveportalspaperized.shared.net.requests.PreviousServerPutRequest;
 
+/**
+ * BungeeCord event listener that reports player server switches to the proxy.
+ */
 public class ServerSwitch implements Listener {
    private final IPortalServer portalServer;
    private final Logger logger;

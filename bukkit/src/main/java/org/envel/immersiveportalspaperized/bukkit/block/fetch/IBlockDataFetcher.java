@@ -4,6 +4,9 @@ import org.bukkit.block.data.BlockData;
 import org.envel.immersiveportalspaperized.api.IntVector;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * IBlockDataFetcher.
+ */
 public interface IBlockDataFetcher {
    void update();
 
@@ -12,3 +15,5 @@ public interface IBlockDataFetcher {
    @NotNull
    BlockData getData(@NotNull IntVector position);
 }
+
+

@@ -3,6 +3,8 @@ dependencies {
     implementation project(':api')
 
     compileOnly "io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT"
+    testCompileOnly "io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT"
+    testRuntimeOnly "io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT"
     // ProtocolLib -> PacketEvents migration: verify latest version against
     // https://repo.codemc.io/repository/maven-releases/com/github/retrooper/packetevents-spigot/
     // before the first real build - 2.13.0 was current per javadocs.packetevents.com at time of writing.
@@ -11,4 +13,8 @@ dependencies {
         exclude group: "org.bukkit", module: "bukkit"
     }
     implementation "com.github.ben-manes.caffeine:caffeine:3.1.8"
+
+    testImplementation 'com.github.MockBukkit:MockBukkit:4.110.0'
+    testImplementation 'org.mockito:mockito-core:5.12.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.12.0'
 }

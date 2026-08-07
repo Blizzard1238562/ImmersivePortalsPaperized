@@ -16,6 +16,14 @@ import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Represents a position in a Minecraft world, optionally associated with a direction and server.
+ * <p>
+ * Supports both local positions (within the same server) and external positions (on another server
+ * in a cross-server portal network). Positions are serializable via {@link #serialize()} and
+ * deserializable from a {@link Map}.
+ * </p>
+ */
 public class PortalPosition implements Serializable, ConfigurationSerializable {
    private static final long serialVersionUID = 7309245176857806033L;
    @Getter

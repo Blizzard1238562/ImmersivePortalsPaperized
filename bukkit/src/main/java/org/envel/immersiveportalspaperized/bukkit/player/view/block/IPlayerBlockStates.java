@@ -5,6 +5,9 @@ import org.bukkit.util.Vector;
 import org.envel.immersiveportalspaperized.bukkit.block.IViewableBlockInfo;
 import org.envel.immersiveportalspaperized.bukkit.portal.IPortal;
 
+/**
+ * IPlayerBlockStates.
+ */
 public interface IPlayerBlockStates {
    void resetAndUpdate(int minChunkY, int maxChunkY);
 
@@ -16,3 +19,5 @@ public interface IPlayerBlockStates {
       IPlayerBlockStates create(Player player, IPortal portal);
    }
 }
+
+

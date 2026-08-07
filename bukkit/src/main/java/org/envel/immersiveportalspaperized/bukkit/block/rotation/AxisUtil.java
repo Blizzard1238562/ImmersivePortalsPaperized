@@ -8,6 +8,9 @@ import org.envel.immersiveportalspaperized.bukkit.math.MathUtil;
 import org.envel.immersiveportalspaperized.bukkit.math.Matrix;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * AxisUtil.
+ */
 public class AxisUtil {
    private static final Map<Vector, Axis> vectorToAxis = new HashMap<>();
    private static final Map<Axis, Vector> axisToVector = new HashMap<>();
@@ -31,3 +34,5 @@ public class AxisUtil {
       axisToVector.put(Axis.Z, new Vector(0.0, 0.0, 1.0));
    }
 }
+
+

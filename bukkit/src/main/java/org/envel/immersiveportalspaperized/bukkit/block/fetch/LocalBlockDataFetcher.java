@@ -13,6 +13,9 @@ import org.envel.immersiveportalspaperized.bukkit.portal.IPortal;
 import org.envel.immersiveportalspaperized.bukkit.util.SchedulerUtil;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * LocalBlockDataFetcher.
+ */
 public class LocalBlockDataFetcher implements IBlockDataFetcher {
    private final IPortal portal;
    private final World destinationWorld;
@@ -80,3 +83,5 @@ public class LocalBlockDataFetcher implements IBlockDataFetcher {
       }
    }
 }
+
+

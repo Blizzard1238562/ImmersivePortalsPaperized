@@ -28,8 +28,10 @@ import org.envel.immersiveportalspaperized.shared.logging.Logger;
 import org.envel.immersiveportalspaperized.shared.logging.OverrideLogger;
 import org.envel.immersiveportalspaperized.shared.util.ReflectionUtil;
 
+/**
+ * MainModule.
+ */
 public class MainModule extends AbstractModule {
-   private static final boolean EXPERIMENTAL_MODE = false;
    private final ImmersivePortalsPaperized pl;
 
    public MainModule(ImmersivePortalsPaperized pl) {
@@ -68,3 +70,5 @@ public class MainModule extends AbstractModule {
       return (Module)ReflectionUtil.invokeConstructor(nmsModuleCtor);
    }
 }
+
+

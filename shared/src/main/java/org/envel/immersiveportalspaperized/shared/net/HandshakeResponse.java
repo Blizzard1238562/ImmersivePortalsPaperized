@@ -4,6 +4,9 @@ import java.io.Serializable;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Proxy response to a {@link Handshake}, indicating whether the connection was accepted.
+ */
 @Getter
 @Setter
 public class HandshakeResponse implements Serializable {

@@ -10,6 +10,9 @@ import org.envel.immersiveportalspaperized.bukkit.entity.faking.NoUpdateEntityTr
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 
+/**
+ * EntityModule.
+ */
 public class EntityModule extends AbstractModule {
    private final boolean usingNms;
 
@@ -28,3 +31,5 @@ public class EntityModule extends AbstractModule {
       this.bind(EntityTrackingManager.class).to(this.usingNms ? NoUpdateEntityTrackingManager.class : EventEntityTrackingManager.class);
    }
 }
+
+

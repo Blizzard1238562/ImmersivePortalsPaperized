@@ -29,6 +29,9 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * PlayerBlockView.
+ */
 public class PlayerBlockView implements IPlayerBlockView {
    private final Player player;
    private final IPortal portal;
@@ -207,3 +210,5 @@ public class PlayerBlockView implements IPlayerBlockView {
       multiBlockChangeManager.sendChanges();
    }
 }
+
+

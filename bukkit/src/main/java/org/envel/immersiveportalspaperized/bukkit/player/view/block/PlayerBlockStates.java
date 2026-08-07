@@ -14,6 +14,9 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * PlayerBlockStates.
+ */
 public class PlayerBlockStates implements IPlayerBlockStates {
    private final Player player;
    private final IMultiBlockChangeManager.Factory multiBlockChangeManagerFactory;
@@ -100,3 +103,5 @@ public class PlayerBlockStates implements IPlayerBlockStates {
       globalViewedStates.remove(uuid);
    }
 }
+
+

@@ -12,6 +12,9 @@ import org.envel.immersiveportalspaperized.bukkit.portal.IPortal;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+/**
+ * PortalTransformations.
+ */
 public class PortalTransformations {
    private final PortalPosition originPos;
    private final PortalPosition destPos;
@@ -96,3 +99,5 @@ public class PortalTransformations {
       return new PlaneIntersectionChecker(this.originPos.getVector(), this.originPos.getDirection().toVector(), rayOrigin, planeSize);
    }
 }
+
+

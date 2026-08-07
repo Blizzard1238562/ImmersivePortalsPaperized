@@ -17,6 +17,9 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * MainCommands.
+ */
 @Singleton
 public class MainCommands {
    private final ImmersivePortalsPaperized pl;
@@ -73,3 +76,5 @@ public class MainCommands {
       }
    }
 }
+
+

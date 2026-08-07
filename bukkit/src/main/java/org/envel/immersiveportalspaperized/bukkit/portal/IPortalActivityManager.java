@@ -1,5 +1,8 @@
 package org.envel.immersiveportalspaperized.bukkit.portal;
 
+/**
+ * IPortalActivityManager.
+ */
 public interface IPortalActivityManager {
    void onPortalViewedThisTick(IPortal var1);
 
@@ -9,3 +12,5 @@ public interface IPortalActivityManager {
 
    void resetActivity();
 }
+
+

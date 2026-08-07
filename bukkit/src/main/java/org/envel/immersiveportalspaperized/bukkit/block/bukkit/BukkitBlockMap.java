@@ -30,6 +30,9 @@ import com.google.inject.assistedinject.Assisted;
 import org.jetbrains.annotations.Nullable;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * BukkitBlockMap.
+ */
 public class BukkitBlockMap extends FloodFillBlockMap {
    private final IBlockRotator blockRotator;
    private final BlockDataFetcherFactory dataFetcherFactory;
@@ -267,3 +270,5 @@ public class BukkitBlockMap extends FloodFillBlockMap {
       super.reset();
    }
 }
+
+

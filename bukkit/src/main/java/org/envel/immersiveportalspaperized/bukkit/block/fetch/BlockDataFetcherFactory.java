@@ -7,6 +7,9 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * BlockDataFetcherFactory.
+ */
 @Singleton
 public class BlockDataFetcherFactory {
    private final Logger logger;
@@ -26,3 +29,5 @@ public class BlockDataFetcherFactory {
          : new LocalBlockDataFetcher(portal, this.renderConfig));
    }
 }
+
+

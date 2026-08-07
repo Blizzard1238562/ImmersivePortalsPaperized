@@ -11,6 +11,10 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.GCMParameterSpec;
 import com.google.inject.Singleton;
 
+/**
+ * AES/GCM cipher lifecycle manager. Derives a 256-bit key from a shared UUID seed
+ * and produces per-message encrypt/decrypt ciphers with random nonces.
+ */
 @Singleton
 public class CipherManager {
    private static final int AES_KEY_SIZE = 256;

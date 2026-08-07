@@ -4,6 +4,9 @@ import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Requests that a player be teleported to a specific destination on login or portal entry.
+ */
 @Getter
 @Setter
 public class TeleportRequest extends Request {

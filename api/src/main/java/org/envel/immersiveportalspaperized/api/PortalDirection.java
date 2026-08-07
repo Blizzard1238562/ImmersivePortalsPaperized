@@ -4,6 +4,13 @@ import org.bukkit.Location;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Represents the cardinal direction and orientation of a portal.
+ * <p>
+ * Each direction defines a forward vector and an inversion rotation axis used
+ * when transforming coordinates between the origin and destination sides.
+ * </p>
+ */
 public enum PortalDirection {
    UP(new Vector(0.0, 1.0, 0.0), new Vector(1.0, 0.0, 0.0)),
    DOWN(new Vector(0.0, -1.0, 0.0), new Vector(1.0, 0.0, 0.0)),

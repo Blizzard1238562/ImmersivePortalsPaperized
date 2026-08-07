@@ -9,6 +9,9 @@ import org.envel.immersiveportalspaperized.bukkit.math.Matrix;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * BlockFaceUtil.
+ */
 public class BlockFaceUtil {
    private static final Map<Vector, BlockFace> vectorToBlockFace = new HashMap<>();
 
@@ -32,3 +35,5 @@ public class BlockFaceUtil {
       }
    }
 }
+
+

@@ -10,6 +10,9 @@ import org.envel.immersiveportalspaperized.api.PortalPredicate;
 import org.envel.immersiveportalspaperized.bukkit.portal.IPortal;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * PermissionsChecker.
+ */
 public class PermissionsChecker implements PortalPredicate {
    private final String basePath;
 
@@ -30,3 +33,5 @@ public class PermissionsChecker implements PortalPredicate {
       return player.hasPermission(this.basePath) && player.hasPermission(permission);
    }
 }
+
+

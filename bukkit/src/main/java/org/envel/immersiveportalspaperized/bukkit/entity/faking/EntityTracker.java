@@ -22,6 +22,9 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * EntityTracker.
+ */
 public class EntityTracker implements IEntityTracker {
    private static final int FAKE_PLAYER_TAB_LIST_REMOVE_DELAY = 20;
    private final Entity entity;
@@ -197,3 +200,5 @@ public class EntityTracker implements IEntityTracker {
       return this.trackingPlayers.size();
    }
 }
+
+

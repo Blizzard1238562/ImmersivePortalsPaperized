@@ -4,6 +4,9 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import org.bukkit.Location;
 
+/**
+ * SquareChunkAreaIterator.
+ */
 public class SquareChunkAreaIterator implements Iterator<ChunkPosition>, Cloneable {
    private final ChunkPosition low;
    private final ChunkPosition high;
@@ -43,3 +46,5 @@ public class SquareChunkAreaIterator implements Iterator<ChunkPosition>, Cloneab
       return new SquareChunkAreaIterator(this.low, this.high);
    }
 }
+
+

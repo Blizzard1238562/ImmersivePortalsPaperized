@@ -13,6 +13,9 @@ import org.envel.immersiveportalspaperized.bukkit.portal.IPortal;
 import com.google.inject.Inject;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * EconomyChargeChecker.
+ */
 public class EconomyChargeChecker implements PortalPredicate {
    private static final long MESSAGE_COOLDOWN_MS = 3000L;
    private final EconomyManager economyManager;
@@ -79,3 +82,5 @@ public class EconomyChargeChecker implements PortalPredicate {
       }
    }
 }
+
+

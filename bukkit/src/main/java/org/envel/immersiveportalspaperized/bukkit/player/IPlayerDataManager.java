@@ -10,6 +10,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.envel.immersiveportalspaperized.shared.net.requests.TeleportRequest;
 
+/**
+ * IPlayerDataManager.
+ */
 public interface IPlayerDataManager {
    @NotNull
    Collection<IPlayerData> getPlayers();
@@ -34,3 +37,5 @@ public interface IPlayerDataManager {
    @Nullable
    IPortalSelection getDestinationSelectionWhenLoggedOut(UUID uniqueId);
 }
+
+

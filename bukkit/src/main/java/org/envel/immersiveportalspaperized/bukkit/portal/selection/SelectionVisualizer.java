@@ -10,6 +10,9 @@ import org.envel.immersiveportalspaperized.bukkit.util.SchedulerUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+/**
+ * SelectionVisualizer.
+ */
 @Singleton
 public class SelectionVisualizer implements Runnable {
    private final IPlayerDataManager playerDataManager;
@@ -112,3 +115,5 @@ public class SelectionVisualizer implements Runnable {
       }
    }
 }
+
+

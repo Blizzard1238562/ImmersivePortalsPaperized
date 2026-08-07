@@ -7,6 +7,9 @@ import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * EntityEquipmentWatcher.
+ */
 public class EntityEquipmentWatcher {
    private final LivingEntity entity;
    private ItemStack mainHand;
@@ -64,3 +67,5 @@ public class EntityEquipmentWatcher {
       return a != null && b != null ? !a.equals(b) : a != b;
    }
 }
+
+

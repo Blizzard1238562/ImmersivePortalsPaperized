@@ -4,6 +4,9 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * Routes {@link Logger} calls through an SLF4J logger on Velocity.
+ */
 public class VelocityLogger extends Logger {
    private final org.slf4j.Logger logger;
 

@@ -28,6 +28,9 @@ import org.envel.immersiveportalspaperized.shared.net.requests.RelayRequest;
 import org.envel.immersiveportalspaperized.shared.net.requests.Request;
 import org.envel.immersiveportalspaperized.shared.net.requests.TeleportRequest;
 
+/**
+ * ClientRequestHandler.
+ */
 @Singleton
 public class ClientRequestHandler implements IRequestHandler {
    private final Logger logger;
@@ -100,6 +103,10 @@ public class ClientRequestHandler implements IRequestHandler {
          try {
             new ObjectOutputStream(byteOutputStream).writeObject(response);
          } catch (IOException var4) {
+            Response errorResponse = new Response();
+            errorResponse.setError(new RequestException(var4, "Failed to serialize relayed response"));
+            onFinish.accept(errorResponse);
+            return;
          }
 
          Response wrappedResponse = new Response();
@@ -171,3 +178,5 @@ public class ClientRequestHandler implements IRequestHandler {
       });
    }
 }
+
+

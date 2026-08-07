@@ -4,6 +4,9 @@ import jakarta.inject.Singleton;
 import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * ModernChunkGenerationChecker.
+ */
 @Singleton
 public class ModernChunkGenerationChecker implements IChunkGenerationChecker {
    @Override
@@ -11,3 +14,5 @@ public class ModernChunkGenerationChecker implements IChunkGenerationChecker {
       return world.isChunkGenerated(x, z);
    }
 }
+
+

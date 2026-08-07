@@ -5,6 +5,9 @@ import org.bukkit.Chunk;
 import org.envel.immersiveportalspaperized.bukkit.chunk.chunkpos.ChunkPosition;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * IChunkLoader.
+ */
 public interface IChunkLoader {
    void setForceLoaded(Chunk chunk);
 
@@ -48,3 +51,5 @@ public interface IChunkLoader {
       return this.isForceLoaded(new ChunkPosition(chunk));
    }
 }
+
+

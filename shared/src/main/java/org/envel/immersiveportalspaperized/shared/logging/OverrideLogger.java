@@ -5,6 +5,10 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
+/**
+ * Concrete {@link Logger} implementation that routes all output through a
+ * Bukkit plugin logger, normalizing low-severity levels to {@code INFO}.
+ */
 public class OverrideLogger extends Logger {
    private static final Map<Level, String> logLevelNames = new HashMap<>();
    private final java.util.logging.Logger logger;

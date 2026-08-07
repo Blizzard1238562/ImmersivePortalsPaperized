@@ -1,9 +1,13 @@
 plugins {
     id 'java'
+    id 'checkstyle'
+    id 'com.github.spotbugs' version '6.0.0' apply false
 }
 
 allprojects {
     apply plugin: 'java'
+    apply plugin: 'checkstyle'
+    apply plugin: 'com.github.spotbugs'
 
     group = "org.envel.immersiveportalspaperized"
 
@@ -70,4 +74,31 @@ subprojects {
     base {
         archivesName = "${rootProject.name}-${project.name}"
     }
+
+    tasks.withType(Javadoc).configureEach {
+        options.encoding = 'UTF-8'
+        options.charSet = 'UTF-8'
+        options.author = true
+        options.version = true
+        options.addStringOption('Xdoclint:none', '-quiet')
+    }
+
+    checkstyle {
+        toolVersion = '10.12.0'
+        configFile = rootProject.file('config/checkstyle/checkstyle.xml')
+    }
+
+    spotbugs {
+        toolVersion = '4.8.6'
+    }
+
+    tasks.withType(com.github.spotbugs.snom.SpotBugsTask).configureEach {
+        reports {
+            xml.required.set(true)
+            html.required.set(true)
+        }
+        ignoreFailures = true
+    }
+
+    check.dependsOn tasks.withType(com.github.spotbugs.snom.SpotBugsTask)
 }

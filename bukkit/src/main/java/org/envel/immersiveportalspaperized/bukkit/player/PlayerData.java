@@ -31,6 +31,9 @@ import com.google.inject.assistedinject.Assisted;
 import org.jetbrains.annotations.NotNull;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * PlayerData.
+ */
 public class PlayerData implements IPlayerData {
    @Getter
    private final Player player;
@@ -215,3 +218,5 @@ public class PlayerData implements IPlayerData {
       return permanentDataYml;
    }
 }
+
+

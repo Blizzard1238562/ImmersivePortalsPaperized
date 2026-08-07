@@ -5,6 +5,9 @@ import org.jetbrains.annotations.NotNull;
 import org.envel.immersiveportalspaperized.shared.net.Response;
 import org.envel.immersiveportalspaperized.shared.net.requests.Request;
 
+/**
+ * IPortalClient.
+ */
 public interface IPortalClient {
    void connect(boolean printErrors);
 
@@ -24,3 +27,5 @@ public interface IPortalClient {
 
    void sendRequestToServer(Request request, String destinationServer, Consumer<Response> onFinish);
 }
+
+

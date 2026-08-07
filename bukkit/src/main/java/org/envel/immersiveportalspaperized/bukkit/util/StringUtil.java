@@ -2,6 +2,9 @@ package org.envel.immersiveportalspaperized.bukkit.util;
 
 import org.bukkit.Location;
 
+/**
+ * StringUtil.
+ */
 public class StringUtil {
    public static String blockLocationToString(Location location) {
       return String.format(
@@ -19,3 +22,5 @@ public class StringUtil {
       );
    }
 }
+
+

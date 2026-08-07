@@ -8,6 +8,9 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * PortalEffectPreset.
+ */
 public class PortalEffectPreset {
    private final String name;
    private final Particle particle;
@@ -108,3 +111,5 @@ public class PortalEffectPreset {
       return this.soundIntervalTicks;
    }
 }
+
+

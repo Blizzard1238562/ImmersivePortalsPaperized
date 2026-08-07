@@ -10,6 +10,12 @@ import org.bukkit.util.BlockVector;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * An immutable 3D integer vector used for block positions.
+ * <p>
+ * Provides conversion to and from Bukkit {@link Location}, {@link Vector}, and {@link BlockVector}.
+ * </p>
+ */
 public final class IntVector implements Cloneable, Serializable {
    private static final long serialVersionUID = 1L;
    @Getter

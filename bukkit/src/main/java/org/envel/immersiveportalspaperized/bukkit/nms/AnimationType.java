@@ -2,6 +2,9 @@ package org.envel.immersiveportalspaperized.bukkit.nms;
 
 import lombok.Getter;
 
+/**
+ * AnimationType.
+ */
 public enum AnimationType {
    MAIN_HAND(0),
    DAMAGE(1),
@@ -15,3 +18,5 @@ public enum AnimationType {
       this.nmsId = nmsId;
    }
 }
+
+

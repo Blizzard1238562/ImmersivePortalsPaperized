@@ -4,6 +4,9 @@ import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * NoUpdateEntityTrackingManager.
+ */
 @Singleton
 public class NoUpdateEntityTrackingManager extends EntityTrackingManager {
    @Inject
@@ -15,3 +18,5 @@ public class NoUpdateEntityTrackingManager extends EntityTrackingManager {
    public void update() {
    }
 }
+
+

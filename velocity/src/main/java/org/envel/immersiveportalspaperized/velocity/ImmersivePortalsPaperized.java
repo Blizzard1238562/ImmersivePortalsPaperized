@@ -14,6 +14,9 @@ import org.envel.immersiveportalspaperized.shared.net.RequestException;
 import org.envel.immersiveportalspaperized.shared.net.requests.PreviousServerPutRequest;
 import org.slf4j.Logger;
 
+/**
+ * Velocity plugin entry point. Bootstraps Guice and starts the portal server.
+ */
 public class ImmersivePortalsPaperized {
    private final Injector injector;
    private final Logger logger;

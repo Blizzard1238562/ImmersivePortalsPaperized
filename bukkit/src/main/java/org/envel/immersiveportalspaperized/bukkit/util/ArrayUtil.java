@@ -2,6 +2,9 @@ package org.envel.immersiveportalspaperized.bukkit.util;
 
 import java.util.Arrays;
 
+/**
+ * ArrayUtil.
+ */
 public class ArrayUtil {
    public static <T> T[] removeFirstElement(T[] array) {
       if (array.length == 0) {
@@ -19,3 +22,5 @@ public class ArrayUtil {
       }
    }
 }
+
+

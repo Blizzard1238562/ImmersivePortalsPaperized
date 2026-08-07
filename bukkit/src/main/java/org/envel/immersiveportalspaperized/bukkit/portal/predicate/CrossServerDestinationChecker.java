@@ -18,6 +18,9 @@ import org.jetbrains.annotations.Nullable;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 import org.envel.immersiveportalspaperized.shared.net.RequestException;
 
+/**
+ * CrossServerDestinationChecker.
+ */
 @Singleton
 public class CrossServerDestinationChecker implements PortalPredicate {
    private static final int VALIDITY_CHECK_INTERVAL = 1;
@@ -144,3 +147,5 @@ public class CrossServerDestinationChecker implements PortalPredicate {
       }
    }
 }
+
+

@@ -8,6 +8,9 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.util.Vector;
 
+/**
+ * ChunkPosition.
+ */
 @Getter
 @Setter
 public class ChunkPosition implements Cloneable {
@@ -88,3 +91,5 @@ public class ChunkPosition implements Cloneable {
       }
    }
 }
+
+

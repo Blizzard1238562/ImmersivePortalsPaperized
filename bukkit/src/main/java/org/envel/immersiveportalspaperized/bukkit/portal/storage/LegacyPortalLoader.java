@@ -13,6 +13,9 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * LegacyPortalLoader.
+ */
 @Singleton
 public class LegacyPortalLoader {
    private final IPortal.Factory portalFactory;
@@ -53,3 +56,5 @@ public class LegacyPortalLoader {
       return this.portalFactory.create(originPos, destPos, portalSize, anchored, UUID.randomUUID(), ownerId, null, true);
    }
 }
+
+

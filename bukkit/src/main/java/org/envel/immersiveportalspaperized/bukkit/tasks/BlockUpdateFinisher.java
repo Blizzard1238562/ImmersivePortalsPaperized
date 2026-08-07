@@ -6,10 +6,14 @@ import java.util.concurrent.PriorityBlockingQueue;
 import org.envel.immersiveportalspaperized.bukkit.player.view.block.PlayerBlockView;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * .
+ */
 public abstract class BlockUpdateFinisher {
-   private final BlockingQueue<BlockUpdateFinisher.BlockViewUpdateInfo> updateQueue = new PriorityBlockingQueue<>(
-      11, Comparator.comparingInt(info -> info.type == BlockUpdateFinisher.BlockViewUpdateType.RESET ? 0 : 1)
+   private final BlockingQueue<BlockUpdateFinisher.BlockViewUpdateInfo> updateQueue = new PriorityBlockingQueue(
+      11, Comparator.comparingInt((BlockUpdateFinisher.BlockViewUpdateInfo info) -> info.type == BlockUpdateFinisher.BlockViewUpdateType.RESET ? 0 : 1)
    );
+   private final java.util.Set<BlockUpdateFinisher.BlockViewUpdateInfo> scheduledUpdates = new java.util.HashSet<>();
    protected final Logger logger;
    private volatile boolean hasStopped = false;
 
@@ -30,9 +34,12 @@ public abstract class BlockUpdateFinisher {
       try {
          while (!this.hasStopped) {
             BlockUpdateFinisher.BlockViewUpdateInfo next = this.updateQueue.take();
+            this.scheduledUpdates.remove(next);
             this.processUpdate(next);
          }
       } catch (InterruptedException var2) {
+         Thread.currentThread().interrupt();
+         this.logger.fine("Block update thread interrupted, shutting down.");
       }
    }
 
@@ -43,16 +50,20 @@ public abstract class BlockUpdateFinisher {
             return;
          }
 
+         this.scheduledUpdates.remove(next);
          this.processUpdate(next);
       }
    }
 
    public void start() {
       this.hasStopped = false;
+      this.scheduledUpdates.clear();
+      this.updateQueue.clear();
    }
 
    public void stop() {
       this.hasStopped = true;
+      this.scheduledUpdates.clear();
       this.updateQueue.clear();
    }
 
@@ -60,7 +71,7 @@ public abstract class BlockUpdateFinisher {
       BlockUpdateFinisher.BlockViewUpdateInfo updateInfo = new BlockUpdateFinisher.BlockViewUpdateInfo(
          blockView, refresh ? BlockUpdateFinisher.BlockViewUpdateType.REFRESH : BlockUpdateFinisher.BlockViewUpdateType.REGULAR
       );
-      if (this.updateQueue.contains(updateInfo)) {
+      if (!this.scheduledUpdates.add(updateInfo)) {
          this.logger.fine("Block update was scheduled when previous update had not finished. Server is running behind!");
       } else {
          try {
@@ -77,6 +88,8 @@ public abstract class BlockUpdateFinisher {
          BlockUpdateFinisher.BlockViewUpdateInfo updateInfo = new BlockUpdateFinisher.BlockViewUpdateInfo(
             blockView, BlockUpdateFinisher.BlockViewUpdateType.RESET
          );
+         this.scheduledUpdates.remove(updateInfo);
+         this.scheduledUpdates.add(updateInfo);
          this.updateQueue.remove(updateInfo);
          this.updateQueue.put(updateInfo);
       } catch (InterruptedException e) {
@@ -100,6 +113,11 @@ public abstract class BlockUpdateFinisher {
             ? false
             : this.blockView == ((BlockUpdateFinisher.BlockViewUpdateInfo)other).blockView;
       }
+
+      @Override
+      public int hashCode() {
+         return System.identityHashCode(this.blockView);
+      }
    }
 
    private static enum BlockViewUpdateType {
@@ -108,3 +126,5 @@ public abstract class BlockUpdateFinisher {
       RESET;
    }
 }
+
+

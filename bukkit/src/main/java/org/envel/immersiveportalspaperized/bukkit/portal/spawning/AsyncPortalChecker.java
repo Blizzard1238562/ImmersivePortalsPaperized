@@ -13,6 +13,9 @@ import org.envel.immersiveportalspaperized.bukkit.config.PortalSpawnConfig;
 import org.envel.immersiveportalspaperized.bukkit.util.SchedulerUtil;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * AsyncPortalChecker.
+ */
 public class AsyncPortalChecker implements Runnable {
    private static final double CHUNK_SKIP_DISTANCE = 45.0;
    private static final double PORTAL_SEARCH_RADIUS = 128.0;
@@ -127,3 +130,5 @@ public class AsyncPortalChecker implements Runnable {
       }
    }
 }
+
+

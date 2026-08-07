@@ -6,6 +6,9 @@ import org.envel.immersiveportalspaperized.api.PortalPosition;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * IPortalSelection.
+ */
 public interface IPortalSelection extends Cloneable {
    void setPositionA(@NotNull Location posA);
 
@@ -29,3 +32,5 @@ public interface IPortalSelection extends Cloneable {
    @Nullable
    Location getPosB();
 }
+
+

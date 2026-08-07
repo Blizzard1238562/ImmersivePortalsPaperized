@@ -46,6 +46,9 @@ import org.envel.immersiveportalspaperized.shared.logging.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+/**
+ * EntityPacketManipulator.
+ */
 @Singleton
 public class EntityPacketManipulator implements IEntityPacketManipulator {
    private final Logger logger;
@@ -397,3 +400,5 @@ public class EntityPacketManipulator implements IEntityPacketManipulator {
       }
    }
 }
+
+

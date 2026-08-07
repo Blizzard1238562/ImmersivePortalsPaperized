@@ -18,6 +18,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * PortalSpawnConfig.
+ */
 @Singleton
 public class PortalSpawnConfig {
    private static final int MAIN_Y_PADDING = 5;
@@ -114,3 +117,5 @@ public class PortalSpawnConfig {
       return this.worldLinks.get(originWorld);
    }
 }
+
+

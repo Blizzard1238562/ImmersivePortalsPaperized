@@ -4,6 +4,9 @@ import java.net.InetSocketAddress;
 import java.util.UUID;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Abstraction over the proxy platform, used to look up servers/players and move players across servers.
+ */
 public interface IProxy {
    String getPluginVersion();
 

@@ -15,6 +15,9 @@ import org.envel.immersiveportalspaperized.bukkit.portal.IPortalManager;
 import com.google.inject.Inject;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * PortalTeleportationEvents.
+ */
 public class PortalTeleportationEvents implements Listener {
    private final PortalSpawnConfig spawnConfig;
    private final IPortalManager portalManager;
@@ -60,3 +63,5 @@ public class PortalTeleportationEvents implements Listener {
       }
    }
 }
+
+

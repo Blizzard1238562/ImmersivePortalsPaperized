@@ -7,6 +7,9 @@ import org.envel.immersiveportalspaperized.bukkit.portal.IPortal;
 import org.envel.immersiveportalspaperized.bukkit.portal.selection.ISelectionManager;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * IPlayerData.
+ */
 public interface IPlayerData {
    @NotNull
    Collection<IPortal> getViewedPortals();
@@ -42,3 +45,5 @@ public interface IPlayerData {
       IPlayerData create(Player player);
    }
 }
+
+

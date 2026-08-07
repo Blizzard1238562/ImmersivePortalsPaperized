@@ -11,6 +11,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * PortalSelection.
+ */
 public class PortalSelection implements IPortalSelection {
    private Logger logger;
    private Location enteredPosA;
@@ -140,3 +143,5 @@ public class PortalSelection implements IPortalSelection {
       return this.posB;
    }
 }
+
+

@@ -8,6 +8,9 @@ import org.envel.immersiveportalspaperized.proxy.net.ProxyModule;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 import org.envel.immersiveportalspaperized.shared.logging.OverrideLogger;
 
+/**
+ * Guice bindings for the BungeeCord module.
+ */
 public class MainModule extends AbstractModule {
    private final ImmersivePortalsPaperized pl;
 

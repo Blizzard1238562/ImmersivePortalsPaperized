@@ -11,6 +11,9 @@ import net.md_5.bungee.api.plugin.Plugin;
 import org.jetbrains.annotations.Nullable;
 import org.envel.immersiveportalspaperized.proxy.IProxy;
 
+/**
+ * BungeeCord implementation of {@link IProxy}.
+ */
 @Singleton
 public class BungeeProxy implements IProxy {
    private final Plugin pl;

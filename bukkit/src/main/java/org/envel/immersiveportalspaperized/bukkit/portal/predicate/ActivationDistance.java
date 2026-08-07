@@ -9,6 +9,9 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * ActivationDistance.
+ */
 @Singleton
 public class ActivationDistance implements PortalPredicate {
    private final MiscConfig miscConfig;
@@ -25,3 +28,5 @@ public class ActivationDistance implements PortalPredicate {
       return portalOrigin.getWorld() != playerPos.getWorld() ? false : playerPos.distance(portalOrigin) < this.miscConfig.getPortalActivationDistance();
    }
 }
+
+

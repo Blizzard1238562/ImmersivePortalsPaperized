@@ -16,6 +16,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * ConfigManager.
+ */
 @Singleton
 public class ConfigManager {
    private final MessageConfig messages;
@@ -113,3 +116,5 @@ public class ConfigManager {
       return defaultConfig;
    }
 }
+
+

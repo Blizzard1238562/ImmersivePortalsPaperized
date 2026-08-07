@@ -5,6 +5,9 @@ import org.bukkit.Location;
 import org.bukkit.util.Vector;
 import org.envel.immersiveportalspaperized.bukkit.config.WorldLink;
 
+/**
+ * PortalSpawningContext.
+ */
 @Getter
 public class PortalSpawningContext {
    private final WorldLink worldLink;
@@ -17,3 +20,5 @@ public class PortalSpawningContext {
       this.size = size;
    }
 }
+
+

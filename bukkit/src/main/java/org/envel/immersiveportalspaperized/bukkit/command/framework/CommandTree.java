@@ -17,6 +17,9 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * CommandTree.
+ */
 @Singleton
 public class CommandTree {
    private final MessageConfig messages;
@@ -107,3 +110,5 @@ public class CommandTree {
       this.registerCommands(this.testingCommands);
    }
 }
+
+

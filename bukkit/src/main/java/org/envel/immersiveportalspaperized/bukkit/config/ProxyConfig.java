@@ -10,6 +10,9 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * ProxyConfig.
+ */
 @Singleton
 public class ProxyConfig {
    private final Logger logger;
@@ -77,3 +80,5 @@ public class ProxyConfig {
       }
    }
 }
+
+

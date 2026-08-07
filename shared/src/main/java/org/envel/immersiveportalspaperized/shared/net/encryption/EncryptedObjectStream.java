@@ -18,6 +18,9 @@ import javax.crypto.CipherOutputStream;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+/**
+ * GZIP + AES/GCM encrypted object stream for cross-server communication.
+ */
 public class EncryptedObjectStream implements IEncryptedObjectStream {
    private final DataInputStream inputStream;
    private final DataOutputStream outputStream;

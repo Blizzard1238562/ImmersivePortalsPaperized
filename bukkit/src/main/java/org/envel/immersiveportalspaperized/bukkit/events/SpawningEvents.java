@@ -25,6 +25,9 @@ import com.google.inject.Inject;
 import org.jetbrains.annotations.NotNull;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * SpawningEvents.
+ */
 public class SpawningEvents implements Listener {
    private final IPortalSpawner portalSpawnChecker;
    private final IPortalManager portalManager;
@@ -153,3 +156,5 @@ public class SpawningEvents implements Listener {
       }
    }
 }
+
+

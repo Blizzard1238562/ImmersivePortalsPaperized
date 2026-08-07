@@ -6,6 +6,9 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * PortalActivityManager.
+ */
 @Singleton
 public class PortalActivityManager implements IPortalActivityManager {
    private final Logger logger;
@@ -79,3 +82,5 @@ public class PortalActivityManager implements IPortalActivityManager {
       this.viewActivePortalsYetToUpdate.clear();
    }
 }
+
+

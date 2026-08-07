@@ -10,6 +10,9 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.envel.immersiveportalspaperized.bukkit.util.HeightUtil;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * WorldLink.
+ */
 @Getter
 public class WorldLink {
    private final String originWorldName;
@@ -71,3 +74,5 @@ public class WorldLink {
       return loc;
    }
 }
+
+

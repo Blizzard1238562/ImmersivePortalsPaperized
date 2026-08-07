@@ -18,6 +18,9 @@ import com.google.inject.Singleton;
 import org.envel.immersiveportalspaperized.proxy.IProxyConfig;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * Loads BungeeCord-specific configuration from {@code config.yml}.
+ */
 @Singleton
 public class Config implements IProxyConfig {
    private final Plugin pl;

@@ -3,6 +3,9 @@ package org.envel.immersiveportalspaperized.proxy.net;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Lifecycle and registry for connected Bukkit server handlers.
+ */
 public interface IPortalServer {
    void startUp();
 

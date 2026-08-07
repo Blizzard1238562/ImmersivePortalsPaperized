@@ -10,6 +10,9 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * PortalPredicateManager.
+ */
 @Singleton
 public class PortalPredicateManager implements IPortalPredicateManager {
    private final Logger logger;
@@ -105,3 +108,5 @@ public class PortalPredicateManager implements IPortalPredicateManager {
       return true;
    }
 }
+
+

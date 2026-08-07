@@ -8,6 +8,9 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * MiscConfig.
+ */
 @Singleton
 public class MiscConfig {
    private final Logger logger;
@@ -78,3 +81,5 @@ public class MiscConfig {
       }
    }
 }
+
+

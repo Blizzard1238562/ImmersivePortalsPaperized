@@ -4,6 +4,9 @@ import java.util.Collection;
 import org.bukkit.entity.Entity;
 import org.envel.immersiveportalspaperized.bukkit.portal.IPortal;
 
+/**
+ * IPortalEntityManager.
+ */
 public interface IPortalEntityManager {
    Collection<Entity> getOriginEntities();
 
@@ -15,3 +18,5 @@ public interface IPortalEntityManager {
       IPortalEntityManager create(IPortal portal, boolean requireDestination);
    }
 }
+
+

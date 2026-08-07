@@ -2,6 +2,14 @@ package org.envel.immersiveportalspaperized.shared.logging;
 
 import java.util.logging.Level;
 
+/**
+ * Abstraction over {@link java.util.logging.Logger} used across platform modules.
+ * <p>
+ * Provides formatted logging methods ({@code fine}, {@code finer}, {@code finest},
+ * {@code info}, {@code warning}, {@code severe}) that delegate to the underlying
+ * server logger or a test double.
+ * </p>
+ */
 public abstract class Logger extends java.util.logging.Logger {
    protected Logger(String name, String resourceBundleName) {
       super(name, resourceBundleName);

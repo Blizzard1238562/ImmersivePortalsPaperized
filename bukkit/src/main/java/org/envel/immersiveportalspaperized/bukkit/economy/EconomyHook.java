@@ -2,6 +2,9 @@ package org.envel.immersiveportalspaperized.bukkit.economy;
 
 import org.bukkit.entity.Player;
 
+/**
+ * EconomyHook.
+ */
 public interface EconomyHook {
    double getBalance(Player player);
 
@@ -11,3 +14,5 @@ public interface EconomyHook {
 
    String format(double amount);
 }
+
+

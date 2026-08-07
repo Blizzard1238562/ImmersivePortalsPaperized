@@ -6,6 +6,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Argument.
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
 @Repeatable(Arguments.class)
@@ -14,3 +17,5 @@ public @interface Argument {
 
    String defaultValue() default "";
 }
+
+

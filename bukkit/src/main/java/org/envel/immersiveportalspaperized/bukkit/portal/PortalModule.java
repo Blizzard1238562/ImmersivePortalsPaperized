@@ -14,6 +14,9 @@ import org.envel.immersiveportalspaperized.bukkit.portal.storage.YamlPortalStora
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 
+/**
+ * PortalModule.
+ */
 public class PortalModule extends AbstractModule {
    @Override
    public void configure() {
@@ -29,3 +32,5 @@ public class PortalModule extends AbstractModule {
       this.requestStaticInjection(new Class[]{Portal.class});
    }
 }
+
+

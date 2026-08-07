@@ -10,6 +10,9 @@ import com.google.inject.Inject;
 import org.jetbrains.annotations.Nullable;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * .
+ */
 public abstract class EntityTrackingManager {
    private final IEntityTracker.Factory entityTrackerFactory;
    protected final Map<IPortal, Map<Entity, IEntityTracker>> trackersByPortal = new ConcurrentHashMap<>();
@@ -69,4 +72,16 @@ public abstract class EntityTrackingManager {
       Map<Entity, IEntityTracker> portalTrackers = this.trackersByPortal.get(portal);
       return portalTrackers == null ? null : portalTrackers.get(entity);
    }
+
+   public void clearPortal(IPortal portal) {
+      Map<Entity, IEntityTracker> portalMap = this.trackersByPortal.remove(portal);
+      if (portalMap != null) {
+         for (IEntityTracker tracker : portalMap.values()) {
+            this.trackerHasNoPlayers(tracker);
+         }
+         portalMap.clear();
+      }
+   }
 }
+
+

@@ -8,6 +8,9 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * IPortalManager.
+ */
 public interface IPortalManager {
    Collection<IPortal> getAllPortals();
 
@@ -53,3 +56,5 @@ public interface IPortalManager {
 
    void onReload();
 }
+
+

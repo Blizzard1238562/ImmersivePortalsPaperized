@@ -15,6 +15,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 
+/**
+ * API.
+ */
 public class API extends ImmersivePortalsPaperizedAPI {
    private final Logger logger;
    private final IPortal.Factory portalFactory;
@@ -114,3 +117,5 @@ public class API extends ImmersivePortalsPaperizedAPI {
       return this.portalManager;
    }
 }
+
+

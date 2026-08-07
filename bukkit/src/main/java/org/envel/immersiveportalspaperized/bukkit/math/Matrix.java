@@ -5,6 +5,9 @@ import org.bukkit.util.Vector;
 import org.envel.immersiveportalspaperized.api.IntVector;
 import org.envel.immersiveportalspaperized.api.PortalDirection;
 
+/**
+ * Matrix.
+ */
 public class Matrix implements Serializable {
    private static final long serialVersionUID = 1L;
    public double[][] m;
@@ -89,3 +92,5 @@ public class Matrix implements Serializable {
       return this.transform(in.getX(), in.getY(), in.getZ());
    }
 }
+
+

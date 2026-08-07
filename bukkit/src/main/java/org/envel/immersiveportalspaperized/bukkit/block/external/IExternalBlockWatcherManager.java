@@ -4,6 +4,9 @@ import java.util.function.Consumer;
 import org.envel.immersiveportalspaperized.bukkit.net.requests.GetBlockDataChangesRequest;
 import org.envel.immersiveportalspaperized.shared.net.Response;
 
+/**
+ * IExternalBlockWatcherManager.
+ */
 public interface IExternalBlockWatcherManager {
    double CLEAR_TIME = 10.0;
 
@@ -13,3 +16,5 @@ public interface IExternalBlockWatcherManager {
 
    void clear();
 }
+
+

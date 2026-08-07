@@ -14,6 +14,9 @@ import org.bukkit.block.data.type.Fence;
 import org.envel.immersiveportalspaperized.bukkit.math.Matrix;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * ModernBlockRotator.
+ */
 public class ModernBlockRotator implements IBlockRotator {
    @NotNull
    @Override
@@ -86,3 +89,5 @@ public class ModernBlockRotator implements IBlockRotator {
       }
    }
 }
+
+

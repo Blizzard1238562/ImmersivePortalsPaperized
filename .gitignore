@@ -3,14 +3,12 @@
 # ==============================================================================
 .gradle/
 **/build/
-!src/**/build/
 gradle-app.setting
-!gradle-wrapper.jar
-!gradle-wrapper.properties
 .gradletasknamecache
 
 # Ignore Gradle GUI config
 gradle.properties.local
+gradle.properties
 
 # ==============================================================================
 # IntelliJ IDEA
@@ -81,3 +79,11 @@ run/
 server/
 *.env
 local.properties
+
+# Re-include the Gradle wrapper jar/properties, which *.jar / gradle.properties
+# above would otherwise exclude. Must stay at the end of the file: git applies
+# .gitignore patterns in order, so a later broad rule can silently re-exclude
+# an earlier negation (this is what caused gradle-wrapper.jar to never be
+# committed in the first place).
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties

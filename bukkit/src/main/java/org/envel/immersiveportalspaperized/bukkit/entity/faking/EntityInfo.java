@@ -10,6 +10,9 @@ import org.envel.immersiveportalspaperized.bukkit.math.Matrix;
 import org.envel.immersiveportalspaperized.bukkit.math.PortalTransformations;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * EntityInfo.
+ */
 @Getter
 public class EntityInfo {
    private static final Random entityIdGenerator = new Random();
@@ -42,3 +45,5 @@ public class EntityInfo {
       return atOrigin;
    }
 }
+
+

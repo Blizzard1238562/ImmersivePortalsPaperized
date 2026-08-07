@@ -5,6 +5,9 @@ import org.envel.immersiveportalspaperized.bukkit.block.IMultiBlockChangeManager
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 
+/**
+ * BukkitBlockMapModule.
+ */
 public class BukkitBlockMapModule extends AbstractModule {
    @Override
    protected void configure() {
@@ -16,3 +19,5 @@ public class BukkitBlockMapModule extends AbstractModule {
       );
    }
 }
+
+

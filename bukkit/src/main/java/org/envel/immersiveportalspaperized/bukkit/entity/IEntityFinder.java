@@ -6,8 +6,13 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * IEntityFinder.
+ */
 public interface IEntityFinder {
    Collection<Entity> getNearbyEntities(@Nullable Collection<Entity> existing, Location location, double xRadius, double yRadius, double zRadius);
 
    void getNearbyEntities(Location location, double xRadius, double yRadius, double zRadius, Consumer<Entity> consumer);
 }
+
+

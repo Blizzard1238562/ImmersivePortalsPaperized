@@ -9,6 +9,9 @@ import org.envel.immersiveportalspaperized.bukkit.chunk.chunkpos.SquareChunkArea
 import org.envel.immersiveportalspaperized.bukkit.config.RenderConfig;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * PortalChunkLoader.
+ */
 @Singleton
 public class PortalChunkLoader implements IPortalChunkLoader {
    private final RenderConfig config;
@@ -40,3 +43,5 @@ public class PortalChunkLoader implements IPortalChunkLoader {
       }
    }
 }
+
+

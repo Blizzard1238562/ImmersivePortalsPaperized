@@ -16,6 +16,9 @@ import org.envel.immersiveportalspaperized.bukkit.nms.PacketUtil;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+/**
+ * ModernMultiBlockChangeManager.
+ */
 public class ModernMultiBlockChangeManager implements IMultiBlockChangeManager {
    private final Player player;
    private final int minChunkY;
@@ -71,3 +74,5 @@ public class ModernMultiBlockChangeManager implements IMultiBlockChangeManager {
       }
    }
 }
+
+

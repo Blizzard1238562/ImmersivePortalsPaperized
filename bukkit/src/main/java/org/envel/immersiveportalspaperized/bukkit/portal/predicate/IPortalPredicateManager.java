@@ -4,6 +4,9 @@ import org.bukkit.entity.Player;
 import org.envel.immersiveportalspaperized.api.PortalPredicate;
 import org.envel.immersiveportalspaperized.bukkit.portal.IPortal;
 
+/**
+ * IPortalPredicateManager.
+ */
 public interface IPortalPredicateManager {
    void addActivationPredicate(PortalPredicate predicate);
 
@@ -23,3 +26,5 @@ public interface IPortalPredicateManager {
 
    boolean canTeleport(IPortal portal, Player player);
 }
+
+

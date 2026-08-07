@@ -4,7 +4,12 @@ import org.bukkit.block.data.BlockData;
 import org.envel.immersiveportalspaperized.bukkit.math.Matrix;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * IBlockRotator.
+ */
 public interface IBlockRotator {
    @NotNull
    BlockData rotateByMatrix(@NotNull Matrix matrix, @NotNull BlockData data);
 }
+
+

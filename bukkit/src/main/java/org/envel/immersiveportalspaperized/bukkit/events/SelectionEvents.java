@@ -14,6 +14,9 @@ import org.envel.immersiveportalspaperized.bukkit.player.IPlayerDataManager;
 import org.envel.immersiveportalspaperized.bukkit.portal.selection.IPortalSelection;
 import com.google.inject.Inject;
 
+/**
+ * SelectionEvents.
+ */
 public class SelectionEvents implements Listener {
    private final IPlayerDataManager playerDataManager;
    private final MessageConfig messageConfig;
@@ -53,3 +56,5 @@ public class SelectionEvents implements Listener {
       }
    }
 }
+
+

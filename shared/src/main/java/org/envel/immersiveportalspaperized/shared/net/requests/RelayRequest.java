@@ -8,6 +8,9 @@ import java.io.ObjectOutputStream;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Wraps an inner {@link Request} for forwarding through the proxy to another server.
+ */
 public class RelayRequest extends Request {
    private static final long serialVersionUID = 1L;
 

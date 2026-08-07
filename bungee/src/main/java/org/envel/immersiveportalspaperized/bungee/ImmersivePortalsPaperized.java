@@ -9,6 +9,9 @@ import org.envel.immersiveportalspaperized.proxy.net.PortalServer;
 import org.envel.immersiveportalspaperized.shared.logging.Logger;
 import org.envel.immersiveportalspaperized.shared.net.DisconnectNotice;
 
+/**
+ * BungeeCord plugin entry point. Bootstraps Guice and starts the portal server.
+ */
 public class ImmersivePortalsPaperized extends Plugin {
    @Inject
    private Logger logger;

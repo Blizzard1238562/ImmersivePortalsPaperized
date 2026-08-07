@@ -1,5 +1,8 @@
 package org.envel.immersiveportalspaperized.bukkit.net;
 
+/**
+ * IClientReconnectHandler.
+ */
 public interface IClientReconnectHandler {
    void prematureReconnect();
 
@@ -7,3 +10,5 @@ public interface IClientReconnectHandler {
 
    void stop();
 }
+
+

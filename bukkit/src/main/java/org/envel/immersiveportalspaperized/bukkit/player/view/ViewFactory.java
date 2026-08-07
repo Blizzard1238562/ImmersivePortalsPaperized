@@ -5,8 +5,13 @@ import org.envel.immersiveportalspaperized.bukkit.player.view.block.IPlayerBlock
 import org.envel.immersiveportalspaperized.bukkit.player.view.entity.IPlayerEntityView;
 import org.envel.immersiveportalspaperized.bukkit.portal.IPortal;
 
+/**
+ * ViewFactory.
+ */
 public interface ViewFactory {
    IPlayerBlockView createBlockView(Player player, IPortal portal);
 
    IPlayerEntityView createEntityView(Player player, IPortal portal);
 }
+
+

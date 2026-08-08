@@ -1,6 +1,7 @@
 package org.envel.immersiveportalspaperized.bukkit.entity.faking;
 
 import com.github.retrooper.packetevents.protocol.entity.data.EntityData;
+import com.github.retrooper.packetevents.protocol.player.Equipment;
 import com.github.retrooper.packetevents.protocol.player.GameMode;
 import com.github.retrooper.packetevents.protocol.player.TextureProperty;
 import com.github.retrooper.packetevents.protocol.player.UserProfile;
@@ -20,10 +21,10 @@ import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerPl
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerPlayerInfoUpdate;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerSetPassengers;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerSpawnEntity;
+import com.destroystokyo.paper.profile.PlayerProfile;
 import io.github.retrooper.packetevents.util.SpigotConversionUtil;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import net.kyori.adventure.text.Component;
@@ -35,7 +36,6 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.profile.PlayerProfile;
 import org.bukkit.profile.PlayerTextures;
 import org.bukkit.util.Vector;
 import org.envel.immersiveportalspaperized.bukkit.math.MathUtil;
@@ -228,23 +228,29 @@ public class EntityPacketManipulator implements IEntityPacketManipulator {
       }
    }
 
+   private static com.github.retrooper.packetevents.protocol.player.EquipmentSlot toPacketEventsEquipmentSlot(EquipmentSlot slot) {
+      // Bukkit's org.bukkit.inventory.EquipmentSlot -> PacketEvents' own EquipmentSlot enum.
+      // No SpigotConversionUtil helper exists for this (confirmed against the 2.13.0 javadoc),
+      // so it's mapped by hand. PacketEvents additionally has SADDLE, which Bukkit's enum has no
+      // equivalent for.
+      return switch (slot) {
+         case HAND -> com.github.retrooper.packetevents.protocol.player.EquipmentSlot.MAIN_HAND;
+         case OFF_HAND -> com.github.retrooper.packetevents.protocol.player.EquipmentSlot.OFF_HAND;
+         case FEET -> com.github.retrooper.packetevents.protocol.player.EquipmentSlot.BOOTS;
+         case LEGS -> com.github.retrooper.packetevents.protocol.player.EquipmentSlot.LEGGINGS;
+         case CHEST -> com.github.retrooper.packetevents.protocol.player.EquipmentSlot.CHEST_PLATE;
+         case HEAD -> com.github.retrooper.packetevents.protocol.player.EquipmentSlot.HELMET;
+         case BODY -> com.github.retrooper.packetevents.protocol.player.EquipmentSlot.BODY;
+      };
+   }
+
    @Override
    public void sendEntityEquipment(EntityInfo tracker, Map<EquipmentSlot, ItemStack> changes, Collection<Player> players) {
       try {
-         // NOTE: WrapperPlayServerEntityEquipment's exact constructor and its per-slot entry
-         // type were not individually confirmed this session (unlike most other wrappers used
-         // in this file) - verify against the installed jar / IDE autocomplete. The shape below
-         // (entity id + list of slot/item pairs) follows the same pattern as every other
-         // multi-entry wrapper confirmed here (EntityMetadata, PlayerInfoUpdate), so it's a
-         // reasonable expectation, not a confirmed fact.
-         List<WrapperPlayServerEntityEquipment.Equipment> equipment = new ArrayList<>();
+         List<Equipment> equipment = new ArrayList<>();
          changes.forEach((slot, item) -> {
             ItemStack safeItem = item == null ? new ItemStack(org.bukkit.Material.AIR) : item;
-            equipment.add(
-               new WrapperPlayServerEntityEquipment.Equipment(
-                  SpigotConversionUtil.fromBukkitEquipmentSlot(slot), SpigotConversionUtil.fromBukkitItemStack(safeItem)
-               )
-            );
+            equipment.add(new Equipment(toPacketEventsEquipmentSlot(slot), SpigotConversionUtil.fromBukkitItemStack(safeItem)));
          });
          WrapperPlayServerEntityEquipment packet = new WrapperPlayServerEntityEquipment(tracker.getEntityId(), equipment);
          PacketUtil.sendPacket(players, packet);
@@ -256,25 +262,11 @@ public class EntityPacketManipulator implements IEntityPacketManipulator {
    @Override
    public void sendMetadata(EntityInfo tracker, Collection<Player> players) {
       try {
-         // NOTE: this is the one method in this file that is NOT a faithful port, on purpose.
-         // ProtocolLib's WrappedDataWatcher.getEntityWatcher(entity) generically read the
-         // CURRENT metadata (glowing, on fire, sneaking, pose, custom name, ...) of an arbitrary
-         // live entity via its own NMS reflection. PacketEvents doesn't provide an equivalent -
-         // it's a packet library, not a live-entity-introspection library, so there's no
-         // WrapperPlayServerEntityMetadata source-side counterpart to read FROM.
-         //
-         // Sending an empty list here is a deliberate, safe placeholder: fake entities stop
-         // mirroring special visual states until this is resolved, but nothing throws or sends
-         // malformed data. Two realistic ways to close this gap, worth deciding deliberately
-         // rather than guessing one here:
-         //   1. Reflectively read the entity's internal SynchedEntityData (same idea as
-         //      ProtocolLib's own implementation, just written and maintained by this project
-         //      instead of relying on ProtocolLib for it), converting each entry to
-         //      EntityData(index, EntityDataTypes.X, value).
-         //   2. Track only specific, known-relevant fields via public Bukkit API
-         //      (Entity#isGlowing, #getFireTicks, LivingEntity#getPose, etc.) and build the
-         //      EntityData list from those - less generic, but no reflection at all.
-         List<EntityData> metadata = Collections.emptyList();
+         // PacketEvents' SpigotConversionUtil.getEntityMetadata(Entity) reads the CURRENT metadata
+         // of a live Bukkit entity and converts it to PacketEvents' EntityData list directly - this
+         // is the PacketEvents-side equivalent of what ProtocolLib's WrappedDataWatcher.getEntityWatcher
+         // did, so the fake entity now mirrors glowing/on-fire/sneaking/pose/etc. again.
+         List<EntityData<?>> metadata = SpigotConversionUtil.getEntityMetadata(tracker.getEntity());
          WrapperPlayServerEntityMetadata packet = new WrapperPlayServerEntityMetadata(tracker.getEntityId(), metadata);
          PacketUtil.sendPacket(players, packet);
       } catch (Throwable e) {
@@ -298,14 +290,12 @@ public class EntityPacketManipulator implements IEntityPacketManipulator {
    }
 
    private static WrapperPlayServerEntityAnimation.EntityAnimationType toPacketEventsAnimation(AnimationType animationType) {
-      // AnimationType only has 4 constants in this codebase (see nms/AnimationType.java); mapped
-      // to PacketEvents' EntityAnimationType by the well-known, stable vanilla animation ids
-      // (0/1/2/3). Constant names on the PacketEvents side were not individually confirmed this
-      // session - verify against IDE autocomplete.
+      // PacketEvents' EntityAnimationType has no TAKE_DAMAGE/LEAVE_BED constants (confirmed
+      // against the 2.13.0 javadoc) - it uses HURT and WAKE_UP for those vanilla animation ids.
       return switch (animationType) {
          case MAIN_HAND -> WrapperPlayServerEntityAnimation.EntityAnimationType.SWING_MAIN_ARM;
-         case DAMAGE -> WrapperPlayServerEntityAnimation.EntityAnimationType.TAKE_DAMAGE;
-         case LEAVE_BED -> WrapperPlayServerEntityAnimation.EntityAnimationType.LEAVE_BED;
+         case DAMAGE -> WrapperPlayServerEntityAnimation.EntityAnimationType.HURT;
+         case LEAVE_BED -> WrapperPlayServerEntityAnimation.EntityAnimationType.WAKE_UP;
          case OFF_HAND -> WrapperPlayServerEntityAnimation.EntityAnimationType.SWING_OFF_HAND;
       };
    }

@@ -51,12 +51,10 @@ public class ModernMultiBlockChangeManager implements IMultiBlockChangeManager {
 
    @Override
    public void sendChanges() {
-      // NOTE: WrapperPlayServerMultiBlockChange's exact constructor and WrapperPlayServerMultiBlockChange.EncodedBlock's
-      // exact constructor were not individually confirmed this session - only that both classes exist.
-      // This follows the confirmed WrapperPlayServerBlockChange(Vector3i, WrappedBlockState) pattern,
-      // extended to a per-section list of relative-position + state pairs. Verify against IDE
-      // autocomplete / the installed jar before relying on this - it's the least-verified piece
-      // of the whole migration.
+      // WrapperPlayServerMultiBlockChange.EncodedBlock(WrappedBlockState, x, y, z) takes GLOBAL
+      // block coordinates (confirmed against packetevents-api 2.13.0 javadoc), not chunk-relative
+      // ones - the wrapper itself derives the relative position from the chunk section position.
+      // WrapperPlayServerMultiBlockChange's constructor takes EncodedBlock[], not a List.
       for (Entry<Vector3i, Map<Vector, WrappedBlockState>> entry : this.changes.entrySet()) {
          Vector3i sectionPosition = entry.getKey();
          int chunkY = sectionPosition.getY();
@@ -64,11 +62,16 @@ public class ModernMultiBlockChangeManager implements IMultiBlockChangeManager {
             List<WrapperPlayServerMultiBlockChange.EncodedBlock> encodedBlocks = new ArrayList<>();
             for (Entry<Vector, WrappedBlockState> blockEntry : entry.getValue().entrySet()) {
                Vector pos = blockEntry.getKey();
-               Vector3i relativePosition = new Vector3i(pos.getBlockX() & 15, pos.getBlockY() & 15, pos.getBlockZ() & 15);
-               encodedBlocks.add(new WrapperPlayServerMultiBlockChange.EncodedBlock(blockEntry.getValue(), relativePosition));
+               encodedBlocks.add(
+                  new WrapperPlayServerMultiBlockChange.EncodedBlock(
+                     blockEntry.getValue(), pos.getBlockX(), pos.getBlockY(), pos.getBlockZ()
+                  )
+               );
             }
 
-            WrapperPlayServerMultiBlockChange packet = new WrapperPlayServerMultiBlockChange(sectionPosition, true, encodedBlocks);
+            WrapperPlayServerMultiBlockChange packet = new WrapperPlayServerMultiBlockChange(
+               sectionPosition, true, encodedBlocks.toArray(new WrapperPlayServerMultiBlockChange.EncodedBlock[0])
+            );
             PacketUtil.sendPacket(this.player, packet);
          }
       }

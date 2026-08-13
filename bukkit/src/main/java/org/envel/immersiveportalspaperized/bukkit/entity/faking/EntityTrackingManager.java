@@ -77,6 +77,14 @@ public abstract class EntityTrackingManager {
       Map<Entity, IEntityTracker> portalMap = this.trackersByPortal.remove(portal);
       if (portalMap != null) {
          for (IEntityTracker tracker : portalMap.values()) {
+            // NOTE: must hide the fake entity for every player still tracking it here, before
+            // dropping the tracker - this used to only call trackerHasNoPlayers() and discard the
+            // tracker without ever sending a hide-entity packet. Since this method removes the
+            // portal from trackersByPortal immediately, PlayerEntityView's normal per-player
+            // cleanup (which runs on the next tick, once it notices the portal is no longer
+            // viewable) finds the tracker already gone and silently does nothing - so players kept
+            // seeing the fake entity client-side forever after the portal was destroyed.
+            tracker.removeAllTracking(true);
             this.trackerHasNoPlayers(tracker);
          }
          portalMap.clear();

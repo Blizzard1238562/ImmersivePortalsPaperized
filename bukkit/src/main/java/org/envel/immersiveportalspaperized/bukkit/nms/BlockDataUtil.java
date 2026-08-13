@@ -1,12 +1,27 @@
 package org.envel.immersiveportalspaperized.bukkit.nms;
 
+import com.github.retrooper.packetevents.protocol.nbt.NBTByte;
+import com.github.retrooper.packetevents.protocol.nbt.NBTCompound;
+import com.github.retrooper.packetevents.protocol.nbt.NBTList;
+import com.github.retrooper.packetevents.protocol.nbt.NBTString;
+import com.github.retrooper.packetevents.protocol.world.blockentity.BlockEntityType;
+import com.github.retrooper.packetevents.protocol.world.blockentity.BlockEntityTypes;
+import com.github.retrooper.packetevents.util.Vector3i;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerBlockEntityData;
 import java.lang.reflect.Method;
+import java.util.Locale;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import org.bukkit.Bukkit;
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.HangingSign;
+import org.bukkit.block.Sign;
 import org.bukkit.block.TileState;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.block.sign.Side;
+import org.bukkit.block.sign.SignSide;
 import org.envel.immersiveportalspaperized.api.IntVector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -60,32 +75,70 @@ public class BlockDataUtil {
    }
 
    /**
-    * NOTE on this migration: intentionally returns {@code null} for now, same as the
-    * {@code !(tileState instanceof TileState)} branch below already did in the ProtocolLib
-    * version - every caller already null-checks this, so that's a safe, non-breaking choice.
+    * NOTE on this migration: for {@link Sign} (and {@link HangingSign}) tile states, this now
+    * builds a real {@code front_text} / {@code back_text} NBT payload matching the post-1.20
+    * two-sided sign block entity format, so sign and hanging sign text renders correctly through
+    * portals. This gap was confirmed via an in-game test: block rendering itself (via
+    * {@code ModernMultiBlockChangeManager}) worked fine, but sign text stayed blank - that's what
+    * prompted implementing this instead of leaving it a pure architectural guess.
     * <p>
-    * Not implemented because the ProtocolLib version this replaced was itself incomplete: it
-    * only ever built an empty {@code TILE_ENTITY_DATA} packet and set the position on it -
-    * nowhere did it populate the actual NBT contents or block-entity type from {@code tileState}.
-    * Reproducing that gap with PacketEvents' typed {@code WrapperPlayServerBlockEntityData}
-    * would mean inventing placeholder type/NBT values that were never there before, which risks
-    * sending a packet the client rejects or misinterprets - worse than not sending one. Properly
-    * finishing this needs: confirming WrapperPlayServerBlockEntityData's real constructor
-    * (position + block entity type + NBT compound, exact types not verified this session),
-    * reading tileState's NBT via Paper's API, and mapping it to PacketEvents' NBT/compound type.
+    * All other tile entity types (chests, etc.) still intentionally return {@code null} - every
+    * caller already null-checks this, so that's a safe, non-breaking choice. This is a deliberate
+    * decision, not a "not implemented yet": since the plugin is server-side-only (no client mod),
+    * a player can never actually reach through a portal to open a chest rendered on the other
+    * side - the server resolves interactions against the real block at the player's real
+    * position, not the rendered illusion. A chest's contents would also change far more often
+    * than sign text, making poll-interval staleness visibly noticeable, and ItemStack/container
+    * NBT (enchantments, custom item components, etc.) is substantially more complex to build
+    * correctly than four text lines. Given that the one thing container content would be useful
+    * for (interacting with it) doesn't work regardless, the cosmetic-only benefit doesn't justify
+    * the added complexity and staleness risk. Revisit only if a concrete need comes up.
     */
    @Nullable
    public static WrapperPlayServerBlockEntityData getUpdatePacket(@NotNull BlockState tileState) {
       if (!(tileState instanceof TileState)) {
          return null;
+      } else if (tileState instanceof Sign sign) {
+         return getSignUpdatePacket(sign);
       } else {
          return null;
       }
    }
 
+   @NotNull
+   private static WrapperPlayServerBlockEntityData getSignUpdatePacket(@NotNull Sign sign) {
+      NBTCompound nbt = new NBTCompound();
+      nbt.setTag("front_text", buildSignSideCompound(sign.getSide(Side.FRONT)));
+      nbt.setTag("back_text", buildSignSideCompound(sign.getSide(Side.BACK)));
+      nbt.setTag("is_waxed", new NBTByte(sign.isWaxed()));
+      BlockEntityType type = sign instanceof HangingSign ? BlockEntityTypes.HANGING_SIGN : BlockEntityTypes.SIGN;
+      // Position is a placeholder (0, 0, 0) here - setTileEntityPosition() below overwrites it
+      // with the real origin/destination position once the caller (BukkitBlockMap) knows which
+      // one applies, same pattern the ProtocolLib version used.
+      return new WrapperPlayServerBlockEntityData(new Vector3i(0, 0, 0), type, nbt);
+   }
+
+   @NotNull
+   private static NBTCompound buildSignSideCompound(@NotNull SignSide side) {
+      NBTCompound sideCompound = new NBTCompound();
+      sideCompound.setTag("has_glowing_text", new NBTByte(side.isGlowingText()));
+      DyeColor color = side.getColor();
+      sideCompound.setTag("color", new NBTString((color != null ? color : DyeColor.BLACK).name().toLowerCase(Locale.ROOT)));
+      NBTList<NBTString> messages = NBTList.createStringList();
+
+      for (Component line : side.lines()) {
+         // Each sign text line is stored client-side as a JSON text component string, not raw
+         // text - GsonComponentSerializer preserves colors/formatting the same way the vanilla
+         // sign-editing client itself would have written them into this NBT tag.
+         messages.addTag(new NBTString(GsonComponentSerializer.gson().serialize(line)));
+      }
+
+      sideCompound.setTag("messages", messages);
+      return sideCompound;
+   }
+
    public static void setTileEntityPosition(@NotNull WrapperPlayServerBlockEntityData packet, @NotNull IntVector position) {
-      // Left as a stub matching getUpdatePacket() above - nothing currently constructs a
-      // non-null packet for this to be called on.
+      packet.setPosition(new Vector3i(position.getX(), position.getY(), position.getZ()));
    }
 
    static {

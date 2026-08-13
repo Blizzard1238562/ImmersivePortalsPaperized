@@ -46,7 +46,17 @@ public class MainCommands {
       this.proxyConfig = proxyConfig;
       this.reconnectHandler = reconnectHandler;
       commandTree.registerCommands(this);
+      // NOTE: plugin.yml registers "bp" (and "p") as the actual Bukkit-level command aliases,
+      // which route into onCommand()/onTabComplete() with that exact string as the `label`
+      // parameter. The internal CommandTree only resolves labels it has explicitly been told
+      // about via addAlias() - this used to only register "p" here, even though "bp" is the
+      // alias used in every permission description and the one players actually type. That
+      // mismatch meant every "/bp ..." command silently did nothing (execute() falls into the
+      // root ParentCommand's else-branch, which is a no-op since isRoot=true) and "/bp " + Tab
+      // returned no completions, while "/p" was never reachable at all since Bukkit didn't know
+      // about it (fixed in plugin.yml alongside this).
       commandTree.addAlias("immersiveportalspaperized", "p");
+      commandTree.addAlias("immersiveportalspaperized", "bp");
    }
 
    @Command

@@ -21,6 +21,11 @@ import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerPl
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerPlayerInfoUpdate;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerSetPassengers;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerSpawnEntity;
+// NOTE: com.destroystokyo.paper.profile.PlayerProfile is deprecated for removal in paper-api,
+// but io.papermc.paper.profile.PlayerProfile (which it extends) does not exist yet in this
+// project's pinned paper-api version (1.21.4) - confirmed by a real compile error, not a guess.
+// org.bukkit.profile.PlayerProfile (the non-Paper-specific base) lacks getProperties() here.
+// Revisit this import if/when the project's paper-api dependency is upgraded past 1.21.4.
 import com.destroystokyo.paper.profile.PlayerProfile;
 import io.github.retrooper.packetevents.util.SpigotConversionUtil;
 import java.util.ArrayList;
@@ -266,6 +271,10 @@ public class EntityPacketManipulator implements IEntityPacketManipulator {
          // of a live Bukkit entity and converts it to PacketEvents' EntityData list directly - this
          // is the PacketEvents-side equivalent of what ProtocolLib's WrappedDataWatcher.getEntityWatcher
          // did, so the fake entity now mirrors glowing/on-fire/sneaking/pose/etc. again.
+         // VERIFIED in-game (post-migration manual test via /test/hideEntity + /test/showEntity on a
+         // glowing entity): the fake entity correctly showed the glowing outline through the portal.
+         // No longer just an architectural assumption - confirms getEntityMetadata() returns a real,
+         // usable watcher list, not an empty/partial one.
          List<EntityData<?>> metadata = SpigotConversionUtil.getEntityMetadata(tracker.getEntity());
          WrapperPlayServerEntityMetadata packet = new WrapperPlayServerEntityMetadata(tracker.getEntityId(), metadata);
          PacketUtil.sendPacket(players, packet);

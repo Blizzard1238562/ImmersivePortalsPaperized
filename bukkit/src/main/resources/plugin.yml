@@ -16,6 +16,7 @@ commands:
     description: Main plugin command
     aliases:
       - bp
+      - p
 permissions:
   immersiveportalspaperized.createfromcoords:
     description: ' Allows you to use /bp createfromcoords'

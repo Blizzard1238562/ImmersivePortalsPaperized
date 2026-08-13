@@ -122,7 +122,12 @@ public class EntityTracker implements IEntityTracker {
       Vector posOffset = this.lastPosition == null ? new Vector() : currentPosition.clone().subtract(this.lastPosition);
       this.lastPosition = currentPosition;
       this.lastDirection = currentDirection;
-      boolean canUseRelativeMove = posOffset.getX() < 8.0 && posOffset.getY() < 8.0 && posOffset.getZ() < 8.0;
+      // NOTE: must check the absolute distance, not just the upper bound - a relative-move
+      // packet can only encode an offset of roughly +-8 blocks per axis. The previous check
+      // (offset < 8.0) let large *negative* offsets slip through as "safe", which would have
+      // sent an offset the client can't represent correctly instead of falling back to a
+      // teleport, causing the fake entity to glitch when moving fast in the negative direction.
+      boolean canUseRelativeMove = Math.abs(posOffset.getX()) < 8.0 && Math.abs(posOffset.getY()) < 8.0 && Math.abs(posOffset.getZ()) < 8.0;
       if (positionChanged && !canUseRelativeMove) {
          this.packetManipulator.sendEntityTeleport(this.entityInfo, this.trackingPlayers);
       } else if (positionChanged && rotationChanged) {
@@ -193,6 +198,15 @@ public class EntityTracker implements IEntityTracker {
             this.packetManipulator.hideEntity(this.entityInfo, player);
          }
       }
+   }
+
+   @Override
+   public void removeAllTracking(boolean sendPackets) {
+      if (sendPackets && !this.trackingPlayers.isEmpty()) {
+         this.packetManipulator.hideEntity(this.entityInfo, this.trackingPlayers);
+      }
+
+      this.trackingPlayers.clear();
    }
 
    @Override

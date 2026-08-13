@@ -156,6 +156,14 @@ public class Portal implements IPortal, ConfigurationSerializable {
    @Override
    public void remove(boolean removeOtherDirection) {
       this.portalManager.removePortal(this);
+      // NOTE: onDeactivate() normally resets the block map's internal state (nonObscuredStates,
+      // tile entity maps, stateQueue) when a portal stops being active, to free the memory - but
+      // remove() (actual portal destruction) never called it, so that state stayed allocated on
+      // the now-orphaned Portal object. Per-player ghost-block cleanup itself doesn't depend on
+      // this (PlayerBlockStates tracks what it showed per-player independently and resets it once
+      // PlayerData notices the portal is no longer viewable), but resetting here matches
+      // onDeactivate()'s behavior and avoids leaking the block-map state.
+      this.viewableBlocks.reset();
       this.originPos.getLocation().getBlock().setType(Material.AIR);
       if (removeOtherDirection) {
          this.portalManager.removePortalsAt(this.destPos.getLocation());

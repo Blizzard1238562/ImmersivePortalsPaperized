@@ -28,14 +28,14 @@ A Minecraft plugin that allows nether portals to be seen through, it displays wh
 - Multi-world support
 - Dimension blending
 - Light block system (1.18+)
+- Entity tracking and replication (mobs, items, and other entities are visible through portals)
 - Internationalization (25+ languages)
-- Automatic update checks via Modrinth
 
 **Future Features:**
-- _Entity/Player Pass through_
-- _Entity tracking and replication_ (both are theoretically implemented but they dont work as they should)
+- _Entity/Player Pass through_ (walking through a portal's surface to teleport, without needing a vanilla portal block)
 - Making the Plugin more stable
 - Performance optimizations
+- Automatic update checks via Modrinth
 
 **Commands:**
 
@@ -83,7 +83,7 @@ All commands are under `/immersiveportalspaperized`, which can also be shortened
 - _**immersiveportalspaperized.see**_ Allows seeing through portals *(default: true)*
 
 **Dependencies:**
-- ProtocolLib (required, used for packet-based portal rendering)
+- PacketEvents (required, used for packet-based portal rendering)
 - Vault (optional, for economy features)
 - Multiverse-Core (optional, for world management)
 - My_Worlds (optional, for world management)

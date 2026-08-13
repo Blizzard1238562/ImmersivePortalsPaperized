@@ -92,7 +92,7 @@ To build a custom portal: grab the wand (`/bp wand`), select your origin corners
 By default, everyone can walk through and see through portals (`.user`/`.see`). Everything related to creating, editing or removing portals defaults to OP.
 
 **Dependencies:**
-- ProtocolLib (required, used for packet-based portal rendering)
+- PacketEvents (required, used for packet-based portal rendering)
 - Vault (optional, for economy features)
 - Multiverse-Core (optional, for world management)
 - My_Worlds (optional, for world management)

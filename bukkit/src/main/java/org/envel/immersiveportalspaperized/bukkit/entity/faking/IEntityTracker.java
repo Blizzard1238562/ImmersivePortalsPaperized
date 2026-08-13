@@ -20,6 +20,16 @@ public interface IEntityTracker {
 
    void removeTracking(@NotNull Player player, boolean sendPackets);
 
+   /**
+    * Stops tracking for every player currently tracking this entity in one go, optionally
+    * hiding the fake entity for all of them first. Used by {@link EntityTrackingManager#clearPortal}
+    * when a portal is torn down and there's no single player to target - looping
+    * {@link #removeTracking} per player isn't an option there since that both needs a
+    * pre-existing per-player check and would send one packet per player instead of a single
+    * batched hide-entity packet.
+    */
+   void removeAllTracking(boolean sendPackets);
+
    int getTrackingPlayerCount();
 
    void update();

@@ -179,7 +179,7 @@ public class PortalManager implements IPortalManager {
                if (existingPortal.getDestPos().equals(portal.getDestPos())) {
                   this.logger
                      .fine(
-                        "Anti-Dupe: rejected duplicate portal at origin %s â†’ dest %s (id=%s)",
+                        "Anti-Dupe: rejected duplicate portal at origin %s -> dest %s (id=%s)",
                         StringUtil.locationToString(originLoc),
                         portal.getDestPos(),
                         portal.getId()
@@ -196,6 +196,11 @@ public class PortalManager implements IPortalManager {
 
       this.portalsById.put(portal.getId(), portal);
       this.portals.get(originLoc).add(portal);
+      this.addToChunkIndex(portal);
+   }
+
+   private void addToChunkIndex(@NotNull IPortal portal) {
+      Location originLoc = portal.getOriginPos().getLocation();
       World world = originLoc.getWorld();
       if (world != null) {
          this.getChunkMap(world).computeIfAbsent(chunkKey(chunkX(originLoc), chunkZ(originLoc)), k -> new HashSet<>()).add(portal);
@@ -282,7 +287,19 @@ public class PortalManager implements IPortalManager {
    @Override
    public void onReload() {
       this.portalActivityManager.resetActivity();
+      // NOTE: portalsByChunk is a pure lookup index derived from portalsById - it must be
+      // rebuilt here, not just cleared. Previously this only called clear() without ever
+      // repopulating it, so every findClosestPortal()/findActivatablePortals() call returned
+      // nothing for ALL portals after any reload, even though the portals were still fully
+      // registered in portals/portalsById - existing portals looked like vanilla portals to
+      // the plugin until re-registered (e.g. by relighting, which itself never worked because
+      // of this same lookup failure). Rebuilding from portalsById fixes this without needing
+      // to touch portal storage/persistence at all.
       this.portalsByChunk.clear();
+
+      for (IPortal portal : this.portalsById.values()) {
+         this.addToChunkIndex(portal);
+      }
    }
 }
 

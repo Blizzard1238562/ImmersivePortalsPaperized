@@ -5,12 +5,16 @@ A highly-optimized, server-side portal rendering and teleportation engine for Pa
 
 A Minecraft plugin that allows nether portals to be seen through, it displays whats on the other side in real-time, and supports custom portal creation. Everything without any client modifications.
 
+### ⚠️ REQUIRES PACKETEVENTS!
+
+
 ⚠️ **Currently in Alpha, don't expect a stable plugin!**
 
 ⚠️ **Spigot support is not guaranteed as it uses extensive PaperAPI features!**
 
-**Please Message me if you encounter any Bugs!**
-**Discord: blizzard8562 _(for Bug-Reports, other Issues and Feedback)_**
+**Please open a Issue on github if you encounter any Bugs!**
+
+**[GithubIssues](https://github.com/Blizzard1238562/ImmersivePortalsPaperized/issues/new) _(for Bug-Reports, other Issues and Feedback)_**
 
 **Current Features:**
 - See-through nether portals
@@ -36,6 +40,11 @@ A Minecraft plugin that allows nether portals to be seen through, it displays wh
 - Making the Plugin more stable
 - Performance optimizations
 - Automatic update checks via Modrinth
+
+
+**How to use**
+To build a custom portal: grab the wand (`/bp wand`), select your origin corners and run `/bp setOrigin`, select your destination corners and run `/bp setDestination`, then `/bp linkPortals` (or `/bp linkExternalPortals` for a cross-server portal).
+
 
 **Commands:**
 
@@ -81,6 +90,9 @@ All commands are under `/immersiveportalspaperized`, which can also be shortened
 - _**immersiveportalspaperized.wand**_ Allows using the portal selection wand
 - _**immersiveportalspaperized.user**_ Allows using portals *(default: true)*
 - _**immersiveportalspaperized.see**_ Allows seeing through portals *(default: true)*
+
+By default, everyone can walk through and see through portals (`.user`/`.see`). Everything related to creating, editing or removing portals defaults to OP.
+
 
 **Dependencies:**
 - PacketEvents (required, used for packet-based portal rendering)

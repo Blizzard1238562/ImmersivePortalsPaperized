@@ -118,6 +118,7 @@ Have fun :)
 </details>
 
 ## Build Instructions:
+From the Project folder simply run `.\gradlew build`
 
 ## Contribute:
 If you wish to contribute to this Project please open a PR with a detailed explanation of your change.

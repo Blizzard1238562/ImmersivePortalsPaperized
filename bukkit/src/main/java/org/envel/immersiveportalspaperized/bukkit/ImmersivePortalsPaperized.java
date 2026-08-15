@@ -22,6 +22,7 @@ import org.envel.immersiveportalspaperized.bukkit.portal.selection.SelectionVisu
 import org.envel.immersiveportalspaperized.bukkit.portal.storage.IPortalStorage;
 import org.envel.immersiveportalspaperized.bukkit.tasks.BlockUpdateFinisher;
 import org.envel.immersiveportalspaperized.bukkit.tasks.MainUpdate;
+import org.envel.immersiveportalspaperized.bukkit.update.UpdateChecker;
 import org.envel.immersiveportalspaperized.bukkit.util.SchedulerUtil;
 import org.envel.immersiveportalspaperized.bukkit.util.performance.OperationTimer;
 import com.google.inject.Guice;
@@ -70,6 +71,8 @@ public class ImmersivePortalsPaperized extends JavaPlugin {
    private PortalEffectsTask portalEffectsTask;
    @Inject
    private LocaleAPI localeApi;
+   @Inject
+   private UpdateChecker updateChecker;
    private boolean firstEnable = true;
    private boolean didEnableFail = false;
 
@@ -117,6 +120,7 @@ public class ImmersivePortalsPaperized extends JavaPlugin {
          this.portalEffectsTask.loadPresets();
          this.portalEffectsTask.start();
          this.apiImplementation.onEnable();
+         this.updateChecker.checkAsync();
          this.firstEnable = false;
          this.logger.fine("Startup took %.03fms", timer.getTimeTakenMillis());
       }
@@ -186,6 +190,7 @@ public class ImmersivePortalsPaperized extends JavaPlugin {
          this.portalEffectsTask.loadPresets();
          this.portalEffectsTask.start();
          this.apiImplementation.onEnable();
+         this.updateChecker.checkAsync();
       }
    }
 

@@ -122,3 +122,6 @@ From the Project folder simply run `.\gradlew build`
 
 ## Contribute:
 If you wish to contribute to this Project please open a PR with a detailed explanation of your change.
+
+## License:
+This project is a substantially modified/derivative version of [BetterPortals](https://github.com/OpenCommunity-Original/BetterPortals) (copyright (c) 2020 envel) and is distributed under the same [Zlib License](LICENSE), which permits commercial use, modification, and redistribution. See the [LICENSE](LICENSE) file for the full text and attribution notice.

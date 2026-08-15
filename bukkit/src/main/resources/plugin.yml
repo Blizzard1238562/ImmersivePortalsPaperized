@@ -60,6 +60,9 @@ permissions:
   immersiveportalspaperized.wand:
     description: ' Allows you to use /bp wand'
     default: op
+  immersiveportalspaperized.notifyupdate:
+    description: ' Notifies you on join when a new plugin version is available'
+    default: op
   immersiveportalspaperized.user:
     description: ' Allows you to use portals'
     default: true
